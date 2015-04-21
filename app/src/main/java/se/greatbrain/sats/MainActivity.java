@@ -1,9 +1,12 @@
 package se.greatbrain.sats;
 
+import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import se.greatbrain.sats.fragment.MyTrainingListFragment;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +15,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().add(R.id.bottom_fragment_container, MyTrainingListFragment.newInstance(null)).commit();
     }
 
     @Override
