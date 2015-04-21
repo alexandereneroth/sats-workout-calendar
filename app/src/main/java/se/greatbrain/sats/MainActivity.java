@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import se.greatbrain.sats.fragment.MyTrainingListFragment;
+import java.util.ArrayList;
+import java.util.List;
+
+import se.greatbrain.sats.fragment.WorkoutListFragment;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -16,8 +19,29 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ArrayList<ListGroup> groups = generateData();
+
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().add(R.id.bottom_fragment_container, MyTrainingListFragment.newInstance(null)).commit();
+        manager.beginTransaction().add(R.id.bottom_fragment_container, WorkoutListFragment.newInstance(groups)).commit();
+    }
+
+    private ArrayList<ListGroup> generateData() {
+        ArrayList<ListGroup> groups = new ArrayList<>();
+        List<String> items;
+
+        for (int i = 0; i < 5; i++)
+        {
+            items = new ArrayList<>();
+
+            for (int l = 1; l < 6; l++)
+            {
+                items.add("List item " + i);
+            }
+
+            groups.add(new ListGroup("Grupp " + i, items));
+        }
+
+        return groups;
     }
 
     @Override
