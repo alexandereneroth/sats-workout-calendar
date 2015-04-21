@@ -1,13 +1,14 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<CheckedTextView
+    android:id="@+id/listrow_group_title"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listrow_group_title_id"
     android:layout_width="wrap_content"
     android:layout_height="20dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:gravity="start"
+    android:paddingEnd="32dp"
     android:paddingStart="32dp"
     android:paddingTop="8dp"
-    android:text="Test"
     android:textSize="20sp"
-    android:textStyle="bold" />
+    android:textStyle="bold"/>

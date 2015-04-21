@@ -64,7 +64,7 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null)
         {
-            convertView = inflater.inflate(R.layout.listrow_group_title, null);
+            convertView = inflater.inflate(R.layout.listrow_group, null);
         }
 
         ListGroup listGroup = (ListGroup) getGroup(groupPosition);
