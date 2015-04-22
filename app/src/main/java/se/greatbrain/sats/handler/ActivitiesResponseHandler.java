@@ -13,39 +13,37 @@ import com.koushikdutta.ion.Ion;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.model.classTypeAndCategory.ClassType;
+import se.greatbrain.sats.model.trainingActivitie.TrainingActivity;
 
 /**
- * Created by aymenarbi on 21/04/15.
+ * Created by aymenarbi on 22/04/15.
  */
-public class ClassTypesResponseHandler {
-
-    private final static String BASE_URL ="https://api2.sats.com/v1.0/se/classtypes" ;
+public class ActivitiesResponseHandler {
+    private final static String BASE_URL ="http://sats-greatbrain.rhcloud.com/se/training/activities" ;
     private Activity activity;
 
-    public ClassTypesResponseHandler(Activity activity) {
+    public ActivitiesResponseHandler(Activity activity) {
         this.activity = activity;
     }
 
     public void get()
     {
-        Ion.with(activity).load(BASE_URL).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+        Ion.with(activity).load(BASE_URL).asJsonArray().setCallback(new FutureCallback<JsonArray>() {
 
             @Override
-            public void onCompleted(Exception e, JsonObject result) {
+            public void onCompleted(Exception e, JsonArray result) {
 
                 Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
 
-                JsonArray classTypes = result.getAsJsonArray("classTypes");
-                Log.d("api classTypes",classTypes.toString());
+                Log.d("api training activities", result.toString());
 
-                for (JsonElement element : classTypes ) {
+                for (JsonElement element : result ) {
                     realm.beginTransaction();
                     JsonObject obj = element.getAsJsonObject();
 
                     try {
-                        ClassType classType = realm.createOrUpdateObjectFromJson(ClassType.class, String.valueOf(element));
+                        TrainingActivity trainingActivity = realm.createOrUpdateObjectFromJson(TrainingActivity.class, String.valueOf(element));
                         realm.commitTransaction();
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -54,17 +52,15 @@ public class ClassTypesResponseHandler {
                     }
                 }
 
-                RealmResults<ClassType> result2 = realm.where(ClassType.class)
-                        .equalTo("id", "6")
+                RealmResults<TrainingActivity> result2 = realm.where(TrainingActivity.class)
+                        .equalTo("id", "114608")
                         .findAll();
-                Log.d("api classTypes", result2.toString());
+                Log.d("api training activities", result2.toString());
 
                 Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
                 realm.close();
             }
         });
     }
-
-
 
 }

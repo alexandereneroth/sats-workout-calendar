@@ -10,13 +10,10 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.model.Instructor;
+import se.greatbrain.sats.model.instructor.Instructor;
 
 /**
  * Created by aymenarbi on 21/04/15.

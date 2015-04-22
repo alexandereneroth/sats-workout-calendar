@@ -7,15 +7,13 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.model.ClassCategory;
-import se.greatbrain.sats.model.Instructor;
+import se.greatbrain.sats.model.classTypeAndCategory.ClassCategory;
 
 /**
  * Created by aymenarbi on 22/04/15.

@@ -12,7 +12,7 @@ import com.koushikdutta.ion.Ion;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.model.Region;
+import se.greatbrain.sats.model.centerAndRegion.Region;
 
 /**
  * Created by aymenarbi on 21/04/15.

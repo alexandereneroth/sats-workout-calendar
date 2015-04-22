@@ -1,4 +1,4 @@
-package se.greatbrain.sats.model;
+package se.greatbrain.sats.model.classTypeAndCategory;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

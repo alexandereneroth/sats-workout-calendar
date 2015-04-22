@@ -1,7 +1,6 @@
-package se.greatbrain.sats.model;
+package se.greatbrain.sats.model.classTypeAndCategory;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by aymenarbi on 22/04/15.

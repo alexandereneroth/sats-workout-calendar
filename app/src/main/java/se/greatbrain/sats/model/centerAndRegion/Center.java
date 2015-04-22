@@ -1,4 +1,4 @@
-package se.greatbrain.sats.model;
+package se.greatbrain.sats.model.centerAndRegion;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

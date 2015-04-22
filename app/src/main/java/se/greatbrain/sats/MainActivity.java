@@ -6,10 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.realm.Realm;
+import se.greatbrain.sats.handler.ActivitiesResponseHandler;
 import se.greatbrain.sats.handler.CentersResponseHandler;
 import se.greatbrain.sats.handler.ClassCategoriesResponseHandler;
 import se.greatbrain.sats.handler.ClassTypesResponseHandler;
 import se.greatbrain.sats.handler.InstructorsResponseHandler;
+import se.greatbrain.sats.handler.TypeResponseHandler;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -18,18 +20,24 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
- 
-        CentersResponseHandler centersResponseHandler =  new CentersResponseHandler(this);
-        centersResponseHandler.get();
 
-        InstructorsResponseHandler instructorsResponseHandler = new InstructorsResponseHandler(this);
-        instructorsResponseHandler.get();
+//        CentersResponseHandler centersResponseHandler =  new CentersResponseHandler(this);
+//        centersResponseHandler.get();
+//
+//        InstructorsResponseHandler instructorsResponseHandler = new InstructorsResponseHandler(this);
+//        instructorsResponseHandler.get();
+//
+//        ClassCategoriesResponseHandler classCategoriesResponseHandler = new ClassCategoriesResponseHandler(this);
+//        classCategoriesResponseHandler.get();
+//
+//        ClassTypesResponseHandler classTypesResponseHandler = new ClassTypesResponseHandler(this);
+//        classTypesResponseHandler.get();
 
-        ClassCategoriesResponseHandler classCategoriesResponseHandler = new ClassCategoriesResponseHandler(this);
-        classCategoriesResponseHandler.get();
+        ActivitiesResponseHandler activitiesResponseHandler = new ActivitiesResponseHandler(this);
+        activitiesResponseHandler.get();
 
-        ClassTypesResponseHandler classTypesResponseHandler = new ClassTypesResponseHandler(this);
-        classTypesResponseHandler.get();
+        TypeResponseHandler typeResponseHandler = new TypeResponseHandler(this);
+        typeResponseHandler.get();
 
 
     }
