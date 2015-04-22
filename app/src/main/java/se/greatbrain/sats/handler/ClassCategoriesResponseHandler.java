@@ -10,25 +10,21 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
+import se.greatbrain.sats.model.ClassCategory;
 import se.greatbrain.sats.model.Instructor;
 
 /**
- * Created by aymenarbi on 21/04/15.
+ * Created by aymenarbi on 22/04/15.
  */
-public class InstructorsResponseHandler {
+public class ClassCategoriesResponseHandler  {
 
-    private final static String BASE_URL ="https://api2.sats.com/v1.0/se/instructors" ;
+    private final static String BASE_URL ="https://api2.sats.com/v1.0/se/classtypes" ;
     private Activity activity;
 
-    public InstructorsResponseHandler(Activity activity) {
-        this.activity = activity;
-    }
+    public ClassCategoriesResponseHandler(Activity activity) {this.activity = activity;}
 
     public void get()
     {
@@ -36,17 +32,16 @@ public class InstructorsResponseHandler {
 
             @Override
             public void onCompleted(Exception e, JsonObject result) {
-                Log.d("api",result.toString());
 
                 Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
-                JsonArray instructors = result.getAsJsonArray("instructors");
+                JsonArray classCategories = result.getAsJsonArray("classCategories");
 
-                for (JsonElement element :instructors ) {
+                for (JsonElement element :classCategories ) {
 
                     realm.beginTransaction();
                     try {
-                        Instructor instructor = realm.createOrUpdateObjectFromJson(Instructor.class, String.valueOf(element));
+                        ClassCategory classCategory = realm.createOrUpdateObjectFromJson(ClassCategory.class, String.valueOf(element));
                         realm.commitTransaction();
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -55,17 +50,15 @@ public class InstructorsResponseHandler {
                     }
                 }
 
-                RealmResults<Instructor> result2 = realm.where(Instructor.class)
-                        .equalTo("name", "Alexander Gustafsson")
+                RealmResults<ClassCategory> result2 = realm.where(ClassCategory.class)
+//                        .equalTo("name", "Running")
                         .findAll();
-                Log.d("api",result2.toString());
+                Log.d("api", result2.toString());
 
-                Toast.makeText(activity,result2.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
 
-               realm.close();
-
+                realm.close();
             }
         });
     }
-
 }

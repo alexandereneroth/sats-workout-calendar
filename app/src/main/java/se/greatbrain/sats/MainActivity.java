@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import io.realm.Realm;
 import se.greatbrain.sats.handler.CentersResponseHandler;
+import se.greatbrain.sats.handler.ClassCategoriesResponseHandler;
 import se.greatbrain.sats.handler.InstructorsResponseHandler;
 
 
@@ -26,6 +27,9 @@ public class MainActivity extends ActionBarActivity {
 
         InstructorsResponseHandler instructorsResponseHandler = new InstructorsResponseHandler(this);
         instructorsResponseHandler.get();
+
+        ClassCategoriesResponseHandler classCategoriesResponseHandler = new ClassCategoriesResponseHandler(this);
+        classCategoriesResponseHandler.get();
 
 
     }

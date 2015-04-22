@@ -33,10 +33,10 @@ public class ClassTypesResponseHandler {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
+                Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
 
-//                Toast.makeText(activity,result.toString(),Toast.LENGTH_LONG).show();
-                Log.d("api",result.toString());
+
             }
         });
     }
