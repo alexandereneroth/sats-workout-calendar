@@ -50,12 +50,12 @@ public class CentersResponseHandler {
                     }
                 }
 
-                Log.d("api", result.toString());
+                Log.d("api regions", result.toString());
                 RealmResults<Region> result1 = realm.where(Region.class)
                         .equalTo("id", "124")
                         .findAll();
 
-                Log.d("api",result1.toString());
+                Log.d("api regions",result1.toString());
                 realm.close();
             }
         });

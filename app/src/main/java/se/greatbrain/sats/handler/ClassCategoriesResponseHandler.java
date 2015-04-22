@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -35,10 +36,10 @@ public class ClassCategoriesResponseHandler  {
 
                 Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
+//                Log.d("api",realm.getPath());
                 JsonArray classCategories = result.getAsJsonArray("classCategories");
 
                 for (JsonElement element :classCategories ) {
-
                     realm.beginTransaction();
                     try {
                         ClassCategory classCategory = realm.createOrUpdateObjectFromJson(ClassCategory.class, String.valueOf(element));
@@ -46,14 +47,13 @@ public class ClassCategoriesResponseHandler  {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                         realm.cancelTransaction();
-
                     }
                 }
 
                 RealmResults<ClassCategory> result2 = realm.where(ClassCategory.class)
 //                        .equalTo("name", "Running")
                         .findAll();
-                Log.d("api", result2.toString());
+                Log.d("api classCategories", result2.toString());
 
                 Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
 

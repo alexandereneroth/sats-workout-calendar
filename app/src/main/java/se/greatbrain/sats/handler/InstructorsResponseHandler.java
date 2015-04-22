@@ -36,7 +36,7 @@ public class InstructorsResponseHandler {
 
             @Override
             public void onCompleted(Exception e, JsonObject result) {
-                Log.d("api",result.toString());
+                Log.d("api instructors",result.toString());
 
                 Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
@@ -58,7 +58,7 @@ public class InstructorsResponseHandler {
                 RealmResults<Instructor> result2 = realm.where(Instructor.class)
                         .equalTo("name", "Alexander Gustafsson")
                         .findAll();
-                Log.d("api",result2.toString());
+                Log.d("api instructors",result2.toString());
 
                 Toast.makeText(activity,result2.toString(),Toast.LENGTH_LONG).show();
 

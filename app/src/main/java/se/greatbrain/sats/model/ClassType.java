@@ -15,7 +15,7 @@ public class ClassType extends RealmObject {
     private String name;
     private String videoUrl;
     private String description;
-    private RealmList<ClassCategory> classCategories;
+    private RealmList<RealmString> classCategoriesIds;
     private RealmList<Profile> profile;
 
     public String getId() {
@@ -50,13 +50,21 @@ public class ClassType extends RealmObject {
         this.description = description;
     }
 
-    public RealmList<ClassCategory> getClassCategories() {
-        return classCategories;
+    public RealmList<RealmString> getClassCategoriesIds() {
+        return classCategoriesIds;
     }
 
-    public void setClassCategories(RealmList<ClassCategory> classCategories) {
-        this.classCategories = classCategories;
+    public void setClassCategoriesIds(RealmList<RealmString> classCategoriesIds) {
+        this.classCategoriesIds = classCategoriesIds;
     }
+
+    //    public String[] getClassCategoriesIds() {
+//        return classCategoriesIds;
+//    }
+//
+//    public void setClassCategoriesIds(String[] classCategoriesIds) {
+//        this.classCategoriesIds = classCategoriesIds;
+//    }
 
     public RealmList<Profile> getProfile() {
         return profile;

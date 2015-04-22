@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -13,6 +15,11 @@ import com.koushikdutta.ion.Ion;
 import org.json.JSONObject;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.internal.IOException;
+import se.greatbrain.sats.model.ClassCategory;
+import se.greatbrain.sats.model.ClassType;
 
 /**
  * Created by aymenarbi on 21/04/15.
@@ -36,7 +43,30 @@ public class ClassTypesResponseHandler {
                 Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
 
+                JsonArray classTypes = result.getAsJsonArray("classTypes");
+                Log.d("api classTypes",classTypes.toString());
 
+                for (JsonElement element : classTypes ) {
+                    realm.beginTransaction();
+                    JsonObject obj = element.getAsJsonObject();
+
+                    try {
+                        ClassType classType = realm.createOrUpdateObjectFromJson(ClassType.class, String.valueOf(element));
+                        realm.commitTransaction();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                        realm.cancelTransaction();
+
+                    }
+                }
+
+                RealmResults<ClassType> result2 = realm.where(ClassType.class)
+                        .equalTo("id", "6")
+                        .findAll();
+                Log.d("api classTypes", result2.toString());
+
+                Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
+                realm.close();
             }
         });
     }
