@@ -17,7 +17,6 @@ import se.greatbrain.sats.adapter.WorkoutListAdapter;
 
 public class WorkoutListFragment extends Fragment
 {
-
     private List<ListGroup> listGroups;
     private SparseArray<ListGroup> sparseGroups;
 
@@ -50,18 +49,21 @@ public class WorkoutListFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
+        ExpandableListView listView = (ExpandableListView) view.findViewById(
+                R.id.expandable_list_view);
         WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
         listView.setAdapter(adapter);
 
         listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
         {
             @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l)
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i,
+                    long l)
             {
                 return true;
             }

@@ -12,20 +12,23 @@ import java.util.List;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends ActionBarActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ArrayList<ListGroup> groups = generateData();
 
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().add(R.id.bottom_fragment_container, WorkoutListFragment.newInstance(groups)).commit();
+        manager.beginTransaction().add(R.id.bottom_fragment_container,
+                WorkoutListFragment.newInstance(groups)).commit();
     }
 
-    private ArrayList<ListGroup> generateData() {
+    private ArrayList<ListGroup> generateData()
+    {
         ArrayList<ListGroup> groups = new ArrayList<>();
         List<String> items;
 
@@ -45,21 +48,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
 
