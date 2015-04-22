@@ -11,7 +11,6 @@ public class Instructor extends RealmObject {
     @PrimaryKey
     private String id;
 
-   @
     private String name;
 
     public String getId() {return id;}

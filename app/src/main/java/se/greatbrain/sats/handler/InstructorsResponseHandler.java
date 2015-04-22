@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -20,12 +21,12 @@ import se.greatbrain.sats.model.Instructor;
 /**
  * Created by aymenarbi on 21/04/15.
  */
-public class Instructors {
+public class InstructorsResponseHandler {
 
     private final static String BASE_URL ="https://api2.sats.com/v1.0/se/instructors" ;
     private Activity activity;
 
-    public Instructors(Activity activity) {
+    public InstructorsResponseHandler(Activity activity) {
         this.activity = activity;
     }
 
@@ -35,25 +36,22 @@ public class Instructors {
 
             @Override
             public void onCompleted(Exception e, JsonObject result) {
+
                 Realm realm = Realm.getInstance(activity);
+                JsonArray instructors = result.getAsJsonArray("instructors");
 
-                JsonArray array = result.getAsJsonArray("instructors");
-
-                for (int i = 0; i <array.size() ; i++) {
+                for (JsonElement element :instructors ) {
 
                     realm.beginTransaction();
                     try {
-                        Instructor instructor = realm.createOrUpdateObjectFromJson(Instructor.class, String.valueOf(array.get(i)));
+                        Instructor instructor = realm.createOrUpdateObjectFromJson(Instructor.class, String.valueOf(element));
                         realm.commitTransaction();
-//                        Log.d("api",result.toString());
                     } catch (IOException e1) {
                         e1.printStackTrace();
-//                        Log.d("api",e.toString());
                         realm.cancelTransaction();
+
                     }
-
                 }
-
 
                 RealmResults<Instructor> result2 = realm.where(Instructor.class)
                         .equalTo("name", "Alexander Gustafsson")
@@ -61,6 +59,8 @@ public class Instructors {
                 Log.d("api",result2.toString());
 
                 Toast.makeText(activity,result2.toString(),Toast.LENGTH_LONG).show();
+
+                realm.close();
             }
         });
     }

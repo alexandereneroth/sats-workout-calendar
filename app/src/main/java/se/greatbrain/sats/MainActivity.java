@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.realm.Realm;
 import se.greatbrain.sats.handler.CentersResponseHandler;
-import se.greatbrain.sats.handler.ClassTypesResponseHandler;
-import se.greatbrain.sats.handler.Instructors;
+import se.greatbrain.sats.handler.InstructorsResponseHandler;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -16,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Realm.deleteRealmFile(this);
 
 //        ClassTypesResponseHandler classTypesResponseHandler = new ClassTypesResponseHandler(this);
 //        classTypesResponseHandler.get();
@@ -23,8 +24,8 @@ public class MainActivity extends ActionBarActivity {
         CentersResponseHandler centersResponseHandler =  new CentersResponseHandler(this);
         centersResponseHandler.get();
 
-        Instructors instructors = new Instructors(this);
-        instructors.get();
+        InstructorsResponseHandler instructorsResponseHandler = new InstructorsResponseHandler(this);
+        instructorsResponseHandler.get();
 
 
     }
