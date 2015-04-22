@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="countries">
+        <item>Sweden</item>
+        <item>Sweden</item>
+        <item>Sweden</item>
+        <item>Saudi-Arabia</item>
+        <item>Sudan</item>
+        <item>Saudi-Arabia</item>
+        <item>Sudan</item>
+        <item>Saudi-Arabia</item>
+        <item>Sudan</item>
+        <item>Saudi-Arabia</item>
+        <item>Sudan</item>
+        <item>Zimbabwe</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zimbabwe</item>
+        <item>Zwahili</item>
+        <item>Zwahili</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Irak</item>
+        <item>Sweden</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+        <item>Iran</item>
+
+    </string-array>
+</resources>

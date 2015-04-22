@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
@@ -54,27 +55,27 @@ public class WorkoutListFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        ExpandableListView listView = (ExpandableListView) view.findViewById(
+        StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
         WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
         listView.setAdapter(adapter);
 
-        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
-        {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i,
-                    long l)
-            {
-                return true;
-            }
-        });
-
-        int groupCount = adapter.getGroupCount();
-
-        for (int i = 0; i < groupCount; i++)
-        {
-            listView.expandGroup(i);
-        }
+//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
+//        {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i,
+//                    long l)
+//            {
+//                return true;
+//            }
+//        });
+//
+//        int groupCount = adapter.getGroupCount();
+//
+//        for (int i = 0; i < groupCount; i++)
+//        {
+//            listView.expandGroup(i);
+//        }
 
         return view;
     }

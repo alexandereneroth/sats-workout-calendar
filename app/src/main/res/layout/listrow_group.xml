@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:gravity="start"
     android:paddingEnd="32dp"
     android:paddingStart="32dp"
     android:paddingTop="8dp"
-    android:textSize="20sp"
     android:textStyle="bold"/>
