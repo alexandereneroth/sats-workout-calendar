@@ -7,9 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.greatbrain.sats.ListGroup;
@@ -23,80 +24,118 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private final LayoutInflater inflater;
 
     private String[] countries;
+    private final int numberOfNonHeadingItems;
+    private final Map<Integer, Integer> positionToGroupMappings = new HashMap<>();
+    private final Map<Integer, String> positionToItemMappings = new HashMap<>();
 
-    public WorkoutListAdapter(Activity activity, SparseArray<ListGroup> groups) {
+    public WorkoutListAdapter(Activity activity, SparseArray<ListGroup> groups)
+    {
         this.groups = groups;
         this.activity = activity;
         countries = activity.getApplicationContext().getResources().getStringArray(R
                 .array.countries);
-//        inflater = LayoutInflater.from(activity.getApplicationContext());
         inflater = activity.getLayoutInflater();
+
+        int numberOfNonHeadingItems = 0;
+        int itemIndex = 0;
+        for (int i = 0; i < groups.size(); ++i)
+        {
+            ListGroup group = groups.get(i);
+            for (int j = 0; j < group.children.size(); ++j)
+            {
+                positionToGroupMappings.put(itemIndex, i);
+                positionToItemMappings.put(itemIndex, group.children.get(i));
+                ++itemIndex;
+                ++numberOfNonHeadingItems;
+            }
+        }
+        this.numberOfNonHeadingItems = numberOfNonHeadingItems;
     }
 
     @Override
-    public int getCount() {
-        return countries.length;
+    public int getCount()
+    {
+        return numberOfNonHeadingItems;//countries.length;
     }
 
     @Override
-    public Object getItem(int position) {
-        return countries[position];
+    public Object getItem(int position)
+    {
+
+        return positionToItemMappings.get(position);//countries[position];
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ViewHolder holder;
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.listrow_detail, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.listrow_detail_title);
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.text.setText(countries[position]);
+        holder.text.setText(positionToItemMappings.get(position));//countries[position]);
 
         return convertView;
     }
 
     @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+    public View getHeaderView(int position, View convertView, ViewGroup parent)
+    {
         HeaderViewHolder holder;
-        if (convertView == null) {
+        if (convertView == null)
+        {
             holder = new HeaderViewHolder();
             convertView = inflater.inflate(R.layout.listrow_group, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.listrow_group_title);
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (HeaderViewHolder) convertView.getTag();
         }
+        int groupNumber = positionToGroupMappings.get(position);
+
         //set header text as first char in name
-        String headerText = "" + countries[position].subSequence(0, 1).charAt(0);
+        String headerText = groups.get(groupNumber).title;//"" + countries[position].subSequence(0,
+        // 1).charAt(0);
         holder.text.setText(headerText);
         return convertView;
     }
 
     @Override
-    public long getHeaderId(int position) {
-        //return the first character of the country as ID because this is what headers are based upon
+    public long getHeaderId(int position)
+    {
+        //return the first character of the country as ID because this is what headers are based
+        // upon
 //        return 0;
         Log.d(TAG_LOG, "position: " + position);
         Log.d(TAG_LOG, "countries: " + countries);
-        return countries[position].subSequence(0, 1).charAt(0);
+        return positionToGroupMappings.get(
+                position); //countries[position].subSequence(0, 1).charAt(0);
     }
 
-    class HeaderViewHolder {
+    class HeaderViewHolder
+    {
         TextView text;
     }
 
-    class ViewHolder {
+    class ViewHolder
+    {
         TextView text;
     }
 

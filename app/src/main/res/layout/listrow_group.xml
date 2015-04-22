@@ -10,4 +10,6 @@
     android:paddingEnd="32dp"
     android:paddingStart="32dp"
     android:paddingTop="8dp"
-    android:textStyle="bold"/>
+    android:paddingBottom="8dp"
+    android:textStyle="bold"
+    android:background="@color/light_gray"/>
