@@ -85,7 +85,7 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter{
             convertView = inflater.inflate(R.layout.listrow_detail, null);
         }
 
-        text = (TextView) convertView.findViewById(R.id.listrow_detail_id);
+        text = (TextView) convertView.findViewById(R.id.listrow_detail_title);
         text.setText(child);
 
         return convertView;
