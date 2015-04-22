@@ -12,8 +12,8 @@ import android.widget.TextView;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 
-public class WorkoutListAdapter extends BaseExpandableListAdapter{
-
+public class WorkoutListAdapter extends BaseExpandableListAdapter
+{
     private final SparseArray<ListGroup> groups;
     private final Activity activity;
     private final LayoutInflater inflater;
@@ -26,42 +26,51 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public int getGroupCount() {
+    public int getGroupCount()
+    {
         return groups.size();
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
+    public int getChildrenCount(int groupPosition)
+    {
         return groups.get(groupPosition).children.size();
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
+    public Object getGroup(int groupPosition)
+    {
         return groups.get(groupPosition);
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public Object getChild(int groupPosition, int childPosition)
+    {
         return groups.get(groupPosition).children.get(childPosition);
     }
 
     @Override
-    public long getGroupId(int i) {
+    public long getGroupId(int i)
+    {
         return 0;
     }
 
     @Override
-    public long getChildId(int i, int i2) {
+    public long getChildId(int i, int i2)
+    {
         return 0;
     }
 
     @Override
-    public boolean hasStableIds() {
+    public boolean hasStableIds()
+    {
         return false;
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
+            ViewGroup parent)
+    {
         if (convertView == null)
         {
             convertView = inflater.inflate(R.layout.listrow_group, null);
@@ -75,7 +84,9 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+            View convertView, ViewGroup parent)
+    {
 
         final String child = (String) getChild(groupPosition, childPosition);
         TextView text = null;
@@ -92,7 +103,8 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public boolean isChildSelectable(int i, int i2) {
+    public boolean isChildSelectable(int i, int i2)
+    {
         return false;
     }
 }
