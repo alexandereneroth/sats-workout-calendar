@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Text colors -->
+    <color name="actionbar_title">#ff454545</color>
+    <color name="primary_color">#ff454545</color>
+    <color name="secondary_color">#ff828282</color>
+    <color name="third_color">#88828282</color>
+    <color name="unselected_color">#ffe1e1e1</color>
+
+    <color name="satsyou_blue">#ffc2d2e7</color>
+
+    <color name="satsyou_red">#fff20071</color>
+
+    <color name="background_header">#ffe8ebed</color>
+    <color name="background_body">#fff1f6f9</color>
+
+    <color name="standard_pressed">#ffdbe5eb</color>
+
+    <!-- Misc theme colors -->
+    <color name="black">#333333</color>
+    <color name="white">#ffffffff</color>
+    <color name="gray">#ff888888</color>
+    <color name="dark_gray">#ff444444</color>
+    <color name="light_gray">#ffbbbbbb</color>
+    <!--     <color name="section_header">#ffe8ebed</color> -->
+    <color name="transparent">#00000000</color>
+    <color name="calendar_item">#fffe6417</color>
+    <color name="calendar_item_satsyou">#ffcddbeb</color>
+    <color name="primary_calendar">#ffe7eef3</color>
+    <color name="secondary_calendar">@color/calendar_background</color>
+    <color name="calendar_seperator">#ffd7d7d7</color>
+    <color name="pink">#fff31480</color>
+    <color name="pink_my_diet_text">#fff20071</color>
+    <color name="toggle">#ffad386f</color>
+
+    <!-- Background colors -->
+    <color name="main_menu_item_background">#ffcf6f0d</color>
+    <color name="settings_menu_item_divider">@color/gray</color>
+    <color name="actionbar_background">#ffe8e8e8</color>
+    <color name="section_header">#ffe8ebed</color>
+    <color name="calendar_background">#fff1f6f9</color>
+    <color name="list_item_background">#ffdbe5eb</color>
+
+    <!-- Boka class colors -->
+    <color name="boka_box_title">#ffe9ebed</color>
+    <color name="boka_box_background">#fff1f6f9</color>
+    <color name="boka_box_background_pressed">#dbe5eb</color>
+
+    <!-- Other colors -->
+    <color name="font">#ff444444</color>
+
+
+    <!--Redesign colors-->
+    <color name="purple">#4b186c</color>
+    <color name="redesign_pink">#ee0974</color>
+    <color name="orange">#fe6417</color>
+    <color name="green">#95d600</color>
+    <color name="gray_dark">#333333</color>
+    <color name="gray_light">#f5f5f5</color>
+    <color name="listview_pressed_dark">#141414</color>
+
+</resources>
