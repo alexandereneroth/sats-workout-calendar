@@ -22,6 +22,12 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupRealm();
+
+    }
+
+    private void setupRealm()
+    {
         CentersResponseHandler centersResponseHandler = new CentersResponseHandler(this);
         centersResponseHandler.get();
 

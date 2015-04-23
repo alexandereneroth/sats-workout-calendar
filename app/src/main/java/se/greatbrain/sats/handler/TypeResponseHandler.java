@@ -1,7 +1,6 @@
 package se.greatbrain.sats.handler;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -26,8 +25,6 @@ public class TypeResponseHandler {
             public void onCompleted(Exception e, JsonArray result) {
                 Realm realm = Realm.getInstance(activity);
 
-                Log.d("api type", result.toString());
-
                 for (JsonElement element : result) {
                     realm.beginTransaction();
                     try {
@@ -41,9 +38,9 @@ public class TypeResponseHandler {
                 RealmResults<Type> types = realm.where(Type.class)
 //                        .equalTo("name", "Badminton")
                         .findAll();
-                    Log.d("api type", types.toString());
-                realm.close();
+//                    Log.d("api type", types.toString());
 
+                realm.close();
             }
         });
     }

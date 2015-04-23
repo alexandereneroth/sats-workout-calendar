@@ -1,7 +1,6 @@
 package se.greatbrain.sats.handler;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -57,8 +56,7 @@ public class ClassCategoriesResponseHandler
                         RealmResults<ClassCategory> result2 = realm.where(ClassCategory.class)
 //                        .equalTo("name", "Running")
                                 .findAll();
-                        Log.d("api classCategories", result2.toString());
-
+//                        Log.d("api classCategories", result2.toString());
                         realm.close();
                     }
                 });

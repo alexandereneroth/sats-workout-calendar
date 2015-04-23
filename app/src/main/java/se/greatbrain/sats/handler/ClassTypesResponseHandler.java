@@ -1,8 +1,6 @@
 package se.greatbrain.sats.handler;
 
 import android.app.Activity;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,9 +13,6 @@ import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.model.realm.ClassType;
 
-/**
- * Created by aymenarbi on 21/04/15.
- */
 public class ClassTypesResponseHandler
 {
 
@@ -42,7 +37,6 @@ public class ClassTypesResponseHandler
                         Realm realm = Realm.getInstance(activity);
 
                         JsonArray classTypes = result.getAsJsonArray("classTypes");
-//                        Log.d("api classTypes", classTypes.toString());
 
                         for (JsonElement element : classTypes)
                         {
@@ -66,9 +60,8 @@ public class ClassTypesResponseHandler
                         RealmResults<ClassType> result2 = realm.where(ClassType.class)
 //                        .equalTo("id", "6")
                                 .findAll();
-                        Log.d("api classTypes", result2.toString());
+//                        Log.d("api classTypes", result2.toString());
 
-                        Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
                         realm.close();
                     }
                 });

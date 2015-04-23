@@ -60,12 +60,10 @@ public class InstructorsResponseHandler
                         RealmResults<Instructor> result2 = realm.where(Instructor.class)
 //                                .equalTo("name", "Alexander Gustafsson")
                                 .findAll();
-                        Log.d("api instructors", result2.toString());
+//                        Log.d("api instructors", result2.toString());
 
                         realm.close();
-
                     }
                 });
     }
-
 }

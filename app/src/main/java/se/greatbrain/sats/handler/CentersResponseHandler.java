@@ -1,7 +1,6 @@
 package se.greatbrain.sats.handler;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -38,7 +37,6 @@ public class CentersResponseHandler
                         Realm realm = Realm.getInstance(activity);
 
                         JsonArray regions = result.getAsJsonArray("regions");
-                        Log.d("api centers", result.toString());
 
                         for (JsonElement element : regions)
                         {
@@ -69,10 +67,9 @@ public class CentersResponseHandler
 //                    }
 //                }
 
-                        Log.d("api centers", result1.toString());
+//                        Log.d("api centers", result1.toString());
                         realm.close();
                     }
                 });
     }
-
 }

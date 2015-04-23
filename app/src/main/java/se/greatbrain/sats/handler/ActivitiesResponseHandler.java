@@ -2,7 +2,6 @@ package se.greatbrain.sats.handler;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,8 +34,6 @@ public class ActivitiesResponseHandler
             {
                 Realm realm = Realm.getInstance(activity);
 
-                Log.d("api training activities", result.toString());
-
                 for (JsonElement element : result)
                 {
                     realm.beginTransaction();
@@ -60,12 +57,10 @@ public class ActivitiesResponseHandler
                 RealmResults<TrainingActivity> result2 = realm.where(TrainingActivity.class)
 //                        .equalTo("id", "114608")
                         .findAll();
-                Log.d("api training activities", result2.toString());
+//                Log.d("api training activities", result2.toString());
 
-                Toast.makeText(activity, result2.toString(), Toast.LENGTH_LONG).show();
                 realm.close();
             }
         });
     }
-
 }
