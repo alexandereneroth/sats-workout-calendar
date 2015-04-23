@@ -1,5 +1,7 @@
 # added by us
 /.idea/misc.xml
+*.iml
+.idea/gradle.xml
 
 # default
 .gradle
