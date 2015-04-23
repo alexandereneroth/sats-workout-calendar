@@ -79,8 +79,29 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         if (convertView == null)
         {
             holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.listrow_detail, parent, false);
-            holder.text = (TextView) convertView.findViewById(R.id.listrow_detail_title);
+
+            // Chose between the different listrow types here
+            switch(position % 3)
+            {
+                case 0:
+                    convertView = inflater.inflate(R.layout.listrow_detail_booked_class, parent, false);
+                    holder.text = (TextView) convertView.findViewById(R.id
+                            .listrow_detail_booked_class_title);
+                    holder.text.setText(positionToItemMappings.get(position));
+                    break;
+                case 1:
+                    convertView = inflater.inflate(R.layout.listrow_detail_booked_private, parent, false);
+                    holder.text = (TextView) convertView.findViewById(R.id
+                            .listrow_detail_booked_private_title);
+                    holder.text.setText(positionToItemMappings.get(position));
+                    break;
+                case 2:
+                    convertView = inflater.inflate(R.layout.listrow_detail_completed, parent, false);
+                    holder.text = (TextView) convertView.findViewById(R.id
+                            .listrow_detail_completed_title);
+                    holder.text.setText(positionToItemMappings.get(position));
+                    break;
+            }
             convertView.setTag(holder);
         }
         else
@@ -88,7 +109,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.text.setText(positionToItemMappings.get(position));//countries[position]);
 
         return convertView;
     }
@@ -110,9 +130,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
         int groupNumber = positionToGroupMappings.get(position);
 
-        //set header text as first char in name
-        String headerText = groups.get(groupNumber).title;//"" + countries[position].subSequence(0,
-        // 1).charAt(0);
+        String headerText = groups.get(groupNumber).title;
         holder.text.setText(headerText);
         return convertView;
     }

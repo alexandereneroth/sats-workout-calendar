@@ -60,23 +60,6 @@ public class WorkoutListFragment extends Fragment
         WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
         listView.setAdapter(adapter);
 
-//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
-//        {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i,
-//                    long l)
-//            {
-//                return true;
-//            }
-//        });
-//
-//        int groupCount = adapter.getGroupCount();
-//
-//        for (int i = 0; i < groupCount; i++)
-//        {
-//            listView.expandGroup(i);
-//        }
-
         return view;
     }
 }

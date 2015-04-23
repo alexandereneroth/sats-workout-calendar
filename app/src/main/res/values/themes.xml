@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Sats" parent="android:Theme.NoTitleBar">
-        <item name="stickyListHeadersListViewStyle">@style/Widget.Sats.StickyListViewHeader</item>
-    </style>
-</resources>
