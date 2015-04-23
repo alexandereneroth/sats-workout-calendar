@@ -1,12 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/listrow_detail_completed_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="true"/>
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/listrow_detail_booked_class_training_type_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:contentDescription="@string/training_icon_description"
+            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/all_training_icons"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/listrow_detail_booked_class_training_type_picture">
+
+            <TextView
+                android:id="@+id/listrow_detail_completed_class_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/listrow_detail_completed_class_name_string"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/listrow_detail_completed_class_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listrow_detail_completed_class_name"
+                android:text="@string/listrow_detail_completed_class_date_string"
+                android:textAllCaps="true"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listrow_detail_completed_class_date"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/comment_description"
+                    android:paddingEnd="5dp"
+                    android:src="@drawable/ic_comment"/>
+
+                <TextView
+                    android:id="@+id/listrow_detail_completed_class_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="@string/listrow_detail_completed_class_comment_string"
+                    android:textAllCaps="true"
+                    android:textSize="10dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingEnd="15dp">
+
+            <ImageView
+                android:id="@+id/listrow_detail_booked_class_completed_checkbox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/done_description"
+                android:paddingRight="12dp"
+                android:src="@drawable/done_icon"/>
+
+            <TextView
+                android:id="@+id/listrow_detail_booked_class_completed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/listrow_detail_booked_class_completed_checkbox"
+                android:text="@string/listrow_detail_completed_class_completed_string"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
 </LinearLayout>

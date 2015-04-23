@@ -97,9 +97,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                     break;
                 case 2:
                     convertView = inflater.inflate(R.layout.listrow_detail_completed, parent, false);
-                    holder.text = (TextView) convertView.findViewById(R.id
-                            .listrow_detail_completed_title);
-                    holder.text.setText(positionToItemMappings.get(position));
+//                    holder.text = (TextView) convertView.findViewById(R.id
+//                            .listrow_detail_completed_title);
+//                    holder.text.setText(positionToItemMappings.get(position));
                     break;
             }
             convertView.setTag(holder);
