@@ -2,6 +2,7 @@ package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class ClassType extends RealmObject {
@@ -12,7 +13,10 @@ public class ClassType extends RealmObject {
     private String name;
     private String videoUrl;
     private String description;
+
+    @Ignore
     private RealmList<RealmString> classCategoriesIds;
+
     private RealmList<Profile> profile;
 
     public String getId() {
