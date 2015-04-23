@@ -1,4 +1,4 @@
-package se.greatbrain.sats.model.Type;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

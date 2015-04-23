@@ -1,12 +1,9 @@
-package se.greatbrain.sats.model.classTypeAndCategory;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by aymenarbi on 22/04/15.
- */
 public class ClassType extends RealmObject {
 
     @PrimaryKey
@@ -57,14 +54,6 @@ public class ClassType extends RealmObject {
     public void setClassCategoriesIds(RealmList<RealmString> classCategoriesIds) {
         this.classCategoriesIds = classCategoriesIds;
     }
-
-    //    public String[] getClassCategoriesIds() {
-//        return classCategoriesIds;
-//    }
-//
-//    public void setClassCategoriesIds(String[] classCategoriesIds) {
-//        this.classCategoriesIds = classCategoriesIds;
-//    }
 
     public RealmList<Profile> getProfile() {
         return profile;

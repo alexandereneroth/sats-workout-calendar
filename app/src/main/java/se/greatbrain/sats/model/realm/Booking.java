@@ -1,11 +1,9 @@
-package se.greatbrain.sats.model.trainingActivitie;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by aymenarbi on 22/04/15.
- */
 public class Booking extends RealmObject {
 
     @PrimaryKey
@@ -14,7 +12,9 @@ public class Booking extends RealmObject {
     private String center;
     private int positionInQueue;
     private String status;
-    private ClassObject classObj;
+
+    @Ignore
+    private SatsClass satsClass;
 
     public String getId() {
         return id;
@@ -48,11 +48,16 @@ public class Booking extends RealmObject {
         this.status = status;
     }
 
-    public ClassObject getClassObj() {
-        return classObj;
+    public SatsClass getSatsClass() {
+        return satsClass;
     }
 
-    public void setClassObj(ClassObject classObj) {
-        this.classObj = classObj;
+    public void setSatsClass(SatsClass satsClass)
+    {
+        if (satsClass == null)
+        {
+            satsClass = new SatsClass();
+        }
+        this.satsClass = satsClass;
     }
 }

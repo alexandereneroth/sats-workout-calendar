@@ -1,19 +1,14 @@
-package se.greatbrain.sats.model.trainingActivitie;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import se.greatbrain.sats.model.classTypeAndCategory.RealmString;
 
-/**
- * Created by aymenarbi on 22/04/15.
- */
-public class ClassObject extends RealmObject {
+public class SatsClass extends RealmObject {
 
     @PrimaryKey
     private String id;
 
-    private String centerId;
     private String centerFilterId;
     private String classTypeId;
     private int durationInMinutes;
@@ -31,14 +26,6 @@ public class ClassObject extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCenterId() {
-        return centerId;
-    }
-
-    public void setCenterId(String centerId) {
-        this.centerId = centerId;
     }
 
     public String getCenterFilterId() {

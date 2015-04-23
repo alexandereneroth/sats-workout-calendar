@@ -1,11 +1,8 @@
-package se.greatbrain.sats.model.trainingActivitie;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by aymenarbi on 22/04/15.
- */
 public class TrainingActivity extends RealmObject {
 
     @PrimaryKey

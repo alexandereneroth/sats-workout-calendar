@@ -9,13 +9,9 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
-import se.greatbrain.sats.model.Type.Type;
+import se.greatbrain.sats.model.realm.Type;
 
-/**
- * Created by aymenarbi on 22/04/15.
- */
 public class TypeResponseHandler {
     private final static String BASE_URL = "http://sats-greatbrain.rhcloud.com/se/training/activities/types";
     private Activity activity;
@@ -28,8 +24,9 @@ public class TypeResponseHandler {
         Ion.with(activity).load(BASE_URL).asJsonArray().setCallback(new FutureCallback<JsonArray>() {
             @Override
             public void onCompleted(Exception e, JsonArray result) {
-                Realm.deleteRealmFile(activity);
                 Realm realm = Realm.getInstance(activity);
+
+                Log.d("api type", result.toString());
 
                 for (JsonElement element : result) {
                     realm.beginTransaction();

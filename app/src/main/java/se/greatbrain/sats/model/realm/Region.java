@@ -1,4 +1,4 @@
-package se.greatbrain.sats.model.centerAndRegion;
+package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
