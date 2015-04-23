@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="no_content_string">No content</string>
+    <string name="refresh_btn_title">Refresh</string>
+    <string name="my_training_actionbar_text">MIN TRÄNING</string>
 </resources>
