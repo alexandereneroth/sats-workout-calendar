@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity
         {
             items = new ArrayList<>();
 
-            for (int l = 1; l < 6; l++)
+            for (int l = 0; l < 5; l++)
             {
                 items.add("List item " + i);
             }

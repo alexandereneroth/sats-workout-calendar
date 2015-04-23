@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/background_body"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/green"
+                android:layout_gravity="top"
+                android:layout_marginTop="0dp"
+                android:padding="6dp"
+                android:textStyle="bold"
+                android:text="Längd:\n60 min"/>
+
+            <TextView
+                android:id="@+id/listrow_detail_booked_private_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_weight="2"
+                android:layout_gravity="top"
+                android:background="@color/satsyou_blue"
+                android:text="Styrketräning"
+                android:textStyle="bold"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/button_gray"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:text="Ändra"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="träningsprogram"
+                android:background="@color/green"
+                android:textSize="8sp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lägg till i kalendern"
+                android:background="@color/material_deep_teal_200"
+                android:textSize="8sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

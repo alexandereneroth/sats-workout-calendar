@@ -7,6 +7,4 @@
 
         <item name="colorPrimary">@color/actionbar_background</item>
     </style>
-
-
 </resources>

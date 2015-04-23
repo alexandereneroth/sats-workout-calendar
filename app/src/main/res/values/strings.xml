@@ -6,4 +6,11 @@
     <string name="no_content_string">No content</string>
     <string name="refresh_btn_title">Refresh</string>
     <string name="my_training_actionbar_text">MIN TRÄNING</string>
+    <string name="listrow_detail_completed_class_name_string">SATS CORE</string>
+    <string name="listrow_detail_completed_class_date_string">Torsdag 25/3</string>
+    <string name="listrow_detail_completed_class_comment_string">Lägg till kommentar</string>
+    <string name="training_icon_description">Bild på träningsaktiviteten utförd</string>
+    <string name="comment_description">Pratbubbla</string>
+    <string name="done_description">Avklarad träning</string>
+    <string name="listrow_detail_completed_class_completed_string">Avklarad!</string>
 </resources>
