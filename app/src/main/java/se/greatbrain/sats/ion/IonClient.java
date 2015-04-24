@@ -12,6 +12,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
@@ -53,19 +54,12 @@ public class IonClient
 
     public void getAllData()
     {
-        new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                getAllActivities();
-                getAllCenters();
-                getAllClassCategories();
-                getAllClassTypes();
-                getAllInstructors();
-                getAllTypes();
-                return null;
-            }
-        };
+        getAllActivities();
+        getAllCenters();
+        getAllClassCategories();
+        getAllClassTypes();
+        getAllInstructors();
+        getAllTypes();
     }
 
     private void getAllActivities()
@@ -91,6 +85,7 @@ public class IonClient
                     {
                         JsonArray classTypes = result.getAsJsonArray("classTypes");
                         JsonArray classTypesWithObjects = new JsonArray();
+                        AtomicInteger atomicInteger = new AtomicInteger();
 
                         // Switch out pure string array for array with wrapped String objects
                         // for Realm compatibility.
@@ -108,6 +103,19 @@ public class IonClient
                             }
                             object.remove("classCategories");
                             object.add("classCategories", classCategoryObjects);
+
+                            // Add new Primary key for Realm compatibility
+                            JsonArray profile = object.get("profile").getAsJsonArray();
+                            JsonArray profilesWithIds = new JsonArray();
+                            for(JsonElement jsonProfile : profile)
+                            {
+                                JsonObject attribute = jsonProfile.getAsJsonObject();
+                                attribute.add("profileId", new JsonPrimitive(atomicInteger.incrementAndGet()));
+                                profilesWithIds.add(attribute);
+                            }
+
+                            object.remove("profile");
+                            object.add("profile", profilesWithIds);
                             classTypesWithObjects.add(object);
                         }
 

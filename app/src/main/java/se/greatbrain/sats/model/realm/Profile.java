@@ -1,37 +1,57 @@
 package se.greatbrain.sats.model.realm;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class Profile extends RealmObject {
-
+public class Profile extends RealmObject
+{
     @PrimaryKey
-    private String id;
+    private int profileId;
 
+    private String id;
     private String name;
     private int value;
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public int getValue() {
+    public int getProfileId()
+    {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId)
+    {
+        this.profileId = profileId;
+    }
+
+    public int getValue()
+    {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(int value)
+    {
         this.value = value;
     }
 }
