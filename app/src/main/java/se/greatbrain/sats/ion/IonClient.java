@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -62,7 +63,6 @@ public class IonClient
                 getAllClassTypes();
                 getAllInstructors();
                 getAllTypes();
-
                 return null;
             }
         };
@@ -94,13 +94,13 @@ public class IonClient
 
                         // Switch out pure string array for array with wrapped String objects
                         // for Realm compatibility.
-                        for(JsonElement element : classTypes)
+                        for (JsonElement element : classTypes)
                         {
                             JsonObject object = element.getAsJsonObject();
                             JsonArray classCategories = object.get("classCategories")
                                     .getAsJsonArray();
                             JsonArray classCategoryObjects = new JsonArray();
-                            for(JsonElement id : classCategories)
+                            for (JsonElement id : classCategories)
                             {
                                 JsonObject jsonCategory = new JsonObject();
                                 jsonCategory.add("id", id.getAsJsonPrimitive());
@@ -125,6 +125,24 @@ public class IonClient
                     public void onCompleted(Exception e, JsonObject result)
                     {
                         JsonArray regions = result.getAsJsonArray("regions");
+
+                        // Switch out name of longitude attribute for Realm compatibility
+                        for (JsonElement element : regions)
+                        {
+                            JsonObject region = element.getAsJsonObject();
+                            JsonArray centers = region.get("centers").getAsJsonArray();
+                            JsonArray centersWithLng = new JsonArray();
+                            for (JsonElement jsonElement : centers)
+                            {
+                                JsonObject center = jsonElement.getAsJsonObject();
+                                JsonPrimitive lng = center.get("long").getAsJsonPrimitive();
+                                center.remove("long");
+                                center.add("lng", lng);
+                                centersWithLng.add(center);
+                            }
+                            region.remove("centers");
+                            region.add("centers", centersWithLng);
+                        }
                         RealmClient.addDataToDB(regions, context, Region.class);
                     }
                 });

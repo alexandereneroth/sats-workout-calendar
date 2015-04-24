@@ -34,8 +34,4 @@ public final class BookedClass extends ClassModel
         this.waitingListCount = waitingListCount;
         this.classType = classType;
     }
-
-
-
-
 }
