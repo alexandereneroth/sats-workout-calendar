@@ -18,7 +18,7 @@ public class SatsClass extends RealmObject {
     private int bookedPersonsCount;
     private String regionId;
     private int waitingListCount;
-    private RealmList<RealmString> classCategoryIds;
+    private RealmList<ClassCategoryIds> classCategoryIds;
 
     public String getId() {
         return id;
@@ -100,11 +100,11 @@ public class SatsClass extends RealmObject {
         this.waitingListCount = waitingListCount;
     }
 
-    public RealmList<RealmString> getClassCategoryIds() {
+    public RealmList<ClassCategoryIds> getClassCategoryIds() {
         return classCategoryIds;
     }
 
-    public void setClassCategoryIds(RealmList<RealmString> classCategoryIds) {
+    public void setClassCategoryIds(RealmList<ClassCategoryIds> classCategoryIds) {
         this.classCategoryIds = classCategoryIds;
     }
 }

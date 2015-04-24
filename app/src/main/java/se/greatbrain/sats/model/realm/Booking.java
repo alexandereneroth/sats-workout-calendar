@@ -12,8 +12,6 @@ public class Booking extends RealmObject {
     private String center;
     private int positionInQueue;
     private String status;
-
-    @Ignore
     private SatsClass satsClass;
 
     public String getId() {

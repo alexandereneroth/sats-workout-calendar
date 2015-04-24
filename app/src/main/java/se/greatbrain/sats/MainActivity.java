@@ -1,6 +1,5 @@
 package se.greatbrain.sats;
 
-
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -18,7 +17,7 @@ import se.greatbrain.sats.handler.ClassCategoriesResponseHandler;
 import se.greatbrain.sats.handler.ClassTypesResponseHandler;
 import se.greatbrain.sats.handler.InstructorsResponseHandler;
 import se.greatbrain.sats.handler.TypeResponseHandler;
-
+import se.greatbrain.sats.ion.IonClient;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -27,7 +26,6 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         setupRealm();
 
@@ -40,24 +38,8 @@ public class MainActivity extends ActionBarActivity
 
     private void setupRealm()
     {
-        CentersResponseHandler centersResponseHandler = new CentersResponseHandler(this);
-        centersResponseHandler.get();
-
-        InstructorsResponseHandler instructorsResponseHandler = new InstructorsResponseHandler(this);
-        instructorsResponseHandler.get();
-
-        ClassCategoriesResponseHandler classCategoriesResponseHandler = new ClassCategoriesResponseHandler(this);
-        classCategoriesResponseHandler.get();
-
-        ClassTypesResponseHandler classTypesResponseHandler = new ClassTypesResponseHandler(this);
-        classTypesResponseHandler.get();
-
-        ActivitiesResponseHandler activitiesResponseHandler = new ActivitiesResponseHandler(this);
-        activitiesResponseHandler.get();
-
-        TypeResponseHandler typeResponseHandler = new TypeResponseHandler(this);
-        typeResponseHandler.get();
-
+        IonClient client = IonClient.getInstance(this);
+        client.getAllData();
     }
 
     private ArrayList<ListGroup> generateData()
