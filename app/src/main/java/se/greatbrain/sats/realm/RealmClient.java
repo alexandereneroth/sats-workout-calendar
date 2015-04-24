@@ -6,9 +6,7 @@ import android.util.SparseArray;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,14 +15,10 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 
-/**
- * Created by patrikappelqvist on 15-04-24.
- */
 public class RealmClient
 {
     private static final String TAG = "RealmClient";

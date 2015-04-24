@@ -8,9 +8,9 @@ import java.util.List;
 public class ListGroup implements Parcelable
 {
     public final String title;
-    public final List<String> children;
+    public final List<ActivityType> children;
 
-    public ListGroup(String title, List<String> children)
+    public ListGroup(String title, List<ActivityType> children)
     {
         this.title = title;
         this.children = children;

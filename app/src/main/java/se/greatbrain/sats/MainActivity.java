@@ -25,16 +25,17 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
         setupRealm();
 
         RealmClient client = new RealmClient(this);
         client.getAllActivitiesWithWeek();
 
-        ArrayList<ListGroup> groups = generateData();
+        ArrayList<ListGroup> groups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
-                                       WorkoutListFragment.newInstance(groups)).commit();
+                WorkoutListFragment.newInstance(dummyListGroups)).commit();
     }
 
     private void setupRealm()
@@ -43,18 +44,18 @@ public class MainActivity extends ActionBarActivity
         client.getAllData();
     }
 
-    private ArrayList<ListGroup> generateData()
+    private ArrayList<ListGroup> generateDummyListGroups()
     {
         ArrayList<ListGroup> groups = new ArrayList<>();
-        List<String> items;
+        List<ActivityType> items;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             items = new ArrayList<>();
 
-            for (int l = 1; l < 6; l++)
+            for (int l = 0; l < 5; l++)
             {
-                items.add("List item " + i);
+                items.add(ActivityType.getWithId(l % 3));
             }
 
             groups.add(new ListGroup("Grupp " + i, items));
@@ -72,15 +73,7 @@ public class MainActivity extends ActionBarActivity
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
 
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 

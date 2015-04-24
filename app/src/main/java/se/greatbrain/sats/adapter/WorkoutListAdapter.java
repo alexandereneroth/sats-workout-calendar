@@ -5,106 +5,241 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.greatbrain.sats.ActivityType;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 
-public class WorkoutListAdapter extends BaseExpandableListAdapter
+public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
+    private static final String TAG_LOG = "WorkoutListAdapter";
+
+    private static final int NUMBER_OF_VIEWS_SERVED_BY_ADAPTER = 4;
+
     private final SparseArray<ListGroup> groups;
     private final Activity activity;
     private final LayoutInflater inflater;
+
+    private  int numberOfPositions;
+    private final Map<Integer, Integer> positionToGroupMappings = new HashMap<>();
+    private final Map<Integer, ActivityType> positionToItemMappings = new HashMap<>();
 
     public WorkoutListAdapter(Activity activity, SparseArray<ListGroup> groups)
     {
         this.groups = groups;
         this.activity = activity;
         inflater = activity.getLayoutInflater();
+
+        for (int i = 0; i < groups.size(); ++i)
+        {
+            ListGroup group = groups.get(i);
+            for (int j = 0; j < group.children.size(); ++j)
+            {
+                positionToGroupMappings.put(numberOfPositions, i);
+                positionToItemMappings.put(numberOfPositions, group.children.get(j));
+                ++numberOfPositions;
+            }
+        }
     }
 
     @Override
-    public int getGroupCount()
+    public int getCount()
     {
-        return groups.size();
+        return numberOfPositions;
     }
 
     @Override
-    public int getChildrenCount(int groupPosition)
+    public Object getItem(int position)
     {
-        return groups.get(groupPosition).children.size();
+
+        return positionToItemMappings.get(position);
     }
 
     @Override
-    public Object getGroup(int groupPosition)
+    public long getItemId(int position)
     {
-        return groups.get(groupPosition);
+        return position;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition)
+    public long getHeaderId(int position)
     {
-        return groups.get(groupPosition).children.get(childPosition);
+        return positionToGroupMappings.get(position);
     }
 
     @Override
-    public long getGroupId(int i)
+    public int getViewTypeCount()
     {
-        return 0;
+        return NUMBER_OF_VIEWS_SERVED_BY_ADAPTER;
     }
 
     @Override
-    public long getChildId(int i, int i2)
+    public int getItemViewType(int position)
     {
-        return 0;
+        return ((ActivityType) getItem(position)).id;
     }
 
     @Override
-    public boolean hasStableIds()
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-        return false;
-    }
+        int activityTypeIdOnPosition = getItemViewType(position);
+        ActivityType activityTypeOnPosition = ActivityType.getWithId(activityTypeIdOnPosition);
 
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
-            ViewGroup parent)
-    {
         if (convertView == null)
         {
-            convertView = inflater.inflate(R.layout.listrow_group, null);
+            convertView = newViewOfType(activityTypeOnPosition, parent);
         }
+        switch (activityTypeOnPosition)
+        {
+            case BookedClass:
+                setUpBookedClassView(convertView);
+                break;
 
-        ListGroup listGroup = (ListGroup) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(listGroup.title);
-        ((CheckedTextView) convertView).setChecked(true);
+            case BookedPrivate:
+                setUpBookedPrivateView(convertView);
+                break;
+
+            case Completed:
+                setUpCompletedView(convertView);
+                break;
+        }
+        return convertView;
+    }
+
+    private View newViewOfType(ActivityType viewType, ViewGroup parent)
+    {
+        View convertView = null;
+
+        switch (viewType)
+        {
+            case BookedClass:
+                BookedClassActivityViewHolder bookedClassViewHolder;
+                bookedClassViewHolder = new BookedClassActivityViewHolder();
+                convertView = inflater.inflate(R.layout.listrow_detail_booked_class, parent,
+                        false);
+                bookedClassViewHolder.title = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_booked_class_name));
+                bookedClassViewHolder.duration = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_booked_class_duration_minutes));
+
+                //TODO add more
+
+                convertView.setTag(bookedClassViewHolder);
+                break;
+
+            case BookedPrivate:
+                BookedPrivateActivityViewHolder viewHolder;
+                viewHolder = new BookedPrivateActivityViewHolder();
+                convertView = inflater.inflate(R.layout.listrow_detail_booked_private, parent,
+                        false);
+                viewHolder.title = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_booked_private_name));
+                viewHolder.duration = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_booked_private_name));
+                        //TODO refactor length to date
+
+                convertView.setTag(viewHolder);
+                break;
+
+            case Completed:
+                CompletedActivityViewHolder completedActivityViewHolder;
+                completedActivityViewHolder = new CompletedActivityViewHolder();
+                convertView = inflater.inflate(R.layout.listrow_detail_completed, parent,
+                        false);
+                completedActivityViewHolder.title = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_completed_class_name));
+                completedActivityViewHolder.date = ((TextView) convertView.findViewById(R.id
+                        .listrow_detail_completed_class_date));//TODO add more?
+
+                convertView.setTag(completedActivityViewHolder);
+                break;
+            default:
+                throw new IllegalArgumentException(
+                        "The passed view type, " + viewType + ", is invalid");
+        }
 
         return convertView;
     }
 
-    @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-            View convertView, ViewGroup parent)
+    private void setUpBookedClassView(View convertView)
     {
+        BookedClassActivityViewHolder bookedClassActivityViewHolder =
+                (BookedClassActivityViewHolder) convertView.getTag();
 
-        final String child = (String) getChild(groupPosition, childPosition);
-        TextView text = null;
+        bookedClassActivityViewHolder.title.setText("FISTK");
+        bookedClassActivityViewHolder.duration.setText("69");
+    }
 
-        if (convertView == null)
-        {
-            convertView = inflater.inflate(R.layout.listrow_detail, null);
-        }
+    private void setUpBookedPrivateView(View convertView)
+    {
+        BookedPrivateActivityViewHolder bookedPrivateActivityViewHolder =
+                (BookedPrivateActivityViewHolder) convertView.getTag();
 
-        text = (TextView) convertView.findViewById(R.id.listrow_detail_title);
-        text.setText(child);
+        String dummyBookedPrivateTitle = "Zebrakastning";
+        int dummyDuration = 45;
+        bookedPrivateActivityViewHolder.title.setText(dummyBookedPrivateTitle);
+    }
 
-        return convertView;
+    private void setUpCompletedView(View convertView)
+    {
+        CompletedActivityViewHolder completedActivityViewHolder =
+                (CompletedActivityViewHolder) convertView.getTag();
+
+        String dummyCompletedTitle = "Löpning 10m";
+        String dummyDate = "2014-04-01";
+        completedActivityViewHolder.title.setText(dummyCompletedTitle);
+        completedActivityViewHolder.date.setText(dummyDate);
     }
 
     @Override
-    public boolean isChildSelectable(int i, int i2)
+    public View getHeaderView(int position, View convertView, ViewGroup parent)
     {
-        return false;
+        HeaderViewHolder holder;
+        if (convertView == null)
+        {
+            holder = new HeaderViewHolder();
+            convertView = inflater.inflate(R.layout.listrow_group, parent, false);
+            holder.text = (TextView) convertView.findViewById(R.id.listrow_group_title);
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (HeaderViewHolder) convertView.getTag();
+        }
+        int groupNumber = positionToGroupMappings.get(position);
+
+        String headerText = groups.get(groupNumber).title;
+        holder.text.setText(headerText);
+        return convertView;
+    }
+
+    class HeaderViewHolder
+    {
+        TextView text;
+    }
+
+    class BookedPrivateActivityViewHolder
+    {
+        TextView title;
+        TextView duration;
+    }
+
+    //TODO
+    class BookedClassActivityViewHolder
+    {
+        TextView title;
+        TextView duration;
+    }
+
+    class CompletedActivityViewHolder
+    {
+        TextView title;
+        TextView date;
     }
 }

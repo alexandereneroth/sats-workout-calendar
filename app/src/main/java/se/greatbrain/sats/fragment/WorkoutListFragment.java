@@ -2,6 +2,7 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +12,23 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
 
 public class WorkoutListFragment extends Fragment
 {
+    private static final String TAG_LOG = "WorkoutListFragment";
     private List<ListGroup> listGroups;
     private SparseArray<ListGroup> sparseGroups;
 
-    public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroup)
+    public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroups)
     {
         WorkoutListFragment fragment = new WorkoutListFragment();
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList("listGroup", listGroup);
+        args.putParcelableArrayList("listGroups", listGroups);
 
         fragment.setArguments(args);
 
@@ -37,7 +40,7 @@ public class WorkoutListFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        listGroups = getArguments().getParcelableArrayList("listGroup");
+        listGroups = getArguments().getParcelableArrayList("listGroups");
 
         sparseGroups = new SparseArray<>();
 
@@ -45,7 +48,6 @@ public class WorkoutListFragment extends Fragment
         {
             sparseGroups.append(i, listGroups.get(i));
         }
-
     }
 
     @Override
@@ -54,27 +56,10 @@ public class WorkoutListFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        ExpandableListView listView = (ExpandableListView) view.findViewById(
+        StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
         WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
         listView.setAdapter(adapter);
-
-        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener()
-        {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i,
-                    long l)
-            {
-                return true;
-            }
-        });
-
-        int groupCount = adapter.getGroupCount();
-
-        for (int i = 0; i < groupCount; i++)
-        {
-            listView.expandGroup(i);
-        }
 
         return view;
     }

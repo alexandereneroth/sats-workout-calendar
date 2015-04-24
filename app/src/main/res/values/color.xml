@@ -60,4 +60,7 @@
     <color name="gray_light">#f5f5f5</color>
     <color name="listview_pressed_dark">#141414</color>
 
+    <!-- Own colors -->
+    <color name="activity_buttons">#F7F7F7</color>
+
 </resources>

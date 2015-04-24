@@ -1,13 +1,16 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="0dp"
+    android:padding="0dp">
 
-    <ExpandableListView
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/expandable_list_view"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:groupIndicator="@null"/>
-
-</LinearLayout>
+        android:background="@color/section_header"
+        android:layout_margin="0dp"
+        android:clickable="false"
+        android:divider="@null"/>
+</RelativeLayout>
