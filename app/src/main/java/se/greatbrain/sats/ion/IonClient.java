@@ -1,6 +1,7 @@
 package se.greatbrain.sats.ion;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
@@ -51,12 +52,20 @@ public class IonClient
 
     public void getAllData()
     {
-        getAllActivities();
-        getAllCenters();
-        getAllClassCategories();
-        getAllClassTypes();
-        getAllInstructors();
-        getAllTypes();
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                getAllActivities();
+                getAllCenters();
+                getAllClassCategories();
+                getAllClassTypes();
+                getAllInstructors();
+                getAllTypes();
+
+                return null;
+            }
+        };
     }
 
     private void getAllActivities()
@@ -70,10 +79,6 @@ public class IonClient
                         RealmClient.addDataToDB(result, context, TrainingActivity.class);
                     }
                 });
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2012, Calendar.MARCH, 10, 16, 0);
-        Log.d("Time", String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)));
     }
 
     private void getAllClassTypes()

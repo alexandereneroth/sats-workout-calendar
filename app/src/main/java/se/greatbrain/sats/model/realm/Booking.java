@@ -1,7 +1,6 @@
 package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class Booking extends RealmObject {
@@ -9,7 +8,7 @@ public class Booking extends RealmObject {
     @PrimaryKey
     private String id;
 
-    private String center;
+    private String centerId;
     private int positionInQueue;
     private String status;
     private SatsClass satsClass;
@@ -22,12 +21,12 @@ public class Booking extends RealmObject {
         this.id = id;
     }
 
-    public String getCenter() {
-        return center;
+    public String getCenterId() {
+        return centerId;
     }
 
-    public void setCenter(String center) {
-        this.center = center;
+    public void setCenterId(String centerId) {
+        this.centerId = centerId;
     }
 
     public int getPositionInQueue() {

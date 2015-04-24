@@ -12,6 +12,8 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
@@ -26,7 +28,6 @@ public class WorkoutListFragment extends Fragment
     public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroups)
     {
         WorkoutListFragment fragment = new WorkoutListFragment();
-
         Bundle args = new Bundle();
         args.putParcelableArrayList("listGroups", listGroups);
 
@@ -58,7 +59,7 @@ public class WorkoutListFragment extends Fragment
 
         StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
-        WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
+        final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
         listView.setAdapter(adapter);
 
         return view;

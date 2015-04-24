@@ -10,11 +10,16 @@ import com.google.gson.JsonElement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.model.realm.TrainingActivity;
@@ -23,17 +28,15 @@ public class RealmClient
 {
     private static final String TAG = "RealmClient";
     private final Context context;
-    private final Realm realm;
 
     public RealmClient(Context context)
     {
-        realm = Realm.getInstance(context.getApplicationContext());
         this.context = context.getApplicationContext();
     }
 
     public static void addDataToDB(JsonArray result, Context context, Class type)
     {
-        Realm realm = Realm.getInstance(context);
+       Realm realm = Realm.getInstance(context);
 
         for (JsonElement element : result)
         {
@@ -53,17 +56,19 @@ public class RealmClient
         realm.close();
     }
 
-    public SparseArray<List<TrainingActivity>> getAllActivitiesWithWeek()
+    public Map<Integer, HashMap<Integer, List<TrainingActivity>>> getAllActivitiesWithWeek()
     {
+        Realm realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
-        SparseArray<List<TrainingActivity>> activitiesWithWeek = new SparseArray<>();
+        Map<Integer, HashMap<Integer, List<TrainingActivity>>> activitiesWithWeek = new HashMap<>();
+        Calendar calendar = Calendar.getInstance();
 
-        for(TrainingActivity activity : activities)
+        for (TrainingActivity activity : activities)
         {
             Date date = null;
             try
             {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
                 date = dateFormat.parse(activity.getDate());
             }
             catch (ParseException e)
@@ -72,23 +77,34 @@ public class RealmClient
                 continue;
             }
 
-            if(date != null)
+            if (date != null)
             {
-                Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                if(activitiesWithWeek.get(calendar.get(Calendar.WEEK_OF_YEAR)) == null)
+                int year = calendar.get(Calendar.YEAR);
+                int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+                if (activitiesWithWeek.get(year) == null)
                 {
-                    List<TrainingActivity> trainingActivities = new ArrayList<>();
-                    trainingActivities.add(activity);
-                    activitiesWithWeek.put(calendar.get(Calendar.WEEK_OF_YEAR), trainingActivities);
-                    Log.d("RealmDate", calendar.get(Calendar.WEEK_OF_YEAR) + ": " + activity
-                            .getDate());
+                    HashMap<Integer, List<TrainingActivity>> trainingActivities = new HashMap<>();
+                    List<TrainingActivity> trainingActivityList = new ArrayList<>();
+                    trainingActivityList.add(activity);
+                    trainingActivities.put(weekOfYear, trainingActivityList);
+                    activitiesWithWeek.put(year, trainingActivities);
                 }
                 else
                 {
-                    activitiesWithWeek.get(calendar.get(Calendar.WEEK_OF_YEAR)).add(activity);
-                    Log.d("RealmDate", calendar.get(Calendar.WEEK_OF_YEAR) + ": " + activity
-                            .getDate());
+                    Map<Integer, List<TrainingActivity>> activitiesMap = activitiesWithWeek.get
+                            (year);
+                    if(activitiesMap.get(weekOfYear) == null)
+                    {
+                        List<TrainingActivity> trainingActivityList = new ArrayList<>();
+                        trainingActivityList.add(activity);
+                        activitiesMap.put(weekOfYear, trainingActivityList);
+                    }
+                    else
+                    {
+                        activitiesMap.get(weekOfYear).add(activity);
+                    }
                 }
 
             }

@@ -1,12 +1,11 @@
 package se.greatbrain.sats;
 
 import android.app.FragmentManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
-import se.greatbrain.sats.model.realm.TrainingActivity;
-import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -28,9 +25,6 @@ public class MainActivity extends ActionBarActivity
         ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
         setupRealm();
 
-        RealmClient client = new RealmClient(this);
-        client.getAllActivitiesWithWeek();
-
         ArrayList<ListGroup> groups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
@@ -40,8 +34,7 @@ public class MainActivity extends ActionBarActivity
 
     private void setupRealm()
     {
-        IonClient client = IonClient.getInstance(this);
-        client.getAllData();
+        IonClient.getInstance(this).getAllData();
     }
 
     private ArrayList<ListGroup> generateDummyListGroups()
@@ -70,7 +63,7 @@ public class MainActivity extends ActionBarActivity
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
 
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);

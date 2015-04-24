@@ -49,43 +49,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     }
 
     @Override
-    public int getCount()
-    {
-        return numberOfPositions;
-    }
-
-    @Override
-    public Object getItem(int position)
-    {
-
-        return positionToItemMappings.get(position);
-    }
-
-    @Override
-    public long getItemId(int position)
-    {
-        return position;
-    }
-
-    @Override
-    public long getHeaderId(int position)
-    {
-        return positionToGroupMappings.get(position);
-    }
-
-    @Override
-    public int getViewTypeCount()
-    {
-        return NUMBER_OF_VIEWS_SERVED_BY_ADAPTER;
-    }
-
-    @Override
-    public int getItemViewType(int position)
-    {
-        return ((ActivityType) getItem(position)).id;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
         int activityTypeIdOnPosition = getItemViewType(position);
@@ -95,6 +58,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             convertView = newViewOfType(activityTypeOnPosition, parent);
         }
+
         switch (activityTypeOnPosition)
         {
             case BookedClass:
@@ -241,5 +205,41 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         TextView title;
         TextView date;
+    }
+    @Override
+    public int getCount()
+    {
+        return numberOfPositions;
+    }
+
+    @Override
+    public Object getItem(int position)
+    {
+
+        return positionToItemMappings.get(position);
+    }
+
+    @Override
+    public long getItemId(int position)
+    {
+        return position;
+    }
+
+    @Override
+    public long getHeaderId(int position)
+    {
+        return positionToGroupMappings.get(position);
+    }
+
+    @Override
+    public int getViewTypeCount()
+    {
+        return NUMBER_OF_VIEWS_SERVED_BY_ADAPTER;
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return ((ActivityType) getItem(position)).id;
     }
 }
