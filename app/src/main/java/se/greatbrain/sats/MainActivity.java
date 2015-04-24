@@ -4,13 +4,14 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
-
+import se.greatbrain.sats.ion.IonClient;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -21,10 +22,19 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
+        setupRealm();
+
+        ArrayList<ListGroup> groups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
                 WorkoutListFragment.newInstance(dummyListGroups)).commit();
+    }
+
+    private void setupRealm()
+    {
+        IonClient client = IonClient.getInstance(this);
+        client.getAllData();
     }
 
     private ArrayList<ListGroup> generateDummyListGroups()
