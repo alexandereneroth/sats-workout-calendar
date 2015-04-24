@@ -2,6 +2,7 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import se.greatbrain.sats.adapter.WorkoutListAdapter;
 
 public class WorkoutListFragment extends Fragment
 {
+    private static final String TAG_LOG = "WorkoutListFragment";
     private List<ListGroup> listGroups;
     private SparseArray<ListGroup> sparseGroups;
 
@@ -38,7 +40,7 @@ public class WorkoutListFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        listGroups = getArguments().getParcelableArrayList("listGroup");
+        listGroups = getArguments().getParcelableArrayList("listGroups");
 
         sparseGroups = new SparseArray<>();
 

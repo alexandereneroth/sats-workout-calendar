@@ -13,4 +13,11 @@
     <string name="comment_description">Pratbubbla</string>
     <string name="done_description">Avklarad träning</string>
     <string name="listrow_detail_completed_class_completed_string">Avklarad!</string>
+    <string name="add_to_calender_button_text">Lägg till i kalender</string>
+    <string name="add_to_calender_image_description">En kalender knapp</string>
+    <string name="about_the_class_description">Mer om passet bild</string>
+    <string name="about_the_class_button_text">Mer om passet</string>
+    <string name="listrow_detail_booked_class_minutes_length">30 min</string>
+    <string name="listrow_detail_booked_class_minutes_text">10</string>
+    <string name="listrow_detail_booked_class_hours_text">10</string>
 </resources>
