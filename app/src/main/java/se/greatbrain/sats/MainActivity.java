@@ -3,6 +3,8 @@ package se.greatbrain.sats;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,13 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
-import se.greatbrain.sats.handler.ActivitiesResponseHandler;
-import se.greatbrain.sats.handler.CentersResponseHandler;
-import se.greatbrain.sats.handler.ClassCategoriesResponseHandler;
-import se.greatbrain.sats.handler.ClassTypesResponseHandler;
-import se.greatbrain.sats.handler.InstructorsResponseHandler;
-import se.greatbrain.sats.handler.TypeResponseHandler;
 import se.greatbrain.sats.ion.IonClient;
+import se.greatbrain.sats.model.realm.TrainingActivity;
+import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -28,6 +26,9 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         setupRealm();
+
+        RealmClient client = new RealmClient(this);
+        client.getAllActivitiesWithWeek();
 
         ArrayList<ListGroup> groups = generateData();
 

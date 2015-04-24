@@ -12,6 +12,8 @@ import com.koushikdutta.ion.Ion;
 
 import org.json.JSONArray;
 
+import java.util.Calendar;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
@@ -43,14 +45,14 @@ public class IonClient
 
     public IonClient(Context context)
     {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public static IonClient getInstance(Context context)
     {
         if (INSTANCE == null)
         {
-            INSTANCE = new IonClient(context.getApplicationContext());
+            INSTANCE = new IonClient(context);
         }
 
         return INSTANCE;
@@ -77,6 +79,10 @@ public class IonClient
                         RealmClient.addDataToDB(result, context, TrainingActivity.class);
                     }
                 });
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2012, Calendar.MARCH, 10, 16, 00);
+        Log.d("Time", String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)));
     }
 
     private void getAllClassTypes()
