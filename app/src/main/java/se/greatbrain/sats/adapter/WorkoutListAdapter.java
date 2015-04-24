@@ -85,9 +85,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             {
                 case 0:
                     convertView = inflater.inflate(R.layout.listrow_detail_booked_class, parent, false);
-                    holder.text = (TextView) convertView.findViewById(R.id
-                            .listrow_detail_booked_class_title);
-                    holder.text.setText(positionToItemMappings.get(position));
+//                    holder.text = (TextView) convertView.findViewById(R.id
+//                            .listrow_detail_booked_class_title);
+//                    holder.text.setText(positionToItemMappings.get(position));
                     break;
                 case 1:
                     convertView = inflater.inflate(R.layout.listrow_detail_booked_private, parent, false);

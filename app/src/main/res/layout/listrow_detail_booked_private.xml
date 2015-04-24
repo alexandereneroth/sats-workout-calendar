@@ -42,7 +42,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:background="@drawable/button_gray"
+                android:background="@drawable/mytraining_details_round_button"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:text="Ändra"/>
