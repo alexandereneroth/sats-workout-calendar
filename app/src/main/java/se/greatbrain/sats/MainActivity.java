@@ -11,12 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
-import se.greatbrain.sats.handler.ActivitiesResponseHandler;
-import se.greatbrain.sats.handler.CentersResponseHandler;
-import se.greatbrain.sats.handler.ClassCategoriesResponseHandler;
-import se.greatbrain.sats.handler.ClassTypesResponseHandler;
-import se.greatbrain.sats.handler.InstructorsResponseHandler;
-import se.greatbrain.sats.handler.TypeResponseHandler;
 import se.greatbrain.sats.ion.IonClient;
 
 public class MainActivity extends ActionBarActivity

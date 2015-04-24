@@ -1,20 +1,13 @@
 package se.greatbrain.sats.ion;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONArray;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.internal.IOException;
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Instructor;
@@ -23,9 +16,6 @@ import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.model.realm.Type;
 import se.greatbrain.sats.realm.RealmClient;
 
-/**
- * Created by patrikappelqvist on 15-04-24.
- */
 public class IonClient
 {
     private final static String ACTIVITIES_URL = "http://sats-greatbrain.rhcloud" +
@@ -89,6 +79,9 @@ public class IonClient
                     {
                         JsonArray classTypes = result.getAsJsonArray("classTypes");
                         JsonArray classTypesWithObjects = new JsonArray();
+
+                        // Switch out pure string array for array with wrapped String objects
+                        // for Realm compatibility.
                         for(JsonElement element : classTypes)
                         {
                             JsonObject object = element.getAsJsonObject();

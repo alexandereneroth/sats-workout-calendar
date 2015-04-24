@@ -3,9 +3,6 @@ package se.greatbrain.sats.model.realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by aymenarbi on 21/04/15.
- */
 public class Center extends RealmObject {
 
     @PrimaryKey
