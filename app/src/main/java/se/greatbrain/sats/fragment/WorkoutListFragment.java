@@ -21,12 +21,12 @@ public class WorkoutListFragment extends Fragment
     private List<ListGroup> listGroups;
     private SparseArray<ListGroup> sparseGroups;
 
-    public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroup)
+    public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroups)
     {
         WorkoutListFragment fragment = new WorkoutListFragment();
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList("listGroup", listGroup);
+        args.putParcelableArrayList("listGroups", listGroups);
 
         fragment.setArguments(args);
 
@@ -46,7 +46,6 @@ public class WorkoutListFragment extends Fragment
         {
             sparseGroups.append(i, listGroups.get(i));
         }
-
     }
 
     @Override

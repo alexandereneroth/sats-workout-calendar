@@ -20,25 +20,25 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<ListGroup> groups = generateData();
+        ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
-                                       WorkoutListFragment.newInstance(groups)).commit();
+                WorkoutListFragment.newInstance(dummyListGroups)).commit();
     }
 
-    private ArrayList<ListGroup> generateData()
+    private ArrayList<ListGroup> generateDummyListGroups()
     {
         ArrayList<ListGroup> groups = new ArrayList<>();
-        List<String> items;
+        List<ActivityType> items;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             items = new ArrayList<>();
 
             for (int l = 0; l < 5; l++)
             {
-                items.add("List item " + i);
+                items.add(ActivityType.getWithId(l % 3));
             }
 
             groups.add(new ListGroup("Grupp " + i, items));
