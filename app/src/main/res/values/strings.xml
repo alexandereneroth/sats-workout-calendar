@@ -20,4 +20,5 @@
     <string name="listrow_detail_booked_class_minutes_length">30 min</string>
     <string name="listrow_detail_booked_class_minutes_text">10</string>
     <string name="listrow_detail_booked_class_hours_text">10</string>
+    <string name="fitness_programme_description">En tränings kalender knapp</string>
 </resources>

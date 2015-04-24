@@ -134,7 +134,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 bookedClassViewHolder.title = ((TextView) convertView.findViewById(R.id
                         .listrow_detail_booked_class_name));
                 bookedClassViewHolder.duration = ((TextView) convertView.findViewById(R.id
-                        .listrow_detail_booked_class_name));//TODO change and add more
+                        .listrow_detail_booked_class_duration_minutes));
+
+                //TODO add more
 
                 convertView.setTag(bookedClassViewHolder);
                 break;
@@ -145,9 +147,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 convertView = inflater.inflate(R.layout.listrow_detail_booked_private, parent,
                         false);
                 viewHolder.title = ((TextView) convertView.findViewById(R.id
-                        .booked_private_activity_title));
+                        .listrow_detail_booked_private_name));
                 viewHolder.duration = ((TextView) convertView.findViewById(R.id
-                        .booked_private_activity_length));//TODO refactor length to date
+                        .listrow_detail_booked_private_name));
+                        //TODO refactor length to date
 
                 convertView.setTag(viewHolder);
                 break;
@@ -178,7 +181,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 (BookedClassActivityViewHolder) convertView.getTag();
 
         bookedClassActivityViewHolder.title.setText("FISTK");
-        bookedClassActivityViewHolder.duration.setText("DURKT");
+        bookedClassActivityViewHolder.duration.setText("69");
     }
 
     private void setUpBookedPrivateView(View convertView)
