@@ -20,17 +20,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 {
     private static final String TAG_LOG = "WorkoutListAdapter";
 
-    private static final int VIEW_TYPE_BOOKED_CLASS = 0;
-    private static final int VIEW_TYPE_BOOKED_PRIVATE = 1;
-    private static final int VIEW_TYPE_COMPLETED = 2;
-
     private static final int NUMBER_OF_VIEWS_SERVED_BY_ADAPTER = 4;
 
     private final SparseArray<ListGroup> groups;
     private final Activity activity;
     private final LayoutInflater inflater;
 
-    private final int numberOfPositions;
+    private  int numberOfPositions;
     private final Map<Integer, Integer> positionToGroupMappings = new HashMap<>();
     private final Map<Integer, ActivityType> positionToItemMappings = new HashMap<>();
 
@@ -40,20 +36,16 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         this.activity = activity;
         inflater = activity.getLayoutInflater();
 
-        int numberOfPositions = 0;
-        int itemIndex = 0;
         for (int i = 0; i < groups.size(); ++i)
         {
             ListGroup group = groups.get(i);
             for (int j = 0; j < group.children.size(); ++j)
             {
-                positionToGroupMappings.put(itemIndex, i);
-                positionToItemMappings.put(itemIndex, group.children.get(j));
-                ++itemIndex;
+                positionToGroupMappings.put(numberOfPositions, i);
+                positionToItemMappings.put(numberOfPositions, group.children.get(j));
                 ++numberOfPositions;
             }
         }
-        this.numberOfPositions = numberOfPositions;
     }
 
     @Override
