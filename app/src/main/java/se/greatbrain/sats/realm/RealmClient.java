@@ -60,6 +60,7 @@ public class RealmClient
     {
         Realm realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
+        activities.sort("date");
         Map<Integer, HashMap<Integer, List<TrainingActivity>>> activitiesWithWeek = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
 

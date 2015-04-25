@@ -8,9 +8,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class Profile extends RealmObject
 {
-    @PrimaryKey
-    private int profileId;
-
     private String id;
     private String name;
     private int value;
@@ -33,16 +30,6 @@ public class Profile extends RealmObject
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public int getProfileId()
-    {
-        return profileId;
-    }
-
-    public void setProfileId(int profileId)
-    {
-        this.profileId = profileId;
     }
 
     public int getValue()
