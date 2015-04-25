@@ -8,9 +8,6 @@ import se.greatbrain.sats.model.realm.Instructor;
 import se.greatbrain.sats.model.realm.SatsClass;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 
-/**
- * Created by patrikappelqvist on 15-04-24.
- */
 public final class BookedClass extends ClassModel
 {
     public final String hour;

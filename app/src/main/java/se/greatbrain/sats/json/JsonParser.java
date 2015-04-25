@@ -9,8 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JsonParser
 {
-    private static final AtomicInteger atomicInteger = new AtomicInteger();
-
     public static JsonArray refactorClassTypes(JsonArray classTypes)
     {
         JsonArray refactoredClassTypes = new JsonArray();

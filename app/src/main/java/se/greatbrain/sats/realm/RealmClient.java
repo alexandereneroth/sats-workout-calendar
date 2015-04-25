@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -56,12 +57,13 @@ public class RealmClient
         realm.close();
     }
 
-    public Map<Integer, HashMap<Integer, List<TrainingActivity>>> getAllActivitiesWithWeek()
+    public Map<Integer, LinkedHashMap<Integer, List<TrainingActivity>>> getAllActivitiesWithWeek()
     {
         Realm realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
-        Map<Integer, HashMap<Integer, List<TrainingActivity>>> activitiesWithWeek = new HashMap<>();
+        Map<Integer, LinkedHashMap<Integer, List<TrainingActivity>>> activitiesWithWeek = new
+                HashMap<>();
         Calendar calendar = Calendar.getInstance();
 
         for (TrainingActivity activity : activities)
@@ -86,7 +88,8 @@ public class RealmClient
 
                 if (activitiesWithWeek.get(year) == null)
                 {
-                    HashMap<Integer, List<TrainingActivity>> trainingActivities = new HashMap<>();
+                    LinkedHashMap<Integer, List<TrainingActivity>> trainingActivities = new
+                            LinkedHashMap<>();
                     List<TrainingActivity> trainingActivityList = new ArrayList<>();
                     trainingActivityList.add(activity);
                     trainingActivities.put(weekOfYear, trainingActivityList);
