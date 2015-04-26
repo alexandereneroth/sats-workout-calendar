@@ -1,6 +1,8 @@
 package se.greatbrain.sats.ion;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -18,14 +20,15 @@ import se.greatbrain.sats.realm.RealmClient;
 
 public class IonClient
 {
+    private static final String TAG = "IonClient";
     private final static String ACTIVITIES_URL = "http://sats-greatbrain.rhcloud" +
-                                                 ".com/se/training/activities";
+            ".com/se/training/activities";
     private final static String CLASSTYPES_URL = "https://api2.sats.com/v1.0/se/classtypes";
     private final static String CENTERS_URL = "https://api2.sats.com/v1.0/se/centers";
     private final static String CLASS_CATEGORY_URL = "https://api2.sats.com/v1.0/se/classtypes";
     private final static String INSTRUCTOR_URL = "https://api2.sats.com/v1.0/se/instructors";
     private final static String TYPES_URL = "http://sats-greatbrain.rhcloud" +
-                                            ".com/se/training/activities/types";
+            ".com/se/training/activities/types";
 
     private final Context context;
     private static IonClient INSTANCE;
@@ -61,9 +64,24 @@ public class IonClient
                 new FutureCallback<JsonArray>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonArray result)
+                    public void onCompleted(final Exception e, final JsonArray result)
                     {
-                        RealmClient.addDataToDB(result, context, TrainingActivity.class);
+                        new AsyncTask<Void, Void, Void>(){
+                            @Override
+                            protected Void doInBackground(Void... params)
+                            {
+                                if(e == null)
+                                {
+                                    RealmClient.addDataToDB(result, context, TrainingActivity.class);
+                                }
+                                else
+                                {
+                                    Log.d(TAG, e.getMessage());
+                                }
+
+                                return null;
+                            }
+                        }.execute();
                     }
                 });
     }
@@ -74,12 +92,27 @@ public class IonClient
                 new FutureCallback<JsonObject>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        JsonArray classTypes = result.getAsJsonArray("classTypes");
-                        JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(classTypes);
+                        new AsyncTask<Void, Void, Void>(){
+                            @Override
+                            protected Void doInBackground(Void... params)
+                            {
+                                if(e == null)
+                                {
+                                    JsonArray classTypes = result.getAsJsonArray("classTypes");
+                                    JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(classTypes);
 
-                        RealmClient.addDataToDB(reparsedClassTypes, context, ClassType.class);
+                                    RealmClient.addDataToDB(reparsedClassTypes, context, ClassType.class);
+                                }
+                                else
+                                {
+                                    Log.d(TAG, e.getMessage());
+                                }
+
+                                return null;
+                            }
+                        }.execute();
                     }
                 });
     }
@@ -90,12 +123,27 @@ public class IonClient
                 new FutureCallback<JsonObject>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        JsonArray regions = result.getAsJsonArray("regions");
-                        regions = JsonParser.refactorCenters(regions);
+                        new AsyncTask<Void, Void, Void>(){
+                            @Override
+                            protected Void doInBackground(Void... params)
+                            {
+                                if(e == null)
+                                {
+                                    JsonArray regions = result.getAsJsonArray("regions");
+                                    regions = JsonParser.refactorCenters(regions);
 
-                        RealmClient.addDataToDB(regions, context, Region.class);
+                                    RealmClient.addDataToDB(regions, context, Region.class);
+                                }
+                                else
+                                {
+                                    Log.d(TAG, e.getMessage());
+                                }
+
+                                return null;
+                            }
+                        }.execute();
                     }
                 });
     }
@@ -106,10 +154,26 @@ public class IonClient
                 new FutureCallback<JsonObject>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        JsonArray classCategories = result.getAsJsonArray("classCategories");
-                        RealmClient.addDataToDB(classCategories, context, ClassCategory.class);
+                        new AsyncTask<Void, Void, Void>()
+                        {
+                            @Override
+                            protected Void doInBackground(Void... params)
+                            {
+                                if (e == null)
+                                {
+                                    JsonArray classCategories = result.getAsJsonArray("classCategories");
+                                    RealmClient.addDataToDB(classCategories, context, ClassCategory.class);
+                                }
+                                else
+                                {
+                                    Log.d(TAG, e.getMessage());
+                                }
+
+                                return null;
+                            }
+                        }.execute();
                     }
                 });
     }
@@ -120,10 +184,25 @@ public class IonClient
                 new FutureCallback<JsonObject>()
                 {
                     @Override
-                    public void onCompleted(Exception e, JsonObject result)
+                    public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        JsonArray instructors = result.getAsJsonArray("instructors");
-                        RealmClient.addDataToDB(instructors, context, Instructor.class);
+                        new AsyncTask<Void, Void, Void>(){
+                            @Override
+                            protected Void doInBackground(Void... params)
+                            {
+                                if(e == null)
+                                {
+                                    JsonArray instructors = result.getAsJsonArray("instructors");
+                                    RealmClient.addDataToDB(instructors, context, Instructor.class);
+                                }
+                                else
+                                {
+                                    Log.d(TAG, e.getMessage());
+                                }
+
+                                return null;
+                            }
+                        }.execute();
                     }
                 });
     }
@@ -134,9 +213,24 @@ public class IonClient
                 ()
         {
             @Override
-            public void onCompleted(Exception e, JsonArray result)
+            public void onCompleted(final Exception e, final JsonArray result)
             {
-                RealmClient.addDataToDB(result, context, Type.class);
+                new AsyncTask<Void, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Void... params)
+                    {
+                        if(e == null)
+                        {
+                            RealmClient.addDataToDB(result, context, Type.class);
+                        }
+                        else
+                        {
+                            Log.d(TAG, e.getMessage());
+                        }
+
+                        return null;
+                    }
+                }.execute();
             }
         });
     }

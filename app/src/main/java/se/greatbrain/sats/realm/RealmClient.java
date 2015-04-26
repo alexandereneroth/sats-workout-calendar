@@ -29,10 +29,21 @@ public class RealmClient
 {
     private static final String TAG = "RealmClient";
     private final Context context;
+    private static RealmClient INSTANCE;
 
     public RealmClient(Context context)
     {
         this.context = context.getApplicationContext();
+    }
+
+    public RealmClient getInstance(Context context)
+    {
+        if(INSTANCE == null)
+        {
+            INSTANCE = new RealmClient(context);
+        }
+
+        return INSTANCE;
     }
 
     public static void addDataToDB(JsonArray result, Context context, Class type)

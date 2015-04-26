@@ -1,5 +1,7 @@
 package se.greatbrain.sats.json;
 
+import android.os.AsyncTask;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
