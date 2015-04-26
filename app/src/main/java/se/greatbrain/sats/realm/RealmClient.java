@@ -24,6 +24,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.model.realm.TrainingActivity;
+import se.greatbrain.sats.util.DateUtil;
 
 public class RealmClient
 {
@@ -75,27 +76,15 @@ public class RealmClient
         activities.sort("date");
         Map<Integer, LinkedHashMap<Integer, List<TrainingActivity>>> activitiesWithWeek = new
                 HashMap<>();
-        Calendar calendar = Calendar.getInstance();
 
         for (TrainingActivity activity : activities)
         {
-            Date date = null;
-            try
-            {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                date = dateFormat.parse(activity.getDate());
-            }
-            catch (ParseException e)
-            {
-                Log.d("DateParse", e.getMessage());
-                continue;
-            }
+            Date date = DateUtil.parseString(activity.getDate());
 
             if (date != null)
             {
-                calendar.setTime(date);
-                int year = calendar.get(Calendar.YEAR);
-                int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+                int year = DateUtil.getYearFromDate(date);
+                int weekOfYear = DateUtil.getWeekFromDate(date);
 
                 if (activitiesWithWeek.get(year) == null)
                 {
