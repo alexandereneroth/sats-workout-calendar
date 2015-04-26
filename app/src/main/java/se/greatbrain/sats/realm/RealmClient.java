@@ -36,7 +36,7 @@ public class RealmClient
         this.context = context.getApplicationContext();
     }
 
-    public RealmClient getInstance(Context context)
+    public static RealmClient getInstance(Context context)
     {
         if(INSTANCE == null)
         {
@@ -46,7 +46,7 @@ public class RealmClient
         return INSTANCE;
     }
 
-    public static void addDataToDB(JsonArray result, Context context, Class type)
+    public void addDataToDB(JsonArray result, Context context, Class type)
     {
        Realm realm = Realm.getInstance(context);
 

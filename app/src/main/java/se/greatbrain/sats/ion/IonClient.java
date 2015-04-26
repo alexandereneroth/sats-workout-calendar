@@ -72,7 +72,8 @@ public class IonClient
                             {
                                 if(e == null)
                                 {
-                                    RealmClient.addDataToDB(result, context, TrainingActivity.class);
+                                    RealmClient.getInstance(context).addDataToDB(result, context,
+                                            TrainingActivity.class);
                                 }
                                 else
                                 {
@@ -103,7 +104,9 @@ public class IonClient
                                     JsonArray classTypes = result.getAsJsonArray("classTypes");
                                     JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(classTypes);
 
-                                    RealmClient.addDataToDB(reparsedClassTypes, context, ClassType.class);
+                                    RealmClient.getInstance(context).addDataToDB
+                                            (reparsedClassTypes, context,
+                                        ClassType.class);
                                 }
                                 else
                                 {
@@ -134,7 +137,8 @@ public class IonClient
                                     JsonArray regions = result.getAsJsonArray("regions");
                                     regions = JsonParser.refactorCenters(regions);
 
-                                    RealmClient.addDataToDB(regions, context, Region.class);
+                                    RealmClient.getInstance(context).addDataToDB(regions, context,
+                                            Region.class);
                                 }
                                 else
                                 {
@@ -164,7 +168,9 @@ public class IonClient
                                 if (e == null)
                                 {
                                     JsonArray classCategories = result.getAsJsonArray("classCategories");
-                                    RealmClient.addDataToDB(classCategories, context, ClassCategory.class);
+                                    RealmClient.getInstance(context).addDataToDB(classCategories,
+                                            context,
+                                        ClassCategory.class);
                                 }
                                 else
                                 {
@@ -193,7 +199,8 @@ public class IonClient
                                 if(e == null)
                                 {
                                     JsonArray instructors = result.getAsJsonArray("instructors");
-                                    RealmClient.addDataToDB(instructors, context, Instructor.class);
+                                    RealmClient.getInstance(context).addDataToDB(instructors, context,
+                                        Instructor.class);
                                 }
                                 else
                                 {
@@ -221,7 +228,7 @@ public class IonClient
                     {
                         if(e == null)
                         {
-                            RealmClient.addDataToDB(result, context, Type.class);
+                            RealmClient.getInstance(context).addDataToDB(result, context, Type.class);
                         }
                         else
                         {
