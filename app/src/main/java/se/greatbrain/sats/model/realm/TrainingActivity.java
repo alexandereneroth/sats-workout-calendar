@@ -1,7 +1,6 @@
 package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmObject;
-import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
@@ -48,10 +47,10 @@ public class TrainingActivity extends RealmObject
     {
         if (this.center == null)
         {
-            if (booking != null)
+            if (getBooking() != null)
             {
                 this.center = realm.where(Center.class)
-                        .equalTo("centerId", booking.getCenterId())
+                        .equalTo("id", getBooking().getCenterId())
                         .findFirst();
             }
         }
@@ -61,10 +60,10 @@ public class TrainingActivity extends RealmObject
     {
         if (classType == null)
         {
-            if (booking != null)
+            if (getBooking() != null)
             {
                 this.classType = realm.where(ClassType.class)
-                        .equalTo("classTypeId", booking.getSatsClass().getClassTypeId())
+                        .equalTo("id", getBooking().getSatsClass().getClassTypeId())
                         .findFirst();
             }
         }

@@ -1,7 +1,6 @@
 package se.greatbrain.sats;
 
 import android.app.FragmentManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
-import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
