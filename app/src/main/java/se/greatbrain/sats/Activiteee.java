@@ -18,13 +18,13 @@ public class Activiteee
     public final int week;
     public final int activityType;
     public final int activityStatus;
-    public final TrainingActivity activity;
+    public final TrainingActivity trainingActivity;
 
     public Activiteee(final int year, final int week, TrainingActivity activity)
     {
         this.year = year;
         this.week = week;
-        this.activity = activity;
+        this.trainingActivity = activity;
 
         if (activity.getStatus().equalsIgnoreCase("completed"))
         {
@@ -48,7 +48,7 @@ public class Activiteee
     {
         Calendar calendar = Calendar.getInstance();
         Calendar activityCalendar = Calendar.getInstance();
-        Date activityDate = DateUtil.parseString(activity.getDate());
+        Date activityDate = DateUtil.parseString(trainingActivity.getDate());
         activityCalendar.setTime(activityDate);
         return calendar.after(activityCalendar);
     }
