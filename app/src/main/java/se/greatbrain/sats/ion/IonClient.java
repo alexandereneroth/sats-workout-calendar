@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.json.JsonParser;
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
@@ -29,6 +31,8 @@ public class IonClient
     private final static String INSTRUCTOR_URL = "https://api2.sats.com/v1.0/se/instructors";
     private final static String TYPES_URL = "http://sats-greatbrain.rhcloud" +
             ".com/se/training/activities/types";
+
+    private static final EventBus bus = EventBus.getDefault();
 
     private final Context context;
     private static IonClient INSTANCE;
@@ -78,6 +82,7 @@ public class IonClient
                                 else
                                 {
                                     Log.d(TAG, e.getMessage());
+                                    bus.post(new ServerErrorEvent("Server connection error"));
                                 }
 
                                 return null;
@@ -111,6 +116,7 @@ public class IonClient
                                 else
                                 {
                                     Log.d(TAG, e.getMessage());
+                                    bus.post(new ServerErrorEvent("Server connection error"));
                                 }
 
                                 return null;
@@ -143,6 +149,7 @@ public class IonClient
                                 else
                                 {
                                     Log.d(TAG, e.getMessage());
+                                    bus.post(new ServerErrorEvent("Server connection error"));
                                 }
 
                                 return null;
@@ -175,6 +182,7 @@ public class IonClient
                                 else
                                 {
                                     Log.d(TAG, e.getMessage());
+                                    bus.post(new ServerErrorEvent("Server connection error"));
                                 }
 
                                 return null;
@@ -205,6 +213,7 @@ public class IonClient
                                 else
                                 {
                                     Log.d(TAG, e.getMessage());
+                                    bus.post(new ServerErrorEvent("Server connection error"));
                                 }
 
                                 return null;
@@ -233,6 +242,7 @@ public class IonClient
                         else
                         {
                             Log.d(TAG, e.getMessage());
+                            bus.post(new ServerErrorEvent("Server connection error"));
                         }
 
                         return null;
