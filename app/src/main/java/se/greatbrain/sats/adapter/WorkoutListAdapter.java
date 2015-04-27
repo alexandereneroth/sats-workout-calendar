@@ -20,7 +20,7 @@ import se.greatbrain.sats.model.realm.TrainingActivity;
 
 public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
-    private static final String TAG_LOG = "WorkoutListAdapter";
+    private static final String TAG = "WorkoutListAdapter";
 
     private static final int NUMBER_OF_VIEWS_SERVED_BY_ADAPTER = 4;
 
@@ -51,12 +51,12 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         Activiteee activiteee = ((Activiteee) getItem(position));
 
-        final boolean isCompletedActivityView = activiteee.activityStatus ==
+        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
                 Activiteee.COMPLETED || activiteee.dateHasPassed();
 
         if (convertView == null)
         {
-            if (isCompletedActivityView)
+            if (activityOnPositionIsCompletedOrInThePast)
             {
                 convertView = inflateCompletedActivityView(parent);
             }
@@ -66,13 +66,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 {
                     convertView = inflateGroupActivityView(parent);
                 }
-                else // if activity type is private
+                else // activity type is private
                 {
                     convertView = inflatePrivateActivityView(parent);
                 }
             }
         }
-        if (isCompletedActivityView)
+        if (activityOnPositionIsCompletedOrInThePast)
         {
             setUpCompletedView(convertView, position);
         }
@@ -82,7 +82,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             {
                 setUpBookedClassView(convertView);
             }
-            else
+            else // activity type is private
             {
                 setUpBookedPrivateView(convertView, position);
             }
@@ -90,6 +90,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
         return convertView;
     }
+
+    /**
+     * View inflation
+     */
 
     private View inflateCompletedActivityView(ViewGroup parent)
     {
@@ -153,6 +157,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         return convertView;
     }
 
+    /**
+     * View setup
+     */
+
     private void setUpCompletedView(View convertView, int position)
     {
         CompletedActivityViewHolder completedActivityViewHolder =
@@ -197,7 +205,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     }
 
-
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent)
     {
@@ -213,7 +220,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        int groupNumber = positionToWeek.get(position);
 
         String headerText = String.valueOf("Year " + activities.get(position).year + " Week " +
                 activities.get(position).week);
@@ -282,7 +288,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     public int getItemViewType(int position)
     {
         Activiteee activiteee = (Activiteee) getItem(position);
-        if (activiteee.activityStatus == Activiteee.COMPLETED)
+        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
+                Activiteee.COMPLETED || activiteee.dateHasPassed();
+
+        if (activityOnPositionIsCompletedOrInThePast)
         {
             return activiteee.COMPLETED;
         }
