@@ -30,12 +30,7 @@ public class TrainingActivity extends RealmObject
     {
         if (this.center == null)
         {
-            if (booking != null)
-            {
-                this.center = realm.where(Center.class)
-                        .equalTo("centerId", booking.getCenterId())
-                        .findFirst();
-            }
+           setCenter();
         }
         return center;
     }
@@ -44,17 +39,12 @@ public class TrainingActivity extends RealmObject
     {
         if (classType == null)
         {
-            if (booking != null)
-            {
-                this.classType = realm.where(ClassType.class)
-                        .equalTo("classTypeId", booking.getSatsClass().getClassTypeId())
-                        .findFirst();
-            }
+            setClassType();
         }
         return classType;
     }
 
-    public void setCenter(Center center)
+    public void setCenter()
     {
         if (this.center == null)
         {
@@ -67,7 +57,7 @@ public class TrainingActivity extends RealmObject
         }
     }
 
-    public void setClassType(ClassType classType)
+    public void setClassType()
     {
         if (classType == null)
         {
