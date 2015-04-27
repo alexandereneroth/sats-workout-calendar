@@ -2,28 +2,20 @@ package se.greatbrain.sats.realm;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.Activiteee;
+import se.greatbrain.sats.model.realm.ClassType;
+import se.greatbrain.sats.model.realm.Profile;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
@@ -51,6 +43,12 @@ public class RealmClient
     public void addDataToDB(JsonArray result, Context context, Class type)
     {
         Realm realm = Realm.getInstance(context);
+        if (type.equals(ClassType.class))
+        {
+            realm.beginTransaction();
+            realm.clear(Profile.class);
+            realm.commitTransaction();
+        }
 
         for (JsonElement element : result)
         {
@@ -86,13 +84,13 @@ public class RealmClient
             {
                 int year = DateUtil.getYearFromDate(date);
                 int weekOfYear = DateUtil.getWeekFromDate(date);
-
                 Activiteee activiteee = new Activiteee(year, weekOfYear, activity);
                 activitiesWithWeek.add(activiteee);
             }
             else
             {
                 Log.d(TAG, "Could not parse date: " + activity.getDate());
+
             }
         }
         return activitiesWithWeek;
