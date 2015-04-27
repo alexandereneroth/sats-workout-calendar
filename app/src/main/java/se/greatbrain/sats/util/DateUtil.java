@@ -57,13 +57,14 @@ public final class DateUtil
 
         String listTitle = null;
 
-        if(startMonth == endMonth)
+        if (startMonth == endMonth)
         {
-            listTitle = startDate + "-" + endDate + "/" + startMonth;
+            listTitle = "Vecka " + week + " (" + startDate + "-" + endDate + "/" + startMonth + ")";
         }
         else
         {
-            listTitle = startDate + "/" + startMonth + "-" + endDate + "/" + endMonth;
+            listTitle = "Vecka " + week + " (" + startDate + "/" + startMonth + "-" + endDate +
+                    "/" + endMonth + ")";
         }
 
         return listTitle;
