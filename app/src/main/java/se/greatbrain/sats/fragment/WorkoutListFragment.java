@@ -2,20 +2,21 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import se.greatbrain.sats.Activiteee;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
+import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
 {
@@ -23,14 +24,9 @@ public class WorkoutListFragment extends Fragment
     private List<ListGroup> listGroups;
     private SparseArray<ListGroup> sparseGroups;
 
-    public static WorkoutListFragment newInstance(ArrayList<ListGroup> listGroups)
+    public static WorkoutListFragment newInstance()
     {
         WorkoutListFragment fragment = new WorkoutListFragment();
-
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("listGroups", listGroups);
-
-        fragment.setArguments(args);
 
         return fragment;
     }
@@ -39,15 +35,6 @@ public class WorkoutListFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        listGroups = getArguments().getParcelableArrayList("listGroups");
-
-        sparseGroups = new SparseArray<>();
-
-        for (int i = 0; i < listGroups.size(); i++)
-        {
-            sparseGroups.append(i, listGroups.get(i));
-        }
     }
 
     @Override
@@ -58,7 +45,10 @@ public class WorkoutListFragment extends Fragment
 
         StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
-        WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), sparseGroups);
+
+        List<Activiteee> activiteees = RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek();
+
+        final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), activiteees);
         listView.setAdapter(adapter);
 
         return view;
