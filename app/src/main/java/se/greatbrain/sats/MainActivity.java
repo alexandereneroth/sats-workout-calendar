@@ -4,19 +4,10 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.Realm;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
-import se.greatbrain.sats.model.realm.Center;
-import se.greatbrain.sats.model.realm.TrainingActivity;
-import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
