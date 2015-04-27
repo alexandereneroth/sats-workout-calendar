@@ -17,6 +17,7 @@ import se.greatbrain.sats.Activiteee;
 import se.greatbrain.sats.ActivityType;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.realm.TrainingActivity;
+import se.greatbrain.sats.util.DateUtil;
 
 public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
@@ -221,8 +222,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        String headerText = String.valueOf("Year " + activities.get(position).year + " Week " +
-                activities.get(position).week);
+        String headerText = DateUtil.getListTitleForWeek(
+                activities.get(position).activity.getDate());
         holder.text.setText(headerText);
         return convertView;
     }

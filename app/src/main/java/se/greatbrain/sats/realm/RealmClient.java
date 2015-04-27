@@ -73,8 +73,7 @@ public class RealmClient
         Realm realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
-        List<Activiteee> activitiesWithWeek = new
-                ArrayList<>();
+        List<Activiteee> activitiesWithWeek = new ArrayList<>();
 
         for (TrainingActivity activity : activities)
         {
@@ -90,9 +89,9 @@ public class RealmClient
             else
             {
                 Log.d(TAG, "Could not parse date: " + activity.getDate());
-
             }
         }
+
         return activitiesWithWeek;
     }
 }

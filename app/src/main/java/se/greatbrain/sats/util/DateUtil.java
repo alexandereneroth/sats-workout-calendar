@@ -43,23 +43,26 @@ public final class DateUtil
         return calendar.get(Calendar.YEAR);
     }
 
-    public static String getListTitleForWeek(int week, int year)
+    public static String getListTitleForWeek(String dateString)
     {
-        calendar.set(Calendar.WEEK_OF_YEAR, week);
-        calendar.set(Calendar.YEAR, year);
+        Date date = parseString(dateString);
+        calendar.setTime(date);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
         int startDate = calendar.get(Calendar.DAY_OF_MONTH);
-        int startMonth = calendar.get(Calendar.MONTH);
+        int startMonth = calendar.get(Calendar.MONTH) + 1;
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         int endDate = calendar.get(Calendar.DAY_OF_MONTH);
-        int endMonth = calendar.get(Calendar.MONTH);
+        int endMonth = calendar.get(Calendar.MONTH) + 1;
 
         String listTitle = null;
+        int week = getWeekFromDate(date);
 
         if (startMonth == endMonth)
         {
-            listTitle = "Vecka " + week + " (" + startDate + "-" + endDate + "/" + startMonth + ")";
+            listTitle = "Vecka " + week + " (" + startDate + "-" + endDate + "/" +
+                    startMonth + ")";
         }
         else
         {
