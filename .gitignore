@@ -2,6 +2,7 @@
 /.idea/misc.xml
 *.iml
 .idea/gradle.xml
+.idea/modules.xml
 
 # default
 .gradle
