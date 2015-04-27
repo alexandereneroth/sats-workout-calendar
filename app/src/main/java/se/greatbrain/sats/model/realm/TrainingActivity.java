@@ -23,6 +23,7 @@ public class TrainingActivity extends RealmObject
 
     @Ignore
     private Center center;
+    @Ignore
     private ClassType classType;
 
     public Center getCenter()
@@ -51,6 +52,32 @@ public class TrainingActivity extends RealmObject
             }
         }
         return classType;
+    }
+
+    public void setCenter(Center center)
+    {
+        if (this.center == null)
+        {
+            if (booking != null)
+            {
+                this.center = realm.where(Center.class)
+                        .equalTo("centerId", booking.getCenterId())
+                        .findFirst();
+            }
+        }
+    }
+
+    public void setClassType(ClassType classType)
+    {
+        if (classType == null)
+        {
+            if (booking != null)
+            {
+                this.classType = realm.where(ClassType.class)
+                        .equalTo("classTypeId", booking.getSatsClass().getClassTypeId())
+                        .findFirst();
+            }
+        }
     }
 
     public String getId()
