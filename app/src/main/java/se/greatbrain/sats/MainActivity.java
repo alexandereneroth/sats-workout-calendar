@@ -30,6 +30,13 @@ public class MainActivity extends ActionBarActivity
                 WorkoutListFragment.newInstance()).commit();
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
     private void setupRealm()
     {
         IonClient.getInstance(this).getAllData();
