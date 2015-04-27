@@ -54,10 +54,10 @@ public class IonClient
 
     public void getAllData()
     {
+        getAllClassTypes();
         getAllActivities();
         getAllCenters();
         getAllClassCategories();
-        getAllClassTypes();
         getAllInstructors();
         getAllTypes();
     }
@@ -70,13 +70,14 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonArray result)
                     {
-                        new AsyncTask<Void, Void, Void>(){
+                        new AsyncTask<Void, Void, Void>()
+                        {
                             @Override
                             protected Void doInBackground(Void... params)
                             {
-                                if(e == null)
+                                if (e == null)
                                 {
-                                    RealmClient.getInstance(context).addDataToDB(result, context,
+                                    RealmClient.getInstance(context).addDataToDB(result,
                                             TrainingActivity.class);
                                 }
                                 else
@@ -100,18 +101,19 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>(){
+                        new AsyncTask<Void, Void, Void>()
+                        {
                             @Override
                             protected Void doInBackground(Void... params)
                             {
-                                if(e == null)
+                                if (e == null)
                                 {
                                     JsonArray classTypes = result.getAsJsonArray("classTypes");
-                                    JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(classTypes);
+                                    JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(
+                                            classTypes);
 
                                     RealmClient.getInstance(context).addDataToDB
-                                            (reparsedClassTypes, context,
-                                        ClassType.class);
+                                            (reparsedClassTypes, ClassType.class);
                                 }
                                 else
                                 {
@@ -134,16 +136,17 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>(){
+                        new AsyncTask<Void, Void, Void>()
+                        {
                             @Override
                             protected Void doInBackground(Void... params)
                             {
-                                if(e == null)
+                                if (e == null)
                                 {
                                     JsonArray regions = result.getAsJsonArray("regions");
                                     regions = JsonParser.refactorCenters(regions);
 
-                                    RealmClient.getInstance(context).addDataToDB(regions, context,
+                                    RealmClient.getInstance(context).addDataToDB(regions,
                                             Region.class);
                                 }
                                 else
@@ -174,10 +177,10 @@ public class IonClient
                             {
                                 if (e == null)
                                 {
-                                    JsonArray classCategories = result.getAsJsonArray("classCategories");
+                                    JsonArray classCategories = result.getAsJsonArray(
+                                            "classCategories");
                                     RealmClient.getInstance(context).addDataToDB(classCategories,
-                                            context,
-                                        ClassCategory.class);
+                                            ClassCategory.class);
                                 }
                                 else
                                 {
@@ -200,15 +203,16 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>(){
+                        new AsyncTask<Void, Void, Void>()
+                        {
                             @Override
                             protected Void doInBackground(Void... params)
                             {
-                                if(e == null)
+                                if (e == null)
                                 {
                                     JsonArray instructors = result.getAsJsonArray("instructors");
-                                    RealmClient.getInstance(context).addDataToDB(instructors, context,
-                                        Instructor.class);
+                                    RealmClient.getInstance(context).addDataToDB(instructors,
+                                            Instructor.class);
                                 }
                                 else
                                 {
@@ -231,13 +235,14 @@ public class IonClient
             @Override
             public void onCompleted(final Exception e, final JsonArray result)
             {
-                new AsyncTask<Void, Void, Void>(){
+                new AsyncTask<Void, Void, Void>()
+                {
                     @Override
                     protected Void doInBackground(Void... params)
                     {
-                        if(e == null)
+                        if (e == null)
                         {
-                            RealmClient.getInstance(context).addDataToDB(result, context, Type.class);
+                            RealmClient.getInstance(context).addDataToDB(result, Type.class);
                         }
                         else
                         {

@@ -14,8 +14,10 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 import se.greatbrain.sats.Activiteee;
+import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Profile;
+import se.greatbrain.sats.model.realm.SatsClass;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
@@ -40,13 +42,15 @@ public class RealmClient
         return INSTANCE;
     }
 
-    public void addDataToDB(JsonArray result, Context context, Class type)
+    public void addDataToDB(JsonArray result, Class type)
     {
         Realm realm = Realm.getInstance(context);
+
         if (type.equals(ClassType.class))
         {
             realm.beginTransaction();
             realm.clear(Profile.class);
+            realm.clear(ClassCategoryIds.class);
             realm.commitTransaction();
         }
 

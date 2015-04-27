@@ -39,7 +39,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         inflater = activity.getLayoutInflater();
 
         numberOfPositions = activities.size();
-        for (int i = 0; i < activities.size(); ++i)
+        for (int i = 0; i < activities.size(); i++)
         {
             Activiteee activiteee = activities.get(i);
             int weekHash = (activiteee.year * 100) + activiteee.week;
