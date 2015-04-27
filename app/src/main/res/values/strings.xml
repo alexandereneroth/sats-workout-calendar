@@ -4,4 +4,21 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="no_content_string">No content</string>
+    <string name="refresh_btn_title">Refresh</string>
+    <string name="my_training_actionbar_text">MIN TRÄNING</string>
+    <string name="listrow_detail_completed_class_name_string">SATS CORE</string>
+    <string name="listrow_detail_completed_class_date_string">Torsdag 25/3</string>
+    <string name="listrow_detail_completed_class_comment_string">Lägg till kommentar</string>
+    <string name="training_icon_description">Bild på träningsaktiviteten utförd</string>
+    <string name="comment_description">Pratbubbla</string>
+    <string name="done_description">Avklarad träning</string>
+    <string name="listrow_detail_completed_class_completed_string">Avklarad!</string>
+    <string name="add_to_calender_button_text">Lägg till i kalender</string>
+    <string name="add_to_calender_image_description">En kalender knapp</string>
+    <string name="about_the_class_description">Mer om passet bild</string>
+    <string name="about_the_class_button_text">Mer om passet</string>
+    <string name="listrow_detail_booked_class_minutes_length">30 min</string>
+    <string name="listrow_detail_booked_class_minutes_text">10</string>
+    <string name="listrow_detail_booked_class_hours_text">10</string>
+    <string name="fitness_programme_description">En tränings kalender knapp</string>
 </resources>

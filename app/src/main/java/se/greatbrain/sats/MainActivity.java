@@ -1,41 +1,54 @@
 package se.greatbrain.sats;
 
 import android.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import se.greatbrain.sats.fragment.WorkoutListFragment;
+import se.greatbrain.sats.ion.IonClient;
 
-
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends ActionBarActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<ListGroup> groups = generateData();
+        ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
+        setupRealm();
+
+        ArrayList<ListGroup> groups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().add(R.id.bottom_fragment_container, WorkoutListFragment.newInstance(groups)).commit();
+        manager.beginTransaction().add(R.id.bottom_fragment_container,
+                WorkoutListFragment.newInstance(dummyListGroups)).commit();
     }
 
-    private ArrayList<ListGroup> generateData() {
-        ArrayList<ListGroup> groups = new ArrayList<>();
-        List<String> items;
+    private void setupRealm()
+    {
+        IonClient client = IonClient.getInstance(this);
+        client.getAllData();
+    }
 
-        for (int i = 0; i < 5; i++)
+    private ArrayList<ListGroup> generateDummyListGroups()
+    {
+        ArrayList<ListGroup> groups = new ArrayList<>();
+        List<ActivityType> items;
+
+        for (int i = 0; i < 10; i++)
         {
             items = new ArrayList<>();
 
-            for (int l = 1; l < 6; l++)
+            for (int l = 0; l < 5; l++)
             {
-                items.add("List item " + i);
+                items.add(ActivityType.getWithId(l % 3));
             }
 
             groups.add(new ListGroup("Grupp " + i, items));
@@ -45,24 +58,19 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+
+        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
+        actionBar.setCustomView(actionBarView);
+        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
