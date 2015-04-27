@@ -23,6 +23,8 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
+import se.greatbrain.sats.model.realm.ClassType;
+import se.greatbrain.sats.model.realm.Profile;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
@@ -39,7 +41,7 @@ public class RealmClient
 
     public static RealmClient getInstance(Context context)
     {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
         {
             INSTANCE = new RealmClient(context);
         }
@@ -49,7 +51,14 @@ public class RealmClient
 
     public void addDataToDB(JsonArray result, Context context, Class type)
     {
-       Realm realm = Realm.getInstance(context);
+        Realm realm = Realm.getInstance(context);
+
+        if(type.equals(ClassType.class))
+        {
+            realm.beginTransaction();
+            realm.clear(Profile.class);
+            realm.commitTransaction();
+        }
 
         for (JsonElement element : result)
         {
@@ -99,7 +108,7 @@ public class RealmClient
                 {
                     Map<Integer, List<TrainingActivity>> activitiesMap = activitiesWithWeek.get
                             (year);
-                    if(activitiesMap.get(weekOfYear) == null)
+                    if (activitiesMap.get(weekOfYear) == null)
                     {
                         List<TrainingActivity> trainingActivityList = new ArrayList<>();
                         trainingActivityList.add(activity);
