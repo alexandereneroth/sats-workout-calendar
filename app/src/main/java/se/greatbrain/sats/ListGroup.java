@@ -1,5 +1,6 @@
 package se.greatbrain.sats;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,6 +28,7 @@ public class ListGroup implements Parcelable
     {
         dest.writeString(this.title);
         dest.writeList(this.children);
+        Bundle bundle = new Bundle();
     }
 
     private ListGroup(Parcel in)
