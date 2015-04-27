@@ -1,7 +1,6 @@
 package se.greatbrain.sats;
 
 import android.app.FragmentManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,45 +16,23 @@ import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
+    private static final String TAG_LOG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ArrayList<ListGroup> dummyListGroups = generateDummyListGroups();
         setupRealm();
-
-        ArrayList<ListGroup> groups = generateDummyListGroups();
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
-                WorkoutListFragment.newInstance(dummyListGroups)).commit();
+                WorkoutListFragment.newInstance()).commit();
     }
 
     private void setupRealm()
     {
         IonClient.getInstance(this).getAllData();
-    }
-
-    private ArrayList<ListGroup> generateDummyListGroups()
-    {
-        ArrayList<ListGroup> groups = new ArrayList<>();
-        List<ActivityType> items;
-
-        for (int i = 0; i < 10; i++)
-        {
-            items = new ArrayList<>();
-
-            for (int l = 0; l < 5; l++)
-            {
-                items.add(ActivityType.getWithId(l % 3));
-            }
-
-            groups.add(new ListGroup("Grupp " + i, items));
-        }
-
-        return groups;
     }
 
     @Override

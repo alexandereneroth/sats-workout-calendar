@@ -76,7 +76,7 @@
             android:paddingEnd="15dp">
 
             <ImageView
-                android:id="@+id/listrow_detail_booked_class_completed_checkbox"
+                android:id="@+id/listrow_detail_completed_class_completed_checkbox"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
@@ -85,11 +85,11 @@
                 android:src="@drawable/done_icon"/>
 
             <TextView
-                android:id="@+id/listrow_detail_booked_class_completed"
+                android:id="@+id/listrow_detail_completed_class_completed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/listrow_detail_booked_class_completed_checkbox"
+                android:layout_toEndOf="@id/listrow_detail_completed_class_completed_checkbox"
                 android:text="@string/listrow_detail_completed_class_completed_string"
                 android:textSize="12sp"
                 android:textStyle="bold"/>

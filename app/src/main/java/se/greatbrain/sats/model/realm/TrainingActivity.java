@@ -1,9 +1,11 @@
 package se.greatbrain.sats.model.realm;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class TrainingActivity extends RealmObject {
+public class TrainingActivity extends RealmObject implements Serializable{
 
     @PrimaryKey
     private String id;
