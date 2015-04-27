@@ -25,4 +25,5 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.6.0'
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'io.realm:realm-android:0.80.1'
+    compile 'de.greenrobot:eventbus:2.4.0'
 }
