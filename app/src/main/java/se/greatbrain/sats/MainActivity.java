@@ -13,29 +13,34 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashSet;
+
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
-import se.greatbrain.sats.realm.RealmClient;
-import se.greatbrain.sats.util.DateUtil;
 
 public class MainActivity extends ActionBarActivity
 {
     private static final String TAG_LOG = "MainActivity";
     private MenuItem reloadButton;
+    private WorkoutListFragment workoutListFragment;
+    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupRealm();
+        loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
+        workoutListFragment = new WorkoutListFragment();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
-                WorkoutListFragment.newInstance()).commit();
+                workoutListFragment).commit();
     }
 
     @Override
@@ -45,8 +50,9 @@ public class MainActivity extends ActionBarActivity
         super.onDestroy();
     }
 
-    private void setupRealm()
+    private void loadJsonDataFromWeb()
     {
+        Log.d(TAG_LOG, "loadJsonDataFromWeb");
         IonClient.getInstance(this).getAllData();
     }
 
@@ -54,6 +60,8 @@ public class MainActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        this.menu = menu;
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
@@ -63,9 +71,33 @@ public class MainActivity extends ActionBarActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        setReloadButtonListener(menu);
+        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
+        setupReloadItemMenu();
 
         return true;
+    }
+
+    private void setupReloadItemMenu()
+    {
+        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
+        reloadButton.setActionView(R.layout.action_bar_reloading);
+
+        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(
+                R.id.action_bar_refresh_button_reloading);
+
+        imageView.startAnimation(reloadAnimation);
+    }
+
+    public void onEventMainThread(JsonParseCompleteEvent event)
+    {
+        Log.d("jsonEvent", event.getSourceEvent());
+        if (finishedJsonParseEvents.add(event.getSourceEvent()))
+        {
+            if (finishedJsonParseEvents.size() == 6)
+            {
+                updateWorkoutListFragment();
+            }
+        }
     }
 
     public void onEventMainThread(ServerErrorEvent event)
@@ -73,22 +105,9 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    public void setReloadButtonListener(Menu menu)
+    private void updateWorkoutListFragment()
     {
-        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
-        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
-        reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-        {
-            @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
-                reloadButton.setActionView(R.layout.action_bar_reloading);
-                ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
-                        .action_bar_refresh_button_reloading);
-                imageView.startAnimation(reloadAnimation);
-
-                return true;
-            }
-        });
+        reloadButton.setActionView(null);
+        workoutListFragment.refreshList();
     }
 }
