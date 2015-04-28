@@ -2,30 +2,19 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-import se.greatbrain.sats.ActivityWrapper;
-import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
-import se.greatbrain.sats.event.RealmUpdateCompleteEvent;
+import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
 {
     private static final String TAG_LOG = "WorkoutListFragment";
-    private List<ListGroup> listGroups;
-    private SparseArray<ListGroup> sparseGroups;
     private WorkoutListAdapter adapter;
-    private List<ActivityWrapper> activityWrappers;
     private StickyListHeadersListView listView;
 
 
@@ -33,7 +22,6 @@ public class WorkoutListFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -45,23 +33,16 @@ public class WorkoutListFragment extends Fragment
         listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
-        activityWrappers = new ArrayList<ActivityWrapper>();
-        adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
+        adapter = new WorkoutListAdapter(getActivity(),
+                RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek());
         listView.setAdapter(adapter);
         return view;
     }
 
-    public void onEvent(RealmUpdateCompleteEvent event)
+    public void refreshList()
     {
-        Log.d("realm", event.getSourceEvent());
-        adapter = new WorkoutListAdapter(getActivity(), event.getActivityWrappers());
+        adapter = new WorkoutListAdapter(getActivity(),
+                RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek());
         listView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 }

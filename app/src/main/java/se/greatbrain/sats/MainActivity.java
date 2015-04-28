@@ -20,13 +20,13 @@ import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
-import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
     private static final String TAG_LOG = "MainActivity";
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
+    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -96,13 +96,6 @@ public class MainActivity extends ActionBarActivity
         });
     }
 
-//    public void onEventMainThread(RealmUpdateCompletedEvent event)
-//    {
-//        reloadButton.setActionView(null);
-//    }
-
-    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
-
     public void onEventMainThread(JsonParseCompleteEvent event)
     {
         Log.d("jsonEvent", event.getSourceEvent());
@@ -110,7 +103,8 @@ public class MainActivity extends ActionBarActivity
         {
             if (finishedJsonParseEvents.size() == 6)
             {
-                RealmClient.getInstance(this).parseRealmDataAndNotifyAdapter();
+                Toast.makeText(this, "Updating list with new data", Toast.LENGTH_LONG).show();
+                workoutListFragment.refreshList();
             }
         }
     }
