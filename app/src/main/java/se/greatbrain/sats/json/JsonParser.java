@@ -1,16 +1,27 @@
 package se.greatbrain.sats.json;
 
-import android.os.AsyncTask;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public final class JsonParser
 {
+    public static JsonArray refactorInstructors(JsonArray instructorsArray)
+    {
+        JsonArray refactoredInstructors = new JsonArray();
+
+        for (JsonElement element : instructorsArray)
+        {
+            JsonElement instructorId = element.getAsJsonObject().get("id");
+            JsonObject instructor = new JsonObject();
+            instructor.add("id", instructorId);
+            refactoredInstructors.add(instructor);
+        }
+
+        return refactoredInstructors;
+    }
+
     public static JsonArray refactorClassTypes(JsonArray classTypes)
     {
         JsonArray refactoredClassTypes = new JsonArray();
