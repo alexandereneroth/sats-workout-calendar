@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 import se.greatbrain.sats.realm.RealmClient;
+import se.greatbrain.sats.util.DateUtil;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -89,10 +91,4 @@ public class MainActivity extends ActionBarActivity
             }
         });
     }
-
-//    public void onEventMainThread(RealmUpdateCompletedEvent event)
-//    {
-//        reloadButton.setActionView(null);
-//    }
-
 }

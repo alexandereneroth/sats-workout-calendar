@@ -43,7 +43,7 @@ public final class DateUtil
         return calendar.get(Calendar.YEAR);
     }
 
-    public static String getListTitleForWeek(String dateString, int week)
+    public static String getListTitleCompleted(String dateString, int week)
     {
         Date date = parseString(dateString);
         calendar.setTime(date);
@@ -70,5 +70,113 @@ public final class DateUtil
         }
 
         return listTitle;
+    }
+
+    public static String getListTitlePlanned(String dateString)
+    {
+        Date date = parseString(dateString);
+        calendar.setTime(date);
+        String dayOfWeek = getWeekDayAsString(calendar.get(Calendar.DAY_OF_WEEK));
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        String month = getMonthAsString(calendar.get(Calendar.MONTH));
+
+        if(isToday(date))
+        {
+            return "Idag, " + dayOfWeek + dayOfMonth + " " + month;
+        }
+        else
+        {
+            return dayOfWeek + dayOfMonth + " " + month;
+        }
+    }
+
+    private static boolean isToday(Date date)
+    {
+        calendar.setTime(date);
+        Calendar calendarToday = Calendar.getInstance();
+        if(calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static String getMonthAsString(int month)
+    {
+        String result = null;
+        switch(month)
+        {
+            case 0:
+                result = "Januari ";
+                break;
+            case 1:
+                result = "Februari ";
+                break;
+            case 2:
+                result = "Mars ";
+                break;
+            case 3:
+                result = "April ";
+                break;
+            case 4:
+                result = "Maj ";
+                break;
+            case 5:
+                result = "Juni ";
+                break;
+            case 6:
+                result = "Juli ";
+                break;
+            case 7:
+                result = "Augusti ";
+                break;
+            case 8:
+                result = "September ";
+                break;
+            case 9:
+                result = "Oktober ";
+                break;
+            case 10:
+                result = "November ";
+                break;
+            case 11:
+                result = "December ";
+                break;
+        }
+
+        return result;
+    }
+
+    private static String getWeekDayAsString(int weekDay)
+    {
+        String result = null;
+
+        switch (weekDay)
+        {
+            case 1:
+                result = "Söndag ";
+                break;
+            case 2:
+                result = "Måndag ";
+                break;
+            case 3:
+                result = "Tisdag ";
+                break;
+            case 4:
+                result = "Onsdag ";
+                break;
+            case 5:
+                result = "Torsdag ";
+                break;
+            case 6:
+                result = "Fredag ";
+                break;
+            case 7:
+                result = "Lördag ";
+                break;
+        }
+
+        return result;
     }
 }
