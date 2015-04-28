@@ -12,11 +12,9 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.internal.IOException;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
-import se.greatbrain.sats.model.realm.Instructor;
 import se.greatbrain.sats.model.realm.Profile;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
@@ -43,7 +41,7 @@ public class RealmClient
         return INSTANCE;
     }
 
-    public void addDataToDB(JsonArray result, Class type)
+    public void addDataToDB(final JsonArray result, final Class type)
     {
         realm = Realm.getInstance(context);
 
@@ -55,36 +53,17 @@ public class RealmClient
             realm.commitTransaction();
         }
 
-
-        if (type.equals(Instructor.class))
+        realm.executeTransaction(new Realm.Transaction()
         {
-            ArrayList<Instructor> instructorArrayList = new ArrayList<>();
-
-            for (JsonElement element : result)
+            @Override
+            public void execute(Realm realm)
             {
-                Instructor instructor = new Instructor();
-                instructor.setId(element.toString());
-                instructorArrayList.add(instructor);
+                for (JsonElement element : result)
+                {
+                    realm.createOrUpdateObjectFromJson(type, String.valueOf(element));
+                }
             }
-            realm.beginTransaction();
-            realm.copyToRealmOrUpdate(instructorArrayList);
-            realm.commitTransaction();
-        }
-
-        for (JsonElement element : result)
-        {
-            realm.beginTransaction();
-
-            try
-            {
-                realm.createOrUpdateObjectFromJson(type, String.valueOf(element));
-                realm.commitTransaction();
-            }
-            catch (IOException e)
-            {
-                realm.cancelTransaction();
-            }
-        }
+        });
 
         realm.close();
     }
