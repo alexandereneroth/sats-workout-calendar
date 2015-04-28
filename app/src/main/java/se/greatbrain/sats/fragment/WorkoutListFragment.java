@@ -49,6 +49,8 @@ public class WorkoutListFragment extends Fragment
         final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
         listView.setAdapter(adapter);
 
+        listView.smoothScrollToPosition(10);
+
         return view;
     }
 }
