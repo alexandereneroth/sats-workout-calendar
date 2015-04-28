@@ -13,7 +13,8 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.Activiteee;
+import se.greatbrain.sats.model.realm.ClassCategoryIds;
+import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Profile;
 import se.greatbrain.sats.model.realm.TrainingActivity;
@@ -24,6 +25,7 @@ public class RealmClient
     private static final String TAG = "RealmClient";
     private final Context context;
     private static RealmClient INSTANCE;
+    private static Realm realm;
 
     public RealmClient(Context context)
     {
@@ -40,13 +42,15 @@ public class RealmClient
         return INSTANCE;
     }
 
-    public void addDataToDB(JsonArray result, Context context, Class type)
+    public void addDataToDB(JsonArray result, Class type)
     {
-        Realm realm = Realm.getInstance(context);
+        realm = Realm.getInstance(context);
+
         if (type.equals(ClassType.class))
         {
             realm.beginTransaction();
             realm.clear(Profile.class);
+            realm.clear(ClassCategoryIds.class);
             realm.commitTransaction();
         }
 
@@ -68,12 +72,13 @@ public class RealmClient
         realm.close();
     }
 
-    public List<Activiteee> getAllActivitiesWithWeek()
+    public List<ActivityWrapper> getAllActivitiesWithWeek()
     {
-        Realm realm = Realm.getInstance(context);
+        realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
-        List<Activiteee> activitiesWithWeek = new
+
+        List<ActivityWrapper> activitiesWithWeek = new
                 ArrayList<>();
 
         for (TrainingActivity activity : activities)
@@ -84,15 +89,20 @@ public class RealmClient
             {
                 int year = DateUtil.getYearFromDate(date);
                 int weekOfYear = DateUtil.getWeekFromDate(date);
-                Activiteee activiteee = new Activiteee(year, weekOfYear, activity);
-                activitiesWithWeek.add(activiteee);
+                ActivityWrapper activityWrapper = new ActivityWrapper(year, weekOfYear, activity);
+                activitiesWithWeek.add(activityWrapper);
             }
             else
             {
                 Log.d(TAG, "Could not parse date: " + activity.getDate());
-
             }
         }
+
         return activitiesWithWeek;
+    }
+
+    public static void closeRealmInstance()
+    {
+        realm.close();
     }
 }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-import se.greatbrain.sats.Activiteee;
+import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.ListGroup;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
@@ -44,9 +44,9 @@ public class WorkoutListFragment extends Fragment
         StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
-        List<Activiteee> activiteees = RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek();
+        List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek();
 
-        final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), activiteees);
+        final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
         listView.setAdapter(adapter);
 
         return view;

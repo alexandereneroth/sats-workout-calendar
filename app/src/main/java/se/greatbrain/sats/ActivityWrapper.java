@@ -6,7 +6,7 @@ import java.util.Date;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
-public class Activiteee
+public class ActivityWrapper
 {
     public static final int COMPLETED = 0;
     public static final int PLANNED = 1;
@@ -20,7 +20,7 @@ public class Activiteee
     public final int activityStatus;
     public final TrainingActivity trainingActivity;
 
-    public Activiteee(final int year, final int week, TrainingActivity activity)
+    public ActivityWrapper(final int year, final int week, TrainingActivity activity)
     {
         this.year = year;
         this.week = week;

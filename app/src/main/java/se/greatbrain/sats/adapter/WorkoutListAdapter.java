@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.greatbrain.sats.Activiteee;
+import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.realm.TrainingActivity;
+import se.greatbrain.sats.util.DateUtil;
 
 public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
@@ -24,22 +25,22 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private static final int NUMBER_OF_VIEW_TYPES_SERVED_BY_ADAPTER = 4;
 
-    private final List<Activiteee> listItems;
+    private final List<ActivityWrapper> listItems;
     private int numberOfListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
 
     private final LayoutInflater inflater;
 
-    public WorkoutListAdapter(Activity activity, List<Activiteee> listItems)
+    public WorkoutListAdapter(Activity activity, List<ActivityWrapper> listItems)
     {
         this.inflater = activity.getLayoutInflater();
         this.listItems = listItems;
 
         numberOfListItems = listItems.size();
-        for (int i = 0; i < listItems.size(); ++i)
+        for (int i = 0; i < listItems.size(); i++)
         {
-            Activiteee activiteee = listItems.get(i);
-            final int weekHash = (activiteee.year * 100) + activiteee.week;
+            ActivityWrapper activityWrapper = listItems.get(i);
+            final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
         }
     }
@@ -47,10 +48,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        Activiteee activiteee = ((Activiteee) getItem(position));
+        ActivityWrapper activityWrapper = ((ActivityWrapper) getItem(position));
 
-        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
-                Activiteee.COMPLETED || activiteee.dateHasPassed();
+        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
+                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
 
         if (convertView == null)
         {
@@ -60,7 +61,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             }
             else
             {
-                if (activiteee.activityType == Activiteee.GROUP)
+                if (activityWrapper.activityType == ActivityWrapper.GROUP)
                 {
                     convertView = inflateGroupActivityView(parent);
                 }
@@ -76,7 +77,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
         else
         {
-            if (activiteee.activityType == Activiteee.GROUP)
+            if (activityWrapper.activityType == ActivityWrapper.GROUP)
             {
                 setUpGroupActivityView(convertView);
             }
@@ -157,13 +158,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private void setUpPastActivityView(View convertView, int position)
     {
-        Activiteee activiteee = (Activiteee) getItem(position);
-        TrainingActivity trainingActivity = activiteee.trainingActivity;
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
         String title = trainingActivity.getSubType();
         String date = trainingActivity.getDate();
         String comment = "Kommentar: " + trainingActivity.getComment();
-        String completed = activiteee.activityStatus == Activiteee.COMPLETED ?
+        String completed = activityWrapper.activityStatus == ActivityWrapper.COMPLETED ?
                 "Avklarad!" : "Avklarad?";
 
         PastActivityViewHolder pastActivityViewHolder =
@@ -193,8 +194,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private void setUpPrivateActivityView(View convertView, int position)
     {
-        Activiteee activiteee = (Activiteee) getItem(position);
-        TrainingActivity trainingActivity = activiteee.trainingActivity;
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
         String title = trainingActivity.getSubType();
         String duration = trainingActivity.getDurationInMinutes() + " min";
@@ -294,8 +295,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        String headerText = String.valueOf("Year " + listItems.get(position).year + " Week " +
-                listItems.get(position).week);
+        String date = listItems.get(position).trainingActivity.getDate();
+        String headerText = DateUtil.getListTitleForWeek(date);
         holder.text.setText(headerText);
         return convertView;
     }
@@ -313,17 +314,17 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     @Override
     public int getItemViewType(int position)
     {
-        Activiteee activiteee = (Activiteee) getItem(position);
-        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
-                Activiteee.COMPLETED || activiteee.dateHasPassed();
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
+                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
 
         if (activityOnPositionIsCompletedOrInThePast)
         {
-            return activiteee.COMPLETED;
+            return activityWrapper.COMPLETED;
         }
         else
         {
-            return activiteee.activityType;
+            return activityWrapper.activityType;
         }
 
     }

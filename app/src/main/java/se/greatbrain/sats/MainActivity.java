@@ -6,8 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
+
+import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
+import se.greatbrain.sats.realm.RealmClient;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -19,10 +24,18 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupRealm();
+        EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
                 WorkoutListFragment.newInstance()).commit();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     private void setupRealm()
@@ -44,6 +57,11 @@ public class MainActivity extends ActionBarActivity
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
         return true;
+    }
+
+    public void onEventMainThread(ServerErrorEvent event)
+    {
+        Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
 
 }
