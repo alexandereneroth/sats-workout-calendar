@@ -77,13 +77,27 @@ public class MainActivity extends ActionBarActivity
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == R.id.action_bar_refresh_button)
+        {
+            Log.d("Hejsan", "Pressed!");
+            setupReloadItemMenu();
+            loadJsonDataFromWeb();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setupReloadItemMenu()
     {
-        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
+        Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
         reloadButton.setActionView(R.layout.action_bar_reloading);
 
-        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(
-                R.id.action_bar_refresh_button_reloading);
+        ImageView imageView = (ImageView) reloadButton.getActionView()
+                .findViewById(R.id.action_bar_refresh_button_reloading);
 
         imageView.startAnimation(reloadAnimation);
     }
@@ -95,6 +109,7 @@ public class MainActivity extends ActionBarActivity
         {
             if (finishedJsonParseEvents.size() == 6)
             {
+                finishedJsonParseEvents.clear();
                 updateWorkoutListFragment();
             }
         }
