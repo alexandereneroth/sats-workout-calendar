@@ -27,7 +27,6 @@ public class MainActivity extends ActionBarActivity
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,8 +60,6 @@ public class MainActivity extends ActionBarActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        this.menu = menu;
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
@@ -82,7 +79,6 @@ public class MainActivity extends ActionBarActivity
     {
         if (item.getItemId() == R.id.action_bar_refresh_button)
         {
-            Log.d("Hejsan", "Pressed!");
             setupReloadItemMenu();
             loadJsonDataFromWeb();
             return true;
