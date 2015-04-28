@@ -100,9 +100,4 @@ public class RealmClient
 
         return activitiesWithWeek;
     }
-
-    public static void closeRealmInstance()
-    {
-        realm.close();
-    }
 }

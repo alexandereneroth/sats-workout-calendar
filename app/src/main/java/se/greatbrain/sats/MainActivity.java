@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import de.greenrobot.event.EventBus;
@@ -17,6 +21,7 @@ import se.greatbrain.sats.realm.RealmClient;
 public class MainActivity extends ActionBarActivity
 {
     private static final String TAG_LOG = "MainActivity";
+    private MenuItem reloadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +61,8 @@ public class MainActivity extends ActionBarActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        setReloadButtonListener(menu);
+
         return true;
     }
 
@@ -63,5 +70,29 @@ public class MainActivity extends ActionBarActivity
     {
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
+
+    public void setReloadButtonListener(Menu menu)
+    {
+        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
+        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
+        reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                reloadButton.setActionView(R.layout.action_bar_reloading);
+                ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
+                        .action_bar_refresh_button_reloading);
+                imageView.startAnimation(reloadAnimation);
+
+                return true;
+            }
+        });
+    }
+
+//    public void onEventMainThread(RealmUpdateCompletedEvent event)
+//    {
+//        reloadButton.setActionView(null);
+//    }
 
 }
