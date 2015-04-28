@@ -27,13 +27,14 @@ public class MainActivity extends ActionBarActivity
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupRealm();
+        loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
@@ -49,8 +50,9 @@ public class MainActivity extends ActionBarActivity
         super.onDestroy();
     }
 
-    private void setupRealm()
+    private void loadJsonDataFromWeb()
     {
+        Log.d(TAG_LOG, "loadJsonDataFromWeb");
         IonClient.getInstance(this).getAllData();
     }
 
@@ -58,6 +60,8 @@ public class MainActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        this.menu = menu;
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
@@ -67,7 +71,8 @@ public class MainActivity extends ActionBarActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        setReloadButtonListener(menu);
+        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
+        setupReloadItemMenu();
 
         return true;
     }
@@ -77,13 +82,12 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    private void setReloadButtonListener(Menu menu)
+    private void setupReloadItemMenu()
     {
         final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
-        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         reloadButton.setActionView(R.layout.action_bar_reloading);
 
-        ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
+        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
                 .action_bar_refresh_button_reloading);
         imageView.startAnimation(reloadAnimation);
 
@@ -92,11 +96,35 @@ public class MainActivity extends ActionBarActivity
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
-
+                reloadButton.setActionView(R.layout.action_bar_reloading);
+                imageView.startAnimation(reloadAnimation);
+                loadJsonDataFromWeb();
                 return true;
             }
         });
     }
+
+    private void setReloadButtonListener()
+    {
+        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
+        reloadButton.setActionView(R.layout.action_bar_reloading);
+
+        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
+                .action_bar_refresh_button_reloading);
+
+        reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                reloadButton.setActionView(R.layout.action_bar_reloading);
+                imageView.startAnimation(reloadAnimation);
+                loadJsonDataFromWeb();
+                return true;
+            }
+        });
+    }
+
 
     public void onEventMainThread(JsonParseCompleteEvent event)
     {
@@ -112,10 +140,9 @@ public class MainActivity extends ActionBarActivity
 
     private void updateWorkoutListFragment()
     {
-        Toast.makeText(this, "Updating list with new data", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Updated list with new data", Toast.LENGTH_LONG).show();
         reloadButton.setActionView(null);
+        setReloadButtonListener();
         workoutListFragment.refreshList();
     }
 }
-
-

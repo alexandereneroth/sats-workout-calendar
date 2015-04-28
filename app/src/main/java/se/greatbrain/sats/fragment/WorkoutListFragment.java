@@ -46,8 +46,9 @@ public class WorkoutListFragment extends Fragment
 
     public void refreshList()
     {
-        adapter = new WorkoutListAdapter(getActivity(),
-                RealmClient.getInstance(getActivity()).getAllActivitiesWithWeek());
-        listView.setAdapter(adapter);
+        List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity())
+                .getAllActivitiesWithWeek();
+        adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
+        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
     }
 }
