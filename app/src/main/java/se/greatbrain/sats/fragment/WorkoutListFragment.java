@@ -20,7 +20,6 @@ public class WorkoutListFragment extends Fragment
     private WorkoutListAdapter adapter;
     private StickyListHeadersListView listView;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

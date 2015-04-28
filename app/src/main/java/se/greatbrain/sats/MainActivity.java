@@ -77,40 +77,15 @@ public class MainActivity extends ActionBarActivity
         return true;
     }
 
-    public void onEventMainThread(ServerErrorEvent event)
-    {
-        Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
-    }
-
     private void setupReloadItemMenu()
     {
         final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
         reloadButton.setActionView(R.layout.action_bar_reloading);
 
-        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
-                .action_bar_refresh_button_reloading);
+        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(
+                R.id.action_bar_refresh_button_reloading);
+        
         imageView.startAnimation(reloadAnimation);
-
-        reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-        {
-            @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
-                reloadButton.setActionView(R.layout.action_bar_reloading);
-                imageView.startAnimation(reloadAnimation);
-                loadJsonDataFromWeb();
-                return true;
-            }
-        });
-    }
-
-    private void setReloadButtonListener()
-    {
-        final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
-        reloadButton.setActionView(R.layout.action_bar_reloading);
-
-        final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
-                .action_bar_refresh_button_reloading);
 
         reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
         {
@@ -137,11 +112,15 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    public void onEventMainThread(ServerErrorEvent event)
+    {
+        Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
     private void updateWorkoutListFragment()
     {
         Toast.makeText(this, "Updated list with new data", Toast.LENGTH_LONG).show();
         reloadButton.setActionView(null);
-        setReloadButtonListener();
         workoutListFragment.refreshList();
     }
 }
