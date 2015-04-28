@@ -86,18 +86,6 @@ public class MainActivity extends ActionBarActivity
                 R.id.action_bar_refresh_button_reloading);
 
         imageView.startAnimation(reloadAnimation);
-
-        reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-        {
-            @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
-                reloadButton.setActionView(R.layout.action_bar_reloading);
-                imageView.startAnimation(reloadAnimation);
-                loadJsonDataFromWeb();
-                return true;
-            }
-        });
     }
 
     public void onEventMainThread(JsonParseCompleteEvent event)
