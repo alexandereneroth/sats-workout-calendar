@@ -47,7 +47,6 @@ public final class DateUtil
     {
         Date date = parseString(dateString);
         calendar.setTime(date);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
         int startDate = calendar.get(Calendar.DAY_OF_MONTH);
