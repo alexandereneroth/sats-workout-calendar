@@ -5,11 +5,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import de.greenrobot.event.EventBus;
+import io.realm.Realm;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.json.JsonParser;
@@ -241,12 +243,35 @@ public class IonClient
                                     JsonArray instructors = result.getAsJsonArray("instructors");
                                     Log.d("ionClient", "removing name property from instructor " +
                                             "data..");
-                                    JsonArray trimmedInstructorArray = JsonParser
+                                    final JsonArray trimmedInstructorArray = JsonParser
                                             .refactorInstructors(instructors);
                                     Log.d("ionClient", "adding instructors to DB..");
-                                    RealmClient.getInstance(context).addDataToDB(
-                                            trimmedInstructorArray,
-                                            Instructor.class);
+//                                    RealmClient.getInstance(context).addDataToDB(
+//                                            trimmedInstructorArray,
+//                                            Instructor.class);
+                                    Realm realm = Realm.getInstance(context);
+
+                                    realm.beginTransaction();
+                                    for (JsonElement instructor : trimmedInstructorArray)
+                                    {
+                                        realm.createOrUpdateObjectFromJson(Instructor.class,
+                                                String.valueOf(instructor));
+                                    }
+                                    realm.commitTransaction();
+                                    realm.close();
+
+//                                    realm.executeTransaction(new Realm.Transaction() {
+//                                        @Override
+//                                        public void execute(Realm realm) {
+//                                            for (JsonElement instructor : trimmedInstructorArray)
+//                                            {
+//                                                realm.createOrUpdateObjectFromJson(Instructor.class,
+//                                                        String.valueOf(instructor));
+//                                            }
+//                                        }
+//                                    });
+
+
                                 }
                                 else
                                 {

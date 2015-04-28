@@ -13,9 +13,10 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
-import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.ActivityWrapper;
+import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
+import se.greatbrain.sats.model.realm.Instructor;
 import se.greatbrain.sats.model.realm.Profile;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
@@ -51,6 +52,22 @@ public class RealmClient
             realm.beginTransaction();
             realm.clear(Profile.class);
             realm.clear(ClassCategoryIds.class);
+            realm.commitTransaction();
+        }
+
+
+        if (type.equals(Instructor.class))
+        {
+            ArrayList<Instructor> instructorArrayList = new ArrayList<>();
+
+            for (JsonElement element : result)
+            {
+                Instructor instructor = new Instructor();
+                instructor.setId(element.toString());
+                instructorArrayList.add(instructor);
+            }
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(instructorArrayList);
             realm.commitTransaction();
         }
 
