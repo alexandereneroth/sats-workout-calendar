@@ -1,10 +1,12 @@
 package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -123,6 +125,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 .listrow_detail_booked_class_duration_minutes));
         //TODO add more
 
+        bookedClassViewHolder.aboutTrainingButton = ((RelativeLayout) inflateMe.findViewById(R.id
+                .listrow_detail_booked_class_about_class_button));
+
         inflateMe.setTag(bookedClassViewHolder);
 
         return inflateMe;
@@ -177,6 +182,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 (GroupActivityViewHolder) convertView.getTag();
         groupActivityViewHolder.title.setText("FISTK");
         groupActivityViewHolder.duration.setText("69");
+        groupActivityViewHolder.aboutTrainingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Log.d("Hej", "Button clicked");
+            }
+        });
     }
 
     private void setUpPrivateActivityView(View convertView, int position)
@@ -223,6 +235,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         TextView title;
         TextView duration;
+        RelativeLayout aboutTrainingButton;
         //TODO add more
     }
 
