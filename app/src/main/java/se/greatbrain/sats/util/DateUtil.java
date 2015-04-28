@@ -12,7 +12,7 @@ public final class DateUtil
 {
     private static final String TAG = "DateUtil";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yy-MM-dd HH:mm:ss",
-            Locale.US);
+            Locale.getDefault());
     private static final Calendar calendar = Calendar.getInstance();
 
 
