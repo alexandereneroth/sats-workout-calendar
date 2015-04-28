@@ -1,5 +1,7 @@
 package se.greatbrain.sats.model.realm;
 
+import android.util.Log;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -7,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class TrainingActivity extends RealmObject {
 
 
+    private static final String TAG = "TrainingActivity";
     @PrimaryKey
     private String id;
 
@@ -24,6 +27,8 @@ public class TrainingActivity extends RealmObject {
     private Center center;
     @Ignore
     private ClassType classType;
+    @Ignore
+    private Type activityType;
 
     public Center getCenter()
     {
@@ -167,5 +172,22 @@ public class TrainingActivity extends RealmObject {
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public Type getActivityType()
+    {
+        if(activityType == null)
+        {
+            setActivityType();
+        }
+        return activityType;
+    }
+
+    public void setActivityType()
+    {
+        if(activityType == null)
+        {
+            activityType = realm.where(Type.class).equalTo("subType", getSubType()).findFirst();
+        }
     }
 }

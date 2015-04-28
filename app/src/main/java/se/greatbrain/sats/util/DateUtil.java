@@ -8,13 +8,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import se.greatbrain.sats.model.TimeOfDay;
+
 public final class DateUtil
 {
     private static final String TAG = "DateUtil";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yy-MM-dd HH:mm:ss",
             Locale.US);
     private static final Calendar calendar = Calendar.getInstance();
-
 
     public static Date parseString(String dateString)
     {
@@ -80,7 +81,7 @@ public final class DateUtil
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         String month = getMonthAsString(calendar.get(Calendar.MONTH));
 
-        if(isToday(date))
+        if (isToday(date))
         {
             return "Idag, " + dayOfWeek + dayOfMonth + " " + month;
         }
@@ -94,7 +95,7 @@ public final class DateUtil
     {
         calendar.setTime(date);
         Calendar calendarToday = Calendar.getInstance();
-        if(calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+        if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
         {
             return true;
         }
@@ -105,7 +106,7 @@ public final class DateUtil
     private static String getMonthAsString(int month)
     {
         String result = null;
-        switch(month)
+        switch (month)
         {
             case 0:
                 result = "Januari ";
@@ -178,5 +179,17 @@ public final class DateUtil
         }
 
         return result;
+    }
+
+    public static TimeOfDay getTimeOfDayFromDate(String dateString)
+    {
+        Date date = parseString(dateString);
+        Calendar datesCalendar = Calendar.getInstance();
+        datesCalendar.setTime(date);
+
+        int hourOfDay = datesCalendar.get(Calendar.HOUR_OF_DAY);
+        int minuteOfHour = datesCalendar.get(Calendar.MINUTE);
+
+        return new TimeOfDay(hourOfDay, minuteOfHour);
     }
 }

@@ -151,6 +151,7 @@
                     android:paddingTop="5dp">
 
                     <ImageView
+                        android:id="@+id/listrow_detail_booked_class_person_queue_icon"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginTop="2dp"

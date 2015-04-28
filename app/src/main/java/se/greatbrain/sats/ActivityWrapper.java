@@ -13,7 +13,6 @@ public class ActivityWrapper
     public static final int GROUP = 2;
     public static final int PRIVATE = 3;
 
-
     public final int year;
     public final int week;
     public final int activityType;

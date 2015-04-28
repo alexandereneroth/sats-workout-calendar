@@ -14,7 +14,7 @@
         android:clickable="false">
 
         <ImageView
-            android:id="@+id/listrow_detail_booked_class_training_type_picture"
+            android:id="@+id/listrow_detail_completed_class_training_type_picture"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:contentDescription="@string/training_icon_description"
@@ -26,14 +26,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toEndOf="@id/listrow_detail_booked_class_training_type_picture">
+            android:layout_toEndOf="@id/listrow_detail_completed_class_training_type_picture">
 
             <TextView
                 android:id="@+id/listrow_detail_completed_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/listrow_detail_completed_class_name_string"
-                android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
