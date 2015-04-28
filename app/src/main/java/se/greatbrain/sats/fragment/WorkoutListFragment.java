@@ -49,7 +49,7 @@ public class WorkoutListFragment extends Fragment
         final WorkoutListAdapter adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
         listView.setAdapter(adapter);
 
-        listView.smoothScrollToPosition(10);
+        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
 
         return view;
     }
