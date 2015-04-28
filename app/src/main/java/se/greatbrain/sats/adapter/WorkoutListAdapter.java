@@ -35,6 +35,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         this.listItems = listItems;
 
         numberOfListItems = listItems.size();
+
         for (int i = 0; i < listItems.size(); i++)
         {
             ActivityWrapper activityWrapper = listItems.get(i);

@@ -5,8 +5,8 @@
              android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_width="32dp"
         android:layout_marginEnd="8dp"
         android:id="@+id/action_bar_refresh_button_reloading"
         android:src="@drawable/refresh_icon"/>

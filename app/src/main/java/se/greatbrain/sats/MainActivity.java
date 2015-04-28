@@ -90,9 +90,9 @@ public class MainActivity extends ActionBarActivity
         });
     }
 
-    public void onEventMainThread(RealmUpdateCompleteEvent event)
-    {
-        reloadButton.setActionView(null);
-    }
+//    public void onEventMainThread(RealmUpdateCompletedEvent event)
+//    {
+//        reloadButton.setActionView(null);
+//    }
 
 }
