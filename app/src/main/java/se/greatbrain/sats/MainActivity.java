@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity
 
         final ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(
                 R.id.action_bar_refresh_button_reloading);
-        
+
         imageView.startAnimation(reloadAnimation);
 
         reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
@@ -119,7 +119,6 @@ public class MainActivity extends ActionBarActivity
 
     private void updateWorkoutListFragment()
     {
-        Toast.makeText(this, "Updated list with new data", Toast.LENGTH_LONG).show();
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
     }
