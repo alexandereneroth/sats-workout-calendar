@@ -72,14 +72,25 @@ public final class DateUtil
         return listTitle;
     }
 
+    public static String getCompletedActivityDate(String dateString)
+    {
+        Date date = parseString(dateString);
+        calendar.setTime(date);
+        String weekDay = getWeekDayAsString();
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int monthOfYear = calendar.get(Calendar.MONTH);
+
+        return weekDay + " " + dayOfMonth + "/" + monthOfYear;
+    }
+
     public static String getListTitlePlanned(String dateString)
     {
         Date date = parseString(dateString);
         calendar.setTime(date);
 
-        String dayOfWeek = toProperCase(getWeekDayAsString(calendar.get(Calendar.DAY_OF_WEEK)));
+        String dayOfWeek = toProperCase(getWeekDayAsString());
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        String month = toProperCase(getMonthAsString(calendar.get(Calendar.MONTH)));
+        String month = toProperCase(getMonthAsString());
 
         if(isToday(date))
         {
@@ -109,12 +120,12 @@ public final class DateUtil
         return false;
     }
 
-    private static String getMonthAsString(int month)
+    private static String getMonthAsString()
     {
         return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
     }
 
-    private static String getWeekDayAsString(int weekDay)
+    private static String getWeekDayAsString()
     {
         return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
     }
