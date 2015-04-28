@@ -43,7 +43,7 @@ public final class DateUtil
         return calendar.get(Calendar.YEAR);
     }
 
-    public static String getListTitleForWeek(String dateString)
+    public static String getListTitleForWeek(String dateString, int week)
     {
         Date date = parseString(dateString);
         calendar.setTime(date);
@@ -57,7 +57,6 @@ public final class DateUtil
         int endMonth = calendar.get(Calendar.MONTH) + 1;
 
         String listTitle = null;
-        int week = getWeekFromDate(date);
 
         if (startMonth == endMonth)
         {

@@ -41,6 +41,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         for (int i = 0; i < listItems.size(); i++)
         {
             ActivityWrapper activityWrapper = listItems.get(i);
+            Log.d(TAG, String.valueOf(activityWrapper.week));
             final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
         }
@@ -297,7 +298,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
 
         String date = listItems.get(position).trainingActivity.getDate();
-        String headerText = DateUtil.getListTitleForWeek(date);
+        int week = listItems.get(position).week;
+        String headerText = DateUtil.getListTitleForWeek(date, week);
         holder.text.setText(headerText);
         return convertView;
     }
