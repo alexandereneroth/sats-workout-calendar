@@ -329,4 +329,14 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
 
     }
+
+    /**
+     * Notifies the attached observers that the underlying data has been changed
+     * and any View reflecting the data set should refresh itself.
+     */
+    @Override
+    public void notifyDataSetChanged()
+    {
+        super.notifyDataSetChanged();
+    }
 }

@@ -10,6 +10,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.json.JsonParser;
 import se.greatbrain.sats.model.realm.ClassCategory;
@@ -88,6 +89,12 @@ public class IonClient
 
                                 return null;
                             }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid)
+                            {
+                                bus.post(new JsonParseCompleteEvent("getAllActivites"));
+                            }
                         }.execute();
                     }
                 });
@@ -123,6 +130,12 @@ public class IonClient
 
                                 return null;
                             }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid)
+                            {
+                                bus.post(new JsonParseCompleteEvent("getAllClassTypes"));
+                            }
                         }.execute();
                     }
                 });
@@ -157,6 +170,12 @@ public class IonClient
 
                                 return null;
                             }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid)
+                            {
+                                bus.post(new JsonParseCompleteEvent("getAllCenters"));
+                            }
                         }.execute();
                     }
                 });
@@ -190,6 +209,12 @@ public class IonClient
 
                                 return null;
                             }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid)
+                            {
+                                bus.post(new JsonParseCompleteEvent("getAllClassCategories"));
+                            }
                         }.execute();
                     }
                 });
@@ -222,6 +247,12 @@ public class IonClient
 
                                 return null;
                             }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid)
+                            {
+                                bus.post(new JsonParseCompleteEvent("getAllInstructors"));
+                            }
                         }.execute();
                     }
                 });
@@ -251,6 +282,12 @@ public class IonClient
                         }
 
                         return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid)
+                    {
+                        bus.post(new JsonParseCompleteEvent("getAllTypes"));
                     }
                 }.execute();
             }

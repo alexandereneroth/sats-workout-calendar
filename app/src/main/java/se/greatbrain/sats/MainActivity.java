@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashSet;
+
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
@@ -22,6 +26,7 @@ public class MainActivity extends ActionBarActivity
 {
     private static final String TAG_LOG = "MainActivity";
     private MenuItem reloadButton;
+    private WorkoutListFragment workoutListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,8 +37,9 @@ public class MainActivity extends ActionBarActivity
         EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
+        workoutListFragment = new WorkoutListFragment();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
-                WorkoutListFragment.newInstance()).commit();
+                workoutListFragment).commit();
     }
 
     @Override
@@ -95,4 +101,19 @@ public class MainActivity extends ActionBarActivity
 //        reloadButton.setActionView(null);
 //    }
 
+    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+
+    public void onEventMainThread(JsonParseCompleteEvent event)
+    {
+        Log.d("jsonEvent", event.getSourceEvent());
+        if (finishedJsonParseEvents.add(event.getSourceEvent()))
+        {
+            if (finishedJsonParseEvents.size() == 6)
+            {
+                RealmClient.getInstance(this).parseRealmDataAndNotifyAdapter();
+            }
+        }
+    }
 }
+
+
