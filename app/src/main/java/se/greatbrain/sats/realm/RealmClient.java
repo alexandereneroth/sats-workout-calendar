@@ -17,7 +17,6 @@ import se.greatbrain.sats.Activiteee;
 import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Profile;
-import se.greatbrain.sats.model.realm.SatsClass;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
@@ -26,6 +25,7 @@ public class RealmClient
     private static final String TAG = "RealmClient";
     private final Context context;
     private static RealmClient INSTANCE;
+    private static Realm realm;
 
     public RealmClient(Context context)
     {
@@ -44,7 +44,7 @@ public class RealmClient
 
     public void addDataToDB(JsonArray result, Class type)
     {
-        Realm realm = Realm.getInstance(context);
+        realm = Realm.getInstance(context);
 
         if (type.equals(ClassType.class))
         {
@@ -74,7 +74,7 @@ public class RealmClient
 
     public List<Activiteee> getAllActivitiesWithWeek()
     {
-        Realm realm = Realm.getInstance(context);
+        realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
         List<Activiteee> activitiesWithWeek = new ArrayList<>();
@@ -97,5 +97,10 @@ public class RealmClient
         }
 
         return activitiesWithWeek;
+    }
+
+    public static void closeRealmInstance()
+    {
+        realm.close();
     }
 }
