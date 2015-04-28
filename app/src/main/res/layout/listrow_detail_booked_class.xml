@@ -181,7 +181,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/list_item_training_buttons">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -221,14 +222,14 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:background="@drawable/list_item_training_buttons">
+                android:clickable="true"
+                android:id="@+id/listrow_detail_booked_class_about_class_button"
+                android:background="?android:attr/selectableItemBackground">
 
                 <LinearLayout
-                    android:id="@+id/listrow_detail_booked_class_about_class_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:clickable="true"
                     android:orientation="horizontal">
 
                     <ImageView
