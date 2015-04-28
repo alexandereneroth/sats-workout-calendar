@@ -26,6 +26,7 @@ public class WorkoutListFragment extends Fragment
     private SparseArray<ListGroup> sparseGroups;
     private WorkoutListAdapter adapter;
     private List<ActivityWrapper> activityWrappers;
+    private StickyListHeadersListView listView;
 
 
     @Override
@@ -41,7 +42,7 @@ public class WorkoutListFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        StickyListHeadersListView listView = (StickyListHeadersListView) view.findViewById(
+        listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
         activityWrappers = new ArrayList<ActivityWrapper>();
@@ -54,7 +55,7 @@ public class WorkoutListFragment extends Fragment
     {
         Log.d("realm", event.getSourceEvent());
         adapter = new WorkoutListAdapter(getActivity(), event.getActivityWrappers());
-        adapter.notifyDataSetChanged();
+        listView.setAdapter(adapter);
     }
 
     @Override
