@@ -297,7 +297,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
 
         String date = listItems.get(position).trainingActivity.getDate();
-        String headerText = DateUtil.getListTitleForWeek(date);
+        int week = listItems.get(position).week;
+        String headerText = DateUtil.getListTitleForWeek(date, week);
         holder.text.setText(headerText);
         return convertView;
     }

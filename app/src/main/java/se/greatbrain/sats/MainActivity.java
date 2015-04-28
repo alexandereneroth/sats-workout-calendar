@@ -77,19 +77,21 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    public void setReloadButtonListener(Menu menu)
+    private void setReloadButtonListener(Menu menu)
     {
         final Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
+        reloadButton.setActionView(R.layout.action_bar_reloading);
+
+        ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
+                .action_bar_refresh_button_reloading);
+        imageView.startAnimation(reloadAnimation);
+
         reloadButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
         {
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
-                reloadButton.setActionView(R.layout.action_bar_reloading);
-                ImageView imageView = (ImageView) reloadButton.getActionView().findViewById(R.id
-                        .action_bar_refresh_button_reloading);
-                imageView.startAnimation(reloadAnimation);
 
                 return true;
             }
@@ -103,10 +105,16 @@ public class MainActivity extends ActionBarActivity
         {
             if (finishedJsonParseEvents.size() == 6)
             {
-                Toast.makeText(this, "Updating list with new data", Toast.LENGTH_LONG).show();
-                workoutListFragment.refreshList();
+                updateWorkoutListFragment();
             }
         }
+    }
+
+    private void updateWorkoutListFragment()
+    {
+        Toast.makeText(this, "Updating list with new data", Toast.LENGTH_LONG).show();
+        reloadButton.setActionView(null);
+        workoutListFragment.refreshList();
     }
 }
 
