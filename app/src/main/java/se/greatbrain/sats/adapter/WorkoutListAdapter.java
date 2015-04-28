@@ -1,7 +1,6 @@
 package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.greatbrain.sats.Activiteee;
-import se.greatbrain.sats.ActivityType;
+import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
@@ -23,51 +21,49 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 {
     private static final String TAG = "WorkoutListAdapter";
 
-    private static final int NUMBER_OF_VIEWS_SERVED_BY_ADAPTER = 4;
+    private static final int NUMBER_OF_VIEW_TYPES_SERVED_BY_ADAPTER = 4;
 
-    private final List<Activiteee> activities;
-    private final Activity activity;
+    private final List<ActivityWrapper> listItems;
+    private int numberOfListItems;
+    private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
+
     private final LayoutInflater inflater;
 
-    private int numberOfPositions;
-    private final Map<Integer, Integer> positionToWeek = new HashMap<>();
-
-    public WorkoutListAdapter(Activity activity, List<Activiteee> activities)
+    public WorkoutListAdapter(Activity activity, List<ActivityWrapper> listItems)
     {
-        this.activities = activities;
-        this.activity = activity;
-        inflater = activity.getLayoutInflater();
+        this.inflater = activity.getLayoutInflater();
+        this.listItems = listItems;
 
-        numberOfPositions = activities.size();
-        for (int i = 0; i < activities.size(); i++)
+        numberOfListItems = listItems.size();
+        for (int i = 0; i < listItems.size(); i++)
         {
-            Activiteee activiteee = activities.get(i);
-            int weekHash = (activiteee.year * 100) + activiteee.week;
-            positionToWeek.put(i, weekHash);
+            ActivityWrapper activityWrapper = listItems.get(i);
+            final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
+            listItemPositionToWeek.put(i, weekHash);
         }
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        Activiteee activiteee = ((Activiteee) getItem(position));
+        ActivityWrapper activityWrapper = ((ActivityWrapper) getItem(position));
 
-        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
-                Activiteee.COMPLETED || activiteee.dateHasPassed();
+        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
+                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
 
         if (convertView == null)
         {
             if (activityOnPositionIsCompletedOrInThePast)
             {
-                convertView = inflateCompletedActivityView(parent);
+                convertView = inflatePastActivityView(parent);
             }
             else
             {
-                if (activiteee.activityType == Activiteee.GROUP)
+                if (activityWrapper.activityType == ActivityWrapper.GROUP)
                 {
                     convertView = inflateGroupActivityView(parent);
                 }
-                else // activity type is private
+                else // trainingActivity type is private
                 {
                     convertView = inflatePrivateActivityView(parent);
                 }
@@ -75,17 +71,17 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         }
         if (activityOnPositionIsCompletedOrInThePast)
         {
-            setUpCompletedView(convertView, position);
+            setUpPastActivityView(convertView, position);
         }
         else
         {
-            if (activiteee.activityType == Activiteee.GROUP)
+            if (activityWrapper.activityType == ActivityWrapper.GROUP)
             {
-                setUpBookedClassView(convertView);
+                setUpGroupActivityView(convertView);
             }
-            else // activity type is private
+            else // trainingActivity type is private
             {
-                setUpBookedPrivateView(convertView, position);
+                setUpPrivateActivityView(convertView, position);
             }
         }
 
@@ -96,114 +92,178 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
      * View inflation
      */
 
-    private View inflateCompletedActivityView(ViewGroup parent)
+    private View inflatePastActivityView(ViewGroup parent)
     {
-        View newView;
-
-        CompletedActivityViewHolder completedActivityViewHolder;
-        completedActivityViewHolder = new CompletedActivityViewHolder();
-        newView = inflater.inflate(R.layout.listrow_detail_completed, parent,
+        View inflateMe = inflater.inflate(R.layout.listrow_detail_completed, parent,
                 false);
-        completedActivityViewHolder.title = ((TextView) newView.findViewById(R.id
+
+        PastActivityViewHolder pastActivityViewHolder = new PastActivityViewHolder();
+        pastActivityViewHolder.title = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_name));
-        completedActivityViewHolder.date = ((TextView) newView.findViewById(R.id
+        pastActivityViewHolder.date = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_date));
-        completedActivityViewHolder.comment = ((TextView) newView.findViewById(R.id
+        pastActivityViewHolder.comment = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_comment));
-        completedActivityViewHolder.completed = ((TextView) newView.findViewById(R.id
+        pastActivityViewHolder.completed = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_completed));
 
-        newView.setTag(completedActivityViewHolder);
+        inflateMe.setTag(pastActivityViewHolder);
 
-        return newView;
+        return inflateMe;
     }
 
     private View inflateGroupActivityView(ViewGroup parent)
     {
-        View convertView;
-        BookedClassActivityViewHolder bookedClassViewHolder;
-        bookedClassViewHolder = new BookedClassActivityViewHolder();
-        convertView = inflater.inflate(R.layout.listrow_detail_booked_class, parent,
+        View inflateMe = inflater.inflate(R.layout.listrow_detail_booked_class, parent,
                 false);
-        bookedClassViewHolder.title = ((TextView) convertView.findViewById(R.id
-                .listrow_detail_booked_class_name));
-        bookedClassViewHolder.duration = ((TextView) convertView.findViewById(R.id
-                .listrow_detail_booked_class_duration_minutes));
 
+        GroupActivityViewHolder bookedClassViewHolder = new GroupActivityViewHolder();
+        bookedClassViewHolder.title = ((TextView) inflateMe.findViewById(R.id
+                .listrow_detail_booked_class_name));
+        bookedClassViewHolder.duration = ((TextView) inflateMe.findViewById(R.id
+                .listrow_detail_booked_class_duration_minutes));
         //TODO add more
 
-        convertView.setTag(bookedClassViewHolder);
+        inflateMe.setTag(bookedClassViewHolder);
 
-        return convertView;
+        return inflateMe;
     }
 
     private View inflatePrivateActivityView(ViewGroup parent)
     {
-        View convertView;
-
-        BookedPrivateActivityViewHolder viewHolder;
-        viewHolder = new BookedPrivateActivityViewHolder();
-        convertView = inflater.inflate(R.layout.listrow_detail_booked_private, parent,
+        View inflateMe = inflater.inflate(R.layout.listrow_detail_booked_private, parent,
                 false);
 
-        viewHolder.title = ((TextView) convertView.findViewById(R.id
+        PrivateActivityViewHolder viewHolder = new PrivateActivityViewHolder();
+        viewHolder.title = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_private_name));
-        viewHolder.duration = ((TextView) convertView.findViewById(R.id
+        viewHolder.duration = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_private_duration));
-        viewHolder.comment = ((TextView) convertView.findViewById(R.id
+        viewHolder.comment = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_private_comment));
 
-        convertView.setTag(viewHolder);
+        inflateMe.setTag(viewHolder);
 
-        return convertView;
+        return inflateMe;
     }
 
     /**
      * View setup
      */
 
-    private void setUpCompletedView(View convertView, int position)
+    private void setUpPastActivityView(View convertView, int position)
     {
-        CompletedActivityViewHolder completedActivityViewHolder =
-                (CompletedActivityViewHolder) convertView.getTag();
-
-        Activiteee activiteee = (Activiteee) getItem(position);
-        TrainingActivity trainingActivity = activiteee.activity;
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
         String title = trainingActivity.getSubType();
         String date = trainingActivity.getDate();
         String comment = "Kommentar: " + trainingActivity.getComment();
-        String completed = activiteee.activityStatus == Activiteee.COMPLETED ?
+        String completed = activityWrapper.activityStatus == ActivityWrapper.COMPLETED ?
                 "Avklarad!" : "Avklarad?";
-        completedActivityViewHolder.title.setText(title);
-        completedActivityViewHolder.date.setText(date);
-        completedActivityViewHolder.comment.setText(comment);
-        completedActivityViewHolder.completed.setText(completed);
+
+        PastActivityViewHolder pastActivityViewHolder =
+                (PastActivityViewHolder) convertView.getTag();
+        pastActivityViewHolder.title.setText(title);
+        pastActivityViewHolder.date.setText(date);
+        pastActivityViewHolder.comment.setText(comment);
+        pastActivityViewHolder.completed.setText(completed);
     }
 
-    private void setUpBookedClassView(View convertView)
+    private void setUpGroupActivityView(View convertView)
     {
-        BookedClassActivityViewHolder bookedClassActivityViewHolder =
-                (BookedClassActivityViewHolder) convertView.getTag();
+        //TODO get data (like the method above/below)
 
-        bookedClassActivityViewHolder.title.setText("FISTK");
-        bookedClassActivityViewHolder.duration.setText("69");
+        GroupActivityViewHolder groupActivityViewHolder =
+                (GroupActivityViewHolder) convertView.getTag();
+        groupActivityViewHolder.title.setText("FISTK");
+        groupActivityViewHolder.duration.setText("69");
     }
 
-    private void setUpBookedPrivateView(View convertView, int position)
+    private void setUpPrivateActivityView(View convertView, int position)
     {
-        BookedPrivateActivityViewHolder bookedPrivateActivityViewHolder =
-                (BookedPrivateActivityViewHolder) convertView.getTag();
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
-        Activiteee trainingActivity = (Activiteee) getItem(position);
-        String title = trainingActivity.activity.getSubType();
-        String duration = trainingActivity.activity.getDurationInMinutes() + " min";
-        String comment = "Kommentar: " + trainingActivity.activity.getComment();
+        String title = trainingActivity.getSubType();
+        String duration = trainingActivity.getDurationInMinutes() + " min";
+        String comment = "Kommentar: " + trainingActivity.getComment();
 
-        bookedPrivateActivityViewHolder.title.setText(title);
-        bookedPrivateActivityViewHolder.duration.setText(duration);
-        bookedPrivateActivityViewHolder.comment.setText(comment);
+        PrivateActivityViewHolder privateActivityViewHolder =
+                (PrivateActivityViewHolder) convertView.getTag();
+        privateActivityViewHolder.title.setText(title);
+        privateActivityViewHolder.duration.setText(duration);
+        privateActivityViewHolder.comment.setText(comment);
 
+    }
+
+    /**
+     * Below are view holders that contain all the different views that will be set in the
+     * different layouts.
+     * <p/>
+     * These are used like this:
+     * bookedClassActivityViewHolder.title.setText("Some text");
+     * Because it is faster than using findViewById, like this:
+     * ((TextField)view.findViewById(R.id.listrow_detail_booked_class_name)).setText("Some text");
+     */
+
+    class HeaderViewHolder
+    {
+        TextView text;
+    }
+
+    class PastActivityViewHolder
+    {
+        TextView title;
+        TextView date;
+        TextView comment;
+        TextView completed;
+    }
+
+    class GroupActivityViewHolder
+    {
+        TextView title;
+        TextView duration;
+        //TODO add more
+    }
+
+    class PrivateActivityViewHolder
+    {
+        TextView title;
+        TextView duration;
+        TextView comment;
+    }
+
+    /**
+     * Overrides required by BaseAdapter
+     */
+
+    @Override
+    public int getCount()
+    {
+        return numberOfListItems;
+    }
+
+    @Override
+    public Object getItem(int position)
+    {
+        return listItems.get(position);
+    }
+
+    @Override
+    public long getItemId(int position)
+    {
+        return position;
+    }
+
+    /**
+     * Overrides required by StickyListHeaders
+     */
+
+    @Override
+    public long getHeaderId(int position)
+    {
+        return listItemPositionToWeek.get(position);
     }
 
     @Override
@@ -221,83 +281,37 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        String date = activities.get(position).activity.getDate();
+
+        String date = listItems.get(position).trainingActivity.getDate();
         String headerText = DateUtil.getListTitleForWeek(date);
         holder.text.setText(headerText);
         return convertView;
     }
 
-    class HeaderViewHolder
-    {
-        TextView text;
-    }
-
-    class BookedPrivateActivityViewHolder
-    {
-        TextView title;
-        TextView duration;
-        TextView comment;
-    }
-
-    //TODO
-    class BookedClassActivityViewHolder
-    {
-        TextView title;
-        TextView duration;
-    }
-
-    class CompletedActivityViewHolder
-    {
-        TextView title;
-        TextView date;
-        TextView comment;
-        TextView completed;
-    }
-
-    @Override
-    public int getCount()
-    {
-        return numberOfPositions;
-    }
-
-    @Override
-    public Object getItem(int position)
-    {
-        return activities.get(position);
-    }
-
-    @Override
-    public long getItemId(int position)
-    {
-        return position;
-    }
-
-    @Override
-    public long getHeaderId(int position)
-    {
-        return positionToWeek.get(position);
-    }
+    /**
+     * Overrides required in lists containing views of multiple different layouts
+     */
 
     @Override
     public int getViewTypeCount()
     {
-        return NUMBER_OF_VIEWS_SERVED_BY_ADAPTER;
+        return NUMBER_OF_VIEW_TYPES_SERVED_BY_ADAPTER;
     }
 
     @Override
     public int getItemViewType(int position)
     {
-        Activiteee activiteee = (Activiteee) getItem(position);
-        final boolean activityOnPositionIsCompletedOrInThePast = activiteee.activityStatus ==
-                Activiteee.COMPLETED || activiteee.dateHasPassed();
+        ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
+        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
+                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
 
         if (activityOnPositionIsCompletedOrInThePast)
         {
-            return activiteee.COMPLETED;
+            return activityWrapper.COMPLETED;
         }
         else
         {
-            return activiteee.activityType;
+            return activityWrapper.activityType;
         }
 
     }
