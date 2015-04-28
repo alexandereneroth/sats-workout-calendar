@@ -36,11 +36,7 @@ public class WorkoutListFragment extends Fragment
         listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
-        List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity())
-                .getAllActivitiesWithWeek();
-        adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
-        listView.setAdapter(adapter);
-        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
+        refreshList();
         return view;
     }
 
@@ -49,6 +45,7 @@ public class WorkoutListFragment extends Fragment
         List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity())
                 .getAllActivitiesWithWeek();
         adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
+        listView.setAdapter(adapter);
         listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
     }
 }

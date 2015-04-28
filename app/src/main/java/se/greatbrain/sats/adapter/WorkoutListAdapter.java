@@ -184,7 +184,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 (GroupActivityViewHolder) convertView.getTag();
         groupActivityViewHolder.title.setText("FISTK");
         groupActivityViewHolder.duration.setText("69");
-        groupActivityViewHolder.aboutTrainingButton.setOnClickListener(new View.OnClickListener() {
+        groupActivityViewHolder.aboutTrainingButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
@@ -298,7 +299,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
         String date = listItems.get(position).trainingActivity.getDate();
         int week = listItems.get(position).week;
-        String headerText = DateUtil.getListTitleForWeek(date, week);
+        String headerText = DateUtil.getListTitleCompleted(date, week);
         holder.text.setText(headerText);
         return convertView;
     }

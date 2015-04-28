@@ -125,7 +125,6 @@ public class MainActivity extends ActionBarActivity
         });
     }
 
-
     public void onEventMainThread(JsonParseCompleteEvent event)
     {
         Log.d("jsonEvent", event.getSourceEvent());
