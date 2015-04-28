@@ -14,7 +14,7 @@ public final class DateUtil
 {
     private static final String TAG = "DateUtil";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yy-MM-dd HH:mm:ss",
-            Locale.US);
+            Locale.getDefault());
     private static final Calendar calendar = Calendar.getInstance();
 
     public static Date parseString(String dateString)
@@ -77,7 +77,7 @@ public final class DateUtil
     {
         Date date = parseString(dateString);
         calendar.setTime(date);
-        String weekDay = getWeekDayAsString();
+        String weekDay = toProperCase(getWeekDayAsString());
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         int monthOfYear = calendar.get(Calendar.MONTH);
 
@@ -93,7 +93,7 @@ public final class DateUtil
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         String month = toProperCase(getMonthAsString());
 
-        if (isToday(date))
+        if(dateIsToday(date))
         {
             return "Idag, " + dayOfWeek + " " + dayOfMonth + " " + month;
         }
@@ -103,7 +103,7 @@ public final class DateUtil
         }
     }
 
-    private static boolean isToday(Date date)
+    private static boolean dateIsToday(Date date)
     {
         calendar.setTime(date);
         Calendar calendarToday = Calendar.getInstance();
