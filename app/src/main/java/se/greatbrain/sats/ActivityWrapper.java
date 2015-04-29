@@ -42,13 +42,4 @@ public class ActivityWrapper
             activityType = PRIVATE;
         }
     }
-
-    public boolean dateHasPassed()
-    {
-        Calendar calendar = Calendar.getInstance();
-        Calendar activityCalendar = Calendar.getInstance();
-        Date activityDate = DateUtil.parseString(trainingActivity.getDate());
-        activityCalendar.setTime(activityDate);
-        return calendar.after(activityCalendar);
-    }
 }

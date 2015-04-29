@@ -44,9 +44,11 @@ public final class DateUtil
         return calendar.get(Calendar.YEAR);
     }
 
-    public static String getListTitleCompleted(String dateString, int week)
+    public static String getListTitleCompleted(String dateString)
     {
         Date date = parseString(dateString);
+        int week = getWeekFromDate(date);
+
         calendar.setTime(date);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -93,7 +95,7 @@ public final class DateUtil
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         String month = toProperCase(getMonthAsString());
 
-        if(dateIsToday(date))
+        if (dateIsToday(date))
         {
             return "Idag, " + dayOfWeek + " " + dayOfMonth + " " + month;
         }
@@ -103,6 +105,12 @@ public final class DateUtil
         }
     }
 
+    public static boolean dateIsToday(String dateString)
+    {
+        final Date date = parseString(dateString);
+        return dateIsToday(date);
+    }
+
     private static boolean dateIsToday(Date date)
     {
         calendar.setTime(date);
@@ -110,15 +118,24 @@ public final class DateUtil
         int year = calendar.get(Calendar.YEAR);
         int yearToday = calendarToday.get(Calendar.YEAR);
 
-        if(year == yearToday)
+        if (year == yearToday)
         {
-            if(calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+            if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public static boolean dateHasPassed(String dateString)
+    {
+        Calendar todaysCalendar = Calendar.getInstance();
+        Date activitysDate = parseString(dateString);
+        Calendar activityCalendar = Calendar.getInstance();
+        activityCalendar.setTime(activitysDate);
+        return todaysCalendar.after(activityCalendar);
     }
 
     private static String getMonthAsString()

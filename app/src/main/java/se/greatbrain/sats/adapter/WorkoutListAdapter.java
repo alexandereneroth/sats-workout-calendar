@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         ActivityWrapper activityWrapper = ((ActivityWrapper) getItem(position));
 
         final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
-                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
+                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
+                .trainingActivity.getDate());
 
         if (convertView == null)
         {
@@ -325,7 +327,21 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     @Override
     public long getHeaderId(int position)
     {
-        return listItemPositionToWeek.get(position);
+        final int HEADER_ID_TODAY = -1;
+
+        final ActivityWrapper itemOnPosition = (ActivityWrapper) getItem(position);
+        final boolean itemsDateHasPassed = DateUtil.dateHasPassed(itemOnPosition.trainingActivity
+                .getDate());
+        if (itemsDateHasPassed)
+        {
+            // This way every item before today will get a headerId based on the week its on
+            return listItemPositionToWeek.get(position);
+        }
+        else
+        {
+            // This way every item from today onwards will get its own headerId
+            return position;
+        }
     }
 
     @Override
@@ -346,9 +362,23 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
         String date = listItems.get(position).trainingActivity.getDate();
         int week = listItems.get(position).week;
-        String headerText = DateUtil.getListTitleCompleted(date, week);
+
+        String headerText = getListTitle(listItems.get(position));
         holder.text.setText(headerText);
         return convertView;
+    }
+
+    private String getListTitle(ActivityWrapper activityWrapper)
+    {
+        final boolean activityIsCompletedOrInThePast = activityWrapper.activityStatus ==
+                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
+                .trainingActivity.getDate());
+        if(activityIsCompletedOrInThePast)
+        {
+            return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
+        }else{
+            return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
+        }
     }
 
     /**
@@ -366,7 +396,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
         final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
-                ActivityWrapper.COMPLETED || activityWrapper.dateHasPassed();
+                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
+                .trainingActivity.getDate());
 
         if (activityOnPositionIsCompletedOrInThePast)
         {
