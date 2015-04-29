@@ -45,6 +45,7 @@ public class WorkoutListFragment extends Fragment
                 .getAllActivitiesWithWeek();
         adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
         listView.setAdapter(adapter);
-        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
+//        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
+        listView.setSelectionFromTop(adapter.getTodaysListPositon(), 0);
     }
 }

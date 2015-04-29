@@ -30,7 +30,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private final List<ActivityWrapper> listItems;
     private int numberOfListItems;
+    private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
+
 
     private final LayoutInflater inflater;
 
@@ -46,6 +48,12 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             ActivityWrapper activityWrapper = listItems.get(i);
             final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
+
+            // Counts number of past list items so we know what position today is
+            if (DateUtil.dateHasPassed(activityWrapper.trainingActivity.getDate()))
+            {
+                numberOfPastListItems++;
+            }
         }
     }
 
@@ -373,10 +381,12 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         final boolean activityIsCompletedOrInThePast = activityWrapper.activityStatus ==
                 ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
                 .trainingActivity.getDate());
-        if(activityIsCompletedOrInThePast)
+        if (activityIsCompletedOrInThePast)
         {
             return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
-        }else{
+        }
+        else
+        {
             return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
         }
     }
@@ -408,6 +418,15 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             return activityWrapper.activityType;
         }
 
+    }
+
+    /**
+     * Public accessors
+     */
+
+    public int getTodaysListPositon()
+    {
+        return numberOfPastListItems;
     }
 
     /**
@@ -467,7 +486,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private String getCommentString(String comment)
     {
-        if(comment.isEmpty())
+        if (comment.isEmpty())
         {
             return comment = "Lägg till kommentar";
         }
