@@ -182,7 +182,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         int trainingTypePictureId = getTrainingTypePictureId(trainingActivity);
         String title = getActivityViewTitle(trainingActivity);
         String date = DateUtil.getCompletedActivityDate(trainingActivity.getDate());
-        String comment = "Kommentar: " + trainingActivity.getComment();
+        String comment = getCommentString(trainingActivity.getComment());
         String completed = activityIsCompleted ? "Avklarad!" : "Avklarad?";
         int checkboxId = activityIsCompleted ? R.drawable.done_icon : R.drawable.done_2_icon;
 
@@ -242,7 +242,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
         String title = getActivityViewTitle(trainingActivity);
         String duration = trainingActivity.getDurationInMinutes() + " min";
-        String comment = "Kommentar: " + trainingActivity.getComment();
+        String comment = getCommentString(trainingActivity.getComment());
 
         PrivateActivityViewHolder privateActivityViewHolder =
                 (PrivateActivityViewHolder) convertView.getTag();
@@ -431,5 +431,17 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             title = trainingActivity.getActivityType().getName();
         }
         return title;
+    }
+
+    private String getCommentString(String comment)
+    {
+        if(comment.isEmpty())
+        {
+            return comment = "Lägg till kommentar";
+        }
+        else
+        {
+            return comment = "1 kommentar";
+        }
     }
 }
