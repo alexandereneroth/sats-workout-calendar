@@ -222,8 +222,6 @@ public class IonClient
 
     private void getAllInstructors()
     {
-        Log.d("ionClient", "getting json from web..");
-
         Ion.with(context).load(INSTRUCTOR_URL).asJsonObject().setCallback(
                 new FutureCallback<JsonObject>()
                 {
@@ -237,13 +235,9 @@ public class IonClient
                             {
                                 if (e == null)
                                 {
-                                    Log.d("ionClient", "parsing json into JsonArray..");
                                     JsonArray instructors = result.getAsJsonArray("instructors");
-                                    Log.d("ionClient", "removing name property from instructor " +
-                                            "data..");
                                     final JsonArray trimmedInstructorArray = JsonParser
                                             .refactorInstructors(instructors);
-                                    Log.d("ionClient", "adding instructors to DB..");
                                     RealmClient.getInstance(context).addDataToDB(
                                             trimmedInstructorArray,
                                             Instructor.class);

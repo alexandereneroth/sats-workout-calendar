@@ -10,9 +10,6 @@ public class SatsClass extends RealmObject {
     @PrimaryKey
     private String id;
 
-    @Ignore
-    private Center center;
-
     private String centerFilterId;
     private String classTypeId;
     private int durationInMinutes;
