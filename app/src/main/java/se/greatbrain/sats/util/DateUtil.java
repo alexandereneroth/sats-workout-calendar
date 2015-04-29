@@ -79,7 +79,7 @@ public final class DateUtil
         calendar.setTime(date);
         String weekDay = toProperCase(getWeekDayAsString());
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        int monthOfYear = calendar.get(Calendar.MONTH);
+        int monthOfYear = calendar.get(Calendar.MONTH) + 1;
 
         return weekDay + " " + dayOfMonth + "/" + monthOfYear;
     }

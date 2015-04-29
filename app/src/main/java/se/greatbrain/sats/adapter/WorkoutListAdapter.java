@@ -1,14 +1,13 @@
 package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -182,7 +181,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
         int trainingTypePictureId = getTrainingTypePictureId(trainingActivity);
         String title = getActivityViewTitle(trainingActivity);
-        String date = trainingActivity.getDate();
+        String date = DateUtil.getCompletedActivityDate(trainingActivity.getDate());
         String comment = "Kommentar: " + trainingActivity.getComment();
         String completed = activityIsCompleted ? "Avklarad!" : "Avklarad?";
         int checkboxId = activityIsCompleted ? R.drawable.done_icon : R.drawable.done_2_icon;
