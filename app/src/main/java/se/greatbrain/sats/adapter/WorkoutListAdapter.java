@@ -228,7 +228,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         groupActivityViewHolder.timeHours.setText(timeHours);
         groupActivityViewHolder.timeMinutes.setText(timeMinutes);
         groupActivityViewHolder.queue.setText(queue);
-        if(trainingActivity.getBooking().getPositionInQueue() == 0)
+        if (trainingActivity.getBooking().getPositionInQueue() == 0)
         {
             groupActivityViewHolder.queue.setVisibility(View.GONE);
             groupActivityViewHolder.queueIcon.setVisibility(View.GONE);
@@ -416,6 +416,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     /**
      * Returns the title for a list row view
+     *
      * @param trainingActivity The training activity which to base the title on
      * @return Returns the title for a list row view
      */

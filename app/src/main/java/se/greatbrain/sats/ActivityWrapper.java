@@ -33,7 +33,7 @@ public class ActivityWrapper
         {
             activityStatus = PLANNED;
         }
-        if (activity.getType().equalsIgnoreCase("group"))
+        if (activity.getType().equalsIgnoreCase("group") && activity.getBooking() != null)
         {
             activityType = GROUP;
         }
