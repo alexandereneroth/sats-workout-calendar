@@ -16,13 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
-public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
+public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter, StickyListHeadersListView.OnStickyHeaderChangedListener
 {
     private static final String TAG = "WorkoutListAdapter";
 
@@ -261,6 +262,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         privateActivityViewHolder.comment.setText(comment);
     }
 
+    @Override
+    public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
+            View view, int itemPosition, long headerId)
+    {
+        Log.d(TAG, "Sticki header psotiotonj" + itemPosition);
+    }
+
     /**
      * Below are view holders that contain all the different views that will be set in the
      * different layouts.
@@ -371,12 +379,12 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         String date = listItems.get(position).trainingActivity.getDate();
         int week = listItems.get(position).week;
 
-        String headerText = getListTitle(listItems.get(position));
+        String headerText = getListTitle(position, listItems.get(position));
         holder.text.setText(headerText);
         return convertView;
     }
 
-    private String getListTitle(ActivityWrapper activityWrapper)
+    private String getListTitle(int position, ActivityWrapper activityWrapper)
     {
         final boolean activityIsCompletedOrInThePast = activityWrapper.activityStatus ==
                 ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
@@ -385,7 +393,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             // So we know if we should show the "Kommande träning" or "Tidigare träning" header
             TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            nånting.setText("Tidigare träning");
+            //nånting.setText("Tidigare träning");
+            //Log.d(TAG, "Tidigare träning position: " + position);
 
             return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
         }
@@ -393,7 +402,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             // So we know if we should show the "Kommande träning" or "Tidigare träning" header
             TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            nånting.setText("Kommande träning");
+            //nånting.setText("Kommande träning");
+            //Log.d(TAG, "Kommande träning position: " + position);
+
             return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
         }
     }

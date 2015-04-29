@@ -2,9 +2,11 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class WorkoutListFragment extends Fragment
         listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
+
+
         refreshList();
         return view;
     }
@@ -44,6 +48,30 @@ public class WorkoutListFragment extends Fragment
         List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity())
                 .getAllActivitiesWithWeek();
         adapter = new WorkoutListAdapter(getActivity(), activityWrappers);
+
+        listView.setOnStickyHeaderChangedListener(new StickyListHeadersListView
+                .OnStickyHeaderChangedListener() {
+            @Override
+            public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
+                    View view, int itemPosition, long headerId)
+            {
+                TextView trainingHeader = (TextView) getActivity().findViewById(R.id
+                        .training_list_headline);
+
+                Log.d("ItemPosition", "ItemPosition: " + itemPosition);
+                Log.d("TodayPosition", "TodayPosition: " + adapter.getTodaysListPositon());
+
+                if (adapter.getTodaysListPositon() < itemPosition + 1)
+                {
+                    trainingHeader.setText("Kommande träning");
+                }
+                else
+                {
+                    trainingHeader.setText("Tidigare träning");
+                }
+            }
+        });
+
         listView.setAdapter(adapter);
 //        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
         listView.setSelectionFromTop(adapter.getTodaysListPositon(), 0);
