@@ -32,12 +32,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private int numberOfListItems;
     private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
-
+    private Activity activity;
 
     private final LayoutInflater inflater;
 
     public WorkoutListAdapter(Activity activity, List<ActivityWrapper> listItems)
     {
+        this.activity = activity;
         this.inflater = activity.getLayoutInflater();
         this.listItems = listItems;
 
@@ -205,8 +206,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         pastActivityViewHolder.completed.setText(completed);
         pastActivityViewHolder.checkbox.setImageResource(checkboxId);
     }
-
-
+    
     private void setUpGroupActivityView(View convertView, int position)
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
@@ -383,10 +383,17 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 .trainingActivity.getDate());
         if (activityIsCompletedOrInThePast)
         {
+            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
+            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
+            nånting.setText("Tidigare träning");
+
             return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
         }
         else
         {
+            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
+            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
+            nånting.setText("Kommande träning");
             return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
         }
     }
