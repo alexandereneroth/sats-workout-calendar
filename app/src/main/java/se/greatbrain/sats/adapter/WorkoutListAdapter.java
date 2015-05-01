@@ -450,27 +450,23 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             return R.drawable.strength_trainging_icon;
         }
-        else
+
+        String trainingActivitySubType = trainingActivity.getSubType().toLowerCase();
+
+        if (trainingActivitySubType.contains("cycl"))
         {
-            String trainingActivitySubType = trainingActivity.getSubType().toLowerCase();
-            if (trainingActivitySubType.contains("cycl"))
-            {
-                return R.drawable.cykling_icon;
-            }
-            else if (trainingActivitySubType.equals("walking") || trainingActivitySubType.equals
-                    ("running"))
-            {
-                return R.drawable.running_icon;
-            }
-            else if (trainingActivityType.equals("group"))
-            {
-                return R.drawable.group_training_icon;
-            }
-            else
-            {
-                return R.drawable.all_training_icons;
-            }
+            return R.drawable.cykling_icon;
         }
+        if (trainingActivitySubType.equals("walking") || trainingActivitySubType.equals
+                ("running"))
+        {
+            return R.drawable.running_icon;
+        }
+        if (trainingActivityType.equals("group"))
+        {
+            return R.drawable.group_training_icon;
+        }
+        return R.drawable.all_training_icons;
     }
 
     /**
