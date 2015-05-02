@@ -20,18 +20,11 @@ import se.greatbrain.sats.model.realm.Region;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.model.realm.Type;
 import se.greatbrain.sats.realm.RealmClient;
+import se.greatbrain.sats.util.Constants;
 
 public class IonClient
 {
     private static final String TAG = "IonClient";
-    private final static String ACTIVITIES_URL = "http://sats-greatbrain.rhcloud" +
-            ".com/se/training/activities";
-    private final static String CLASSTYPES_URL = "https://api2.sats.com/v1.0/se/classtypes";
-    private final static String CENTERS_URL = "https://api2.sats.com/v1.0/se/centers";
-    private final static String CLASS_CATEGORY_URL = "https://api2.sats.com/v1.0/se/classtypes";
-    private final static String INSTRUCTOR_URL = "https://api2.sats.com/v1.0/se/instructors";
-    private final static String TYPES_URL = "http://sats-greatbrain.rhcloud" +
-            ".com/se/training/activities/types";
 
     private static final EventBus bus = EventBus.getDefault();
 
@@ -65,7 +58,7 @@ public class IonClient
 
     private void getAllActivities()
     {
-        Ion.with(context).load(ACTIVITIES_URL).asJsonArray().setCallback(
+        Ion.with(context).load(Constants.ACTIVITIES_URL).asJsonArray().setCallback(
                 new FutureCallback<JsonArray>()
                 {
                     @Override
@@ -102,7 +95,7 @@ public class IonClient
 
     private void getAllClassTypes()
     {
-        Ion.with(context).load(CLASSTYPES_URL).asJsonObject().setCallback(
+        Ion.with(context).load(Constants.CLASSTYPES_URL).asJsonObject().setCallback(
                 new FutureCallback<JsonObject>()
                 {
                     @Override
@@ -143,7 +136,7 @@ public class IonClient
 
     private void getAllCenters()
     {
-        Ion.with(context).load(CENTERS_URL).asJsonObject().setCallback(
+        Ion.with(context).load(Constants.CENTERS_URL).asJsonObject().setCallback(
                 new FutureCallback<JsonObject>()
                 {
                     @Override
@@ -183,7 +176,7 @@ public class IonClient
 
     private void getAllClassCategories()
     {
-        Ion.with(context).load(CLASS_CATEGORY_URL).asJsonObject().setCallback(
+        Ion.with(context).load(Constants.CLASS_CATEGORY_URL).asJsonObject().setCallback(
                 new FutureCallback<JsonObject>()
                 {
                     @Override
@@ -222,7 +215,7 @@ public class IonClient
 
     private void getAllInstructors()
     {
-        Ion.with(context).load(INSTRUCTOR_URL).asJsonObject().setCallback(
+        Ion.with(context).load(Constants.INSTRUCTOR_URL).asJsonObject().setCallback(
                 new FutureCallback<JsonObject>()
                 {
                     @Override
@@ -263,7 +256,7 @@ public class IonClient
 
     private void getAllTypes()
     {
-        Ion.with(context).load(TYPES_URL).asJsonArray().setCallback(new FutureCallback<JsonArray>
+        Ion.with(context).load(Constants.TYPES_URL).asJsonArray().setCallback(new FutureCallback<JsonArray>
                 ()
         {
             @Override
