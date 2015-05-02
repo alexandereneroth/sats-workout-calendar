@@ -36,7 +36,6 @@ public class WorkoutListFragment extends Fragment
         listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
 
-
         refreshList();
         return view;
     }
@@ -57,9 +56,6 @@ public class WorkoutListFragment extends Fragment
                 TextView trainingHeader = (TextView) getActivity().findViewById(R.id
                         .training_list_headline);
 
-//                Log.d("ItemPosition", "ItemPosition: " + itemPosition);
-//                Log.d("TodayPosition", "TodayPosition: " + adapter.positionOfTodaysFirstItem());
-
                 if (adapter.positionOfTodaysFirstItem() <= itemPosition)
                 {
                     trainingHeader.setText("Kommande träning");
@@ -72,7 +68,6 @@ public class WorkoutListFragment extends Fragment
         });
 
         listView.setAdapter(adapter);
-//        listView.setSelectionFromTop(activityWrappers.size() - 1, 0);
         listView.setSelectionFromTop(adapter.positionOfTodaysFirstItem(), 0);
     }
 }

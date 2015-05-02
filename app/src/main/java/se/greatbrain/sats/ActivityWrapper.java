@@ -1,6 +1,7 @@
 package se.greatbrain.sats;
 
 import se.greatbrain.sats.model.realm.TrainingActivity;
+import se.greatbrain.sats.util.DateUtil;
 
 public class ActivityWrapper
 {

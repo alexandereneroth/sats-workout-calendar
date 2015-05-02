@@ -31,13 +31,11 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private final int numberOfListItems;
     private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
-    private Activity activity;
 
     private final LayoutInflater inflater;
 
     public WorkoutListAdapter(Activity activity, List<ActivityWrapper> listItems)
     {
-        this.activity = activity;
         this.inflater = activity.getLayoutInflater();
         this.listItems = listItems;
 
@@ -361,9 +359,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        String date = listItems.get(position).trainingActivity.getDate();
-        int week = listItems.get(position).week;
-
         String headerText = getListTitle(position, listItems.get(position));
         holder.text.setText(headerText);
         return convertView;
@@ -373,20 +368,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         if (activityWrapper.isPastOrCompleted())
         {
-            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
-            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            //nånting.setText("Tidigare träning");
-            //Log.d(TAG, "Tidigare träning position: " + position);
-
             return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
         }
         else
         {
-            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
-            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            //nånting.setText("Kommande träning");
-            //Log.d(TAG, "Kommande träning position: " + position);
-
             return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
         }
     }
