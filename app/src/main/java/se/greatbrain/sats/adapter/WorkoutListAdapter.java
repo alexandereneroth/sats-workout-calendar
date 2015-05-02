@@ -10,27 +10,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
-public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter, StickyListHeadersListView.OnStickyHeaderChangedListener
+public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
     private static final String TAG = "WorkoutListAdapter";
 
     private static final int NUMBER_OF_VIEW_TYPES_SERVED_BY_ADAPTER = 4;
 
     private final List<ActivityWrapper> listItems;
-    private int numberOfListItems;
+    private final int numberOfListItems;
     private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
     private Activity activity;
@@ -63,16 +61,11 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     public View getView(int position, View convertView, ViewGroup parent)
     {
         ActivityWrapper activityWrapper = ((ActivityWrapper) getItem(position));
-
-        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
-                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
-                .trainingActivity.getDate());
-
         if (convertView == null)
         {
-            if (activityOnPositionIsCompletedOrInThePast)
+            if (activityWrapper.isPastOrCompleted())
             {
-                convertView = inflatePastActivityView(parent);
+                convertView = inflatePastOrCompletedActivityView(parent);
             }
             else
             {
@@ -86,9 +79,9 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 }
             }
         }
-        if (activityOnPositionIsCompletedOrInThePast)
+        if (activityWrapper.isPastOrCompleted())
         {
-            setUpPastActivityView(convertView, position);
+            setUpPastOrCompletedActivityView(convertView, position);
         }
         else
         {
@@ -109,26 +102,26 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
      * View inflation
      */
 
-    private View inflatePastActivityView(ViewGroup parent)
+    private View inflatePastOrCompletedActivityView(ViewGroup parent)
     {
         View inflateMe = inflater.inflate(R.layout.listrow_detail_completed, parent,
                 false);
 
-        PastActivityViewHolder pastActivityViewHolder = new PastActivityViewHolder();
-        pastActivityViewHolder.image = ((ImageView) inflateMe.findViewById(R.id
+        PastOrCompletedActivityViewHolder viewHolder = new PastOrCompletedActivityViewHolder();
+        viewHolder.image = ((ImageView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_training_type_picture));
-        pastActivityViewHolder.title = ((TextView) inflateMe.findViewById(R.id
+        viewHolder.title = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_name));
-        pastActivityViewHolder.date = ((TextView) inflateMe.findViewById(R.id
+        viewHolder.date = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_date));
-        pastActivityViewHolder.comment = ((TextView) inflateMe.findViewById(R.id
+        viewHolder.comment = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_comment));
-        pastActivityViewHolder.completed = ((TextView) inflateMe.findViewById(R.id
+        viewHolder.completed = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_completed));
-        pastActivityViewHolder.checkbox = ((ImageView) inflateMe.findViewById(R.id
+        viewHolder.checkbox = ((ImageView) inflateMe.findViewById(R.id
                 .listrow_detail_completed_class_completed_checkbox));
 
-        inflateMe.setTag(pastActivityViewHolder);
+        inflateMe.setTag(viewHolder);
 
         return inflateMe;
     }
@@ -147,7 +140,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 .listrow_detail_booked_class_location));
         viewHolder.instructor = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_class_instructor_name));
-        viewHolder.queue = ((TextView) inflateMe.findViewById(R.id
+        viewHolder.positionInQueue = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_class_person_queue));
         viewHolder.queueIcon = ((ImageView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_class_person_queue_icon));
@@ -184,43 +177,42 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
      * View setup
      */
 
-    private void setUpPastActivityView(View convertView, int position)
+    private void setUpPastOrCompletedActivityView(View convertView, int position)
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
         TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
-        boolean activityIsCompleted = activityWrapper.activityStatus == ActivityWrapper.COMPLETED;
-
-        int trainingTypePictureId = getTrainingTypePictureId(trainingActivity);
-        String title = getActivityViewTitle(trainingActivity);
-        String date = DateUtil.getCompletedActivityDate(trainingActivity.getDate());
+        int trainingTypePictureId = getTrainingTypePictureDrawable(trainingActivity);
+        String title = getListRowTitle(trainingActivity);
+        String date = DateUtil.getPastOrCompletedActivityDate(trainingActivity.getDate());
         String comment = getCommentString(trainingActivity.getComment());
-        String completed = activityIsCompleted ? "Avklarad!" : "Avklarad?";
-        int checkboxId = activityIsCompleted ? R.drawable.done_icon : R.drawable.done_2_icon;
+        String completed = activityWrapper.isCompleted ? "Avklarad!" : "Avklarad?";
+        int checkboxId = activityWrapper.isCompleted ? R.drawable.done_icon : R.drawable
+                .done_2_icon;
 
-        PastActivityViewHolder pastActivityViewHolder =
-                (PastActivityViewHolder) convertView.getTag();
-        pastActivityViewHolder.image.setImageResource(trainingTypePictureId);
-        pastActivityViewHolder.title.setText(title);
-        pastActivityViewHolder.date.setText(date);
-        pastActivityViewHolder.comment.setText(comment);
-        pastActivityViewHolder.completed.setText(completed);
-        pastActivityViewHolder.checkbox.setImageResource(checkboxId);
+        PastOrCompletedActivityViewHolder pastOrCompletedActivityViewHolder =
+                (PastOrCompletedActivityViewHolder) convertView.getTag();
+        pastOrCompletedActivityViewHolder.image.setImageResource(trainingTypePictureId);
+        pastOrCompletedActivityViewHolder.title.setText(title);
+        pastOrCompletedActivityViewHolder.date.setText(date);
+        pastOrCompletedActivityViewHolder.comment.setText(comment);
+        pastOrCompletedActivityViewHolder.completed.setText(completed);
+        pastOrCompletedActivityViewHolder.checkbox.setImageResource(checkboxId);
     }
-    
+
     private void setUpGroupActivityView(View convertView, int position)
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
         TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
-        String title = getActivityViewTitle(trainingActivity);
+        String title = getListRowTitle(trainingActivity);
         String duration = String.valueOf(trainingActivity.getDurationInMinutes());
         String location = trainingActivity.getCenter().getName();
         String instructor = trainingActivity.getBooking().getSatsClass().getInstructorId();
         TimeOfDay timeOfDay = DateUtil.getTimeOfDayFromDate(trainingActivity.getDate());
         String timeHours = timeOfDay.getHourString();
         String timeMinutes = timeOfDay.getMinuteString();
-        String queue = String.valueOf(trainingActivity.getBooking().getPositionInQueue());
+        String positionInQueue = String.valueOf(trainingActivity.getBooking().getPositionInQueue());
 
         GroupActivityViewHolder groupActivityViewHolder =
                 (GroupActivityViewHolder) convertView.getTag();
@@ -238,10 +230,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         groupActivityViewHolder.instructor.setText(instructor);
         groupActivityViewHolder.timeHours.setText(timeHours);
         groupActivityViewHolder.timeMinutes.setText(timeMinutes);
-        groupActivityViewHolder.queue.setText(queue);
+        groupActivityViewHolder.positionInQueue.setText(positionInQueue);
         if (trainingActivity.getBooking().getPositionInQueue() == 0)
         {
-            groupActivityViewHolder.queue.setVisibility(View.GONE);
+            groupActivityViewHolder.positionInQueue.setVisibility(View.GONE);
             groupActivityViewHolder.queueIcon.setVisibility(View.GONE);
         }
     }
@@ -251,7 +243,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
         TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
-        String title = getActivityViewTitle(trainingActivity);
+        String title = getListRowTitle(trainingActivity);
         String duration = trainingActivity.getDurationInMinutes() + " min";
         String comment = getCommentString(trainingActivity.getComment());
 
@@ -262,21 +254,15 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         privateActivityViewHolder.comment.setText(comment);
     }
 
-    @Override
-    public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
-            View view, int itemPosition, long headerId)
-    {
-        Log.d(TAG, "Sticki header psotiotonj" + itemPosition);
-    }
-
     /**
      * Below are view holders that contain all the different views that will be set in the
      * different layouts.
      * <p/>
      * These are used like this:
-     * bookedClassActivityViewHolder.title.setText("Some text");
+     * <code>bookedClassActivityViewHolder.title.setText("Some text");</code>
      * Because it is faster than using findViewById, like this:
-     * ((TextField)view.findViewById(R.id.listrow_detail_booked_class_name)).setText("Some text");
+     * <code>((TextField)view.findViewById(R.id.listrow_detail_booked_class_name)).setText("Some
+     * text");</code>
      */
 
     class HeaderViewHolder
@@ -284,7 +270,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         TextView text;
     }
 
-    class PastActivityViewHolder
+    class PastOrCompletedActivityViewHolder
     {
         TextView title;
         TextView date;
@@ -301,7 +287,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         RelativeLayout aboutTrainingButton;
         TextView location;
         TextView instructor;
-        TextView queue;
+        TextView positionInQueue;
         TextView timeHours;
         TextView timeMinutes;
         ImageView queueIcon;
@@ -343,19 +329,18 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     @Override
     public long getHeaderId(int position)
     {
-        final int HEADER_ID_TODAY = -1;
-
         final ActivityWrapper itemOnPosition = (ActivityWrapper) getItem(position);
-        final boolean itemsDateHasPassed = DateUtil.dateHasPassed(itemOnPosition.trainingActivity
-                .getDate());
-        if (itemsDateHasPassed)
+        final boolean theDate_OfTheItemOnThisPosition_hasPassed =
+                DateUtil.dateHasPassed(itemOnPosition.trainingActivity.getDate());
+        if (theDate_OfTheItemOnThisPosition_hasPassed)
         {
-            // This way every item before today will get a headerId based on the week its on
+            // This way, every item before today will get the same header id if they belong to the
+            // same week.
             return listItemPositionToWeek.get(position);
         }
         else
         {
-            // This way every item from today onwards will get its own headerId
+            // This way, every item from today onwards will get its own header id.
             return position;
         }
     }
@@ -386,10 +371,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private String getListTitle(int position, ActivityWrapper activityWrapper)
     {
-        final boolean activityIsCompletedOrInThePast = activityWrapper.activityStatus ==
-                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
-                .trainingActivity.getDate());
-        if (activityIsCompletedOrInThePast)
+        if (activityWrapper.isPastOrCompleted())
         {
             // So we know if we should show the "Kommande träning" or "Tidigare träning" header
             TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
@@ -423,26 +405,35 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     public int getItemViewType(int position)
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
-        final boolean activityOnPositionIsCompletedOrInThePast = activityWrapper.activityStatus ==
-                ActivityWrapper.COMPLETED || DateUtil.dateHasPassed(activityWrapper
-                .trainingActivity.getDate());
 
-        if (activityOnPositionIsCompletedOrInThePast)
+        final int pastOrCompletedViewId = 0;
+        final int groupActivityViewId = 1;
+        final int privateActivityViewId = 2;
+
+        if (activityWrapper.isPastOrCompleted())
         {
-            return activityWrapper.COMPLETED;
+            return pastOrCompletedViewId;
+        }
+        else if (activityWrapper.activityType == ActivityWrapper.GROUP)
+        {
+            return groupActivityViewId;
+        }
+        else if (activityWrapper.activityType == ActivityWrapper.PRIVATE)
+        {
+            return privateActivityViewId;
         }
         else
         {
-            return activityWrapper.activityType;
+            throw new IllegalStateException("A list item has an invalid state in its " +
+                    "ActivityWrapper!");
         }
-
     }
 
     /**
      * Public accessors
      */
 
-    public int getTodaysListPositon()
+    public int positionOfTodaysFirstItem()
     {
         return numberOfPastListItems;
     }
@@ -451,7 +442,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
      * Private helper methods
      */
 
-    private int getTrainingTypePictureId(TrainingActivity trainingActivity)
+    private int getTrainingTypePictureDrawable(TrainingActivity trainingActivity)
     {
         String trainingActivityType = trainingActivity.getType().toLowerCase();
 
@@ -459,27 +450,23 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         {
             return R.drawable.strength_trainging_icon;
         }
-        else
+
+        String trainingActivitySubType = trainingActivity.getSubType().toLowerCase();
+
+        if (trainingActivitySubType.contains("cycl"))
         {
-            String trainingActivitySubType = trainingActivity.getSubType().toLowerCase();
-            if (trainingActivitySubType.contains("cycl"))
-            {
-                return R.drawable.cykling_icon;
-            }
-            else if (trainingActivitySubType.equals("walking") || trainingActivitySubType.equals
-                    ("running"))
-            {
-                return R.drawable.running_icon;
-            }
-            else if (trainingActivityType.equals("group"))
-            {
-                return R.drawable.group_training_icon;
-            }
-            else
-            {
-                return R.drawable.all_training_icons;
-            }
+            return R.drawable.cykling_icon;
         }
+        if (trainingActivitySubType.equals("walking") || trainingActivitySubType.equals
+                ("running"))
+        {
+            return R.drawable.running_icon;
+        }
+        if (trainingActivityType.equals("group"))
+        {
+            return R.drawable.group_training_icon;
+        }
+        return R.drawable.all_training_icons;
     }
 
     /**
@@ -488,7 +475,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
      * @param trainingActivity The training activity which to base the title on
      * @return Returns the title for a list row view
      */
-    private String getActivityViewTitle(TrainingActivity trainingActivity)
+    private String getListRowTitle(TrainingActivity trainingActivity)
     {
         String title;
         if (trainingActivity.getActivityType() == null)
