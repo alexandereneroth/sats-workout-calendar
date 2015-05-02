@@ -13,6 +13,7 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.json.JsonParser;
+import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Instructor;
@@ -64,31 +65,14 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonArray result)
                     {
-                        new AsyncTask<Void, Void, Void>()
+                        if (e == null)
                         {
-                            @Override
-                            protected Void doInBackground(Void... params)
-                            {
-                                if (e == null)
-                                {
-                                    RealmClient.getInstance(context).addDataToDB(result,
-                                            TrainingActivity.class);
-                                }
-                                else
-                                {
-                                    Log.d(TAG, e.getMessage());
-                                    bus.post(new ServerErrorEvent("Server connection error"));
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid)
-                            {
-                                bus.post(new JsonParseCompleteEvent("getAllActivites"));
-                            }
-                        }.execute();
+                            new DbWriteTask(result, TrainingActivity.class).execute();
+                        }
+                        else
+                        {
+                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                        }
                     }
                 });
     }
@@ -101,35 +85,17 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>()
+                        if (e == null)
                         {
-                            @Override
-                            protected Void doInBackground(Void... params)
-                            {
-                                if (e == null)
-                                {
-                                    JsonArray classTypes = result.getAsJsonArray("classTypes");
-                                    JsonArray reparsedClassTypes = JsonParser.refactorClassTypes(
-                                            classTypes);
+                            JsonArray classTypes = result.getAsJsonArray("classTypes");
+                            classTypes = JsonParser.refactorClassTypes(classTypes);
 
-                                    RealmClient.getInstance(context).addDataToDB
-                                            (reparsedClassTypes, ClassType.class);
-                                }
-                                else
-                                {
-                                    Log.d(TAG, e.getMessage());
-                                    bus.post(new ServerErrorEvent("Server connection error"));
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid)
-                            {
-                                bus.post(new JsonParseCompleteEvent("getAllClassTypes"));
-                            }
-                        }.execute();
+                            new DbWriteTask(classTypes, ClassType.class).execute();
+                        }
+                        else
+                        {
+                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                        }
                     }
                 });
     }
@@ -142,34 +108,17 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>()
+                        if (e == null)
                         {
-                            @Override
-                            protected Void doInBackground(Void... params)
-                            {
-                                if (e == null)
-                                {
-                                    JsonArray regions = result.getAsJsonArray("regions");
-                                    regions = JsonParser.refactorCenters(regions);
+                            JsonArray regions = result.getAsJsonArray("regions");
+                            regions = JsonParser.refactorCenters(regions);
 
-                                    RealmClient.getInstance(context).addDataToDB(regions,
-                                            Region.class);
-                                }
-                                else
-                                {
-                                    Log.d(TAG, e.getMessage());
-                                    bus.post(new ServerErrorEvent("Server connection error"));
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid)
-                            {
-                                bus.post(new JsonParseCompleteEvent("getAllCenters"));
-                            }
-                        }.execute();
+                            new DbWriteTask(regions, Region.class).execute();
+                        }
+                        else
+                        {
+                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                        }
                     }
                 });
     }
@@ -182,33 +131,15 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>()
+                        if (e == null)
                         {
-                            @Override
-                            protected Void doInBackground(Void... params)
-                            {
-                                if (e == null)
-                                {
-                                    JsonArray classCategories = result.getAsJsonArray(
-                                            "classCategories");
-                                    RealmClient.getInstance(context).addDataToDB(classCategories,
-                                            ClassCategory.class);
-                                }
-                                else
-                                {
-                                    Log.d(TAG, e.getMessage());
-                                    bus.post(new ServerErrorEvent("Server connection error"));
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid)
-                            {
-                                bus.post(new JsonParseCompleteEvent("getAllClassCategories"));
-                            }
-                        }.execute();
+                            JsonArray classCategories = result.getAsJsonArray("classCategories");
+                            new DbWriteTask(classCategories, ClassCategory.class).execute();
+                        }
+                        else
+                        {
+                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                        }
                     }
                 });
     }
@@ -221,72 +152,64 @@ public class IonClient
                     @Override
                     public void onCompleted(final Exception e, final JsonObject result)
                     {
-                        new AsyncTask<Void, Void, Void>()
+                        if (e == null)
                         {
-                            @Override
-                            protected Void doInBackground(Void... params)
-                            {
-                                if (e == null)
-                                {
-                                    JsonArray instructors = result.getAsJsonArray("instructors");
-                                    final JsonArray trimmedInstructorArray = JsonParser
-                                            .refactorInstructors(instructors);
-                                    RealmClient.getInstance(context).addDataToDB(
-                                            trimmedInstructorArray,
-                                            Instructor.class);
-                                }
-                                else
-                                {
-                                    Log.d(TAG, e.getMessage());
-                                    bus.post(new ServerErrorEvent("Server connection error"));
-                                }
+                            JsonArray instructors = result.getAsJsonArray("instructors");
+                            instructors = JsonParser.refactorInstructors(instructors);
 
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid)
-                            {
-                                bus.post(new JsonParseCompleteEvent("getAllInstructors"));
-                            }
-                        }.execute();
+                            new DbWriteTask(instructors, Instructor.class).execute();
+                        }
+                        else
+                        {
+                            bus.post(new ServerErrorEvent("Server connection error"));
+                        }
                     }
                 });
     }
 
     private void getAllTypes()
     {
-        Ion.with(context).load(Constants.TYPES_URL).asJsonArray().setCallback(new FutureCallback<JsonArray>
-                ()
-        {
-            @Override
-            public void onCompleted(final Exception e, final JsonArray result)
-            {
-                new AsyncTask<Void, Void, Void>()
+        Ion.with(context).load(Constants.TYPES_URL).asJsonArray().setCallback(
+                new FutureCallback<JsonArray>
+                        ()
                 {
                     @Override
-                    protected Void doInBackground(Void... params)
+                    public void onCompleted(final Exception e, final JsonArray result)
                     {
                         if (e == null)
                         {
-                            RealmClient.getInstance(context).addDataToDB(result, Type.class);
+                            new DbWriteTask(result, Type.class).execute();
                         }
                         else
                         {
-                            Log.d(TAG, e.getMessage());
                             bus.post(new ServerErrorEvent("Server connection error"));
                         }
-
-                        return null;
                     }
+                });
+    }
 
-                    @Override
-                    protected void onPostExecute(Void aVoid)
-                    {
-                        bus.post(new JsonParseCompleteEvent("getAllTypes"));
-                    }
-                }.execute();
-            }
-        });
+    private final class DbWriteTask extends AsyncTask<Void, Void, Void>
+    {
+        private final JsonArray array;
+        private final Class type;
+
+        private DbWriteTask(JsonArray array, Class type)
+        {
+            this.array = array;
+            this.type = type;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            RealmClient.getInstance(context).addDataToDB(array, type);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            bus.post(new JsonParseCompleteEvent(type.getName()));
+        }
     }
 }
