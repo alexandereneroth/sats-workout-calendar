@@ -2,7 +2,6 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +57,8 @@ public class WorkoutListFragment extends Fragment
                 TextView trainingHeader = (TextView) getActivity().findViewById(R.id
                         .training_list_headline);
 
-                Log.d("ItemPosition", "ItemPosition: " + itemPosition);
-                Log.d("TodayPosition", "TodayPosition: " + adapter.getTodaysListPositon());
+//                Log.d("ItemPosition", "ItemPosition: " + itemPosition);
+//                Log.d("TodayPosition", "TodayPosition: " + adapter.getTodaysListPositon());
 
                 if (adapter.getTodaysListPositon() < itemPosition + 1)
                 {

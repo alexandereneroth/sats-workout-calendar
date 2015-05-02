@@ -2,7 +2,6 @@ package se.greatbrain.sats.ion;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
