@@ -74,8 +74,7 @@ public class RealmClient
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
 
-        List<ActivityWrapper> activitiesWithWeek = new
-                ArrayList<>();
+        List<ActivityWrapper> activitiesWithWeek = new ArrayList<>();
 
         for (TrainingActivity activity : activities)
         {
