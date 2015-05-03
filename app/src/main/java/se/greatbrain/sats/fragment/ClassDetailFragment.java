@@ -1,15 +1,18 @@
 package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.google.android.youtube.player.YouTubeIntents;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.ActivityWrapper;
@@ -48,13 +51,33 @@ public class ClassDetailFragment extends Fragment
 
         VideoView classVideo = (VideoView) view.findViewById(R.id.class_detail_youtube_video);
 
-        MediaController mediaController = new MediaController(getActivity());
-        mediaController.setAnchorView(classVideo);
+        final String videoUrl = wrapper.trainingActivity.getClassType().getVideoUrl();
+        int questionMarkPosition = videoUrl.indexOf("?");
+        final String videoId = videoUrl.substring(questionMarkPosition - 11, questionMarkPosition);
 
-        Uri videoUri2 = Uri.parse("rtsp://r6---sn-4g57kuez.c.youtube.com/CiILENy73wIaGQliMKu9r4gSIBMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
-        Uri videoUri = Uri.parse(wrapper.trainingActivity.getClassType().getVideoUrl());
-        classVideo.setMediaController(mediaController);
-        classVideo.setVideoURI(videoUri2);
+        Log.d("Url", videoUrl);
+        Log.d("VideoId", videoId);
+
+        classVideo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(getActivity(),
+                        videoId,
+                        false, false);
+                startActivity(intent);
+
+                return false;
+            }
+        });
+
+//        MediaController mediaController = new MediaController(getActivity());
+//        mediaController.setAnchorView(classVideo);
+//
+//        Uri videoUri2 = Uri.parse("rtsp://r6---sn-4g57kuez.c.youtube.com/CiILENy73wIaGQliMKu9r4gSIBMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
+//        Uri videoUri = Uri.parse(wrapper.trainingActivity.getClassType().getVideoUrl());
+//        classVideo.setMediaController(mediaController);
+//        classVideo.setVideoURI(videoUri2);
 
         className.setText(wrapper.trainingActivity.getClassType().getName());
         classDuration.setText(String.valueOf(wrapper.trainingActivity.getDurationInMinutes()) +
