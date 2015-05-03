@@ -140,8 +140,8 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 .listrow_detail_booked_class_instructor_name));
         viewHolder.positionInQueue = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_class_person_queue));
-        viewHolder.queueIcon = ((ImageView) inflateMe.findViewById(R.id
-                .listrow_detail_booked_class_person_queue_icon));
+//        viewHolder.queueIcon = ((ImageView) inflateMe.findViewById(R.id
+//                .listrow_detail_booked_class_person_queue_icon));
         viewHolder.timeHours = ((TextView) inflateMe.findViewById(R.id
                 .listrow_detail_booked_class_time_hours));
         viewHolder.timeMinutes = ((TextView) inflateMe.findViewById(R.id
@@ -232,7 +232,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         if (trainingActivity.getBooking().getPositionInQueue() == 0)
         {
             groupActivityViewHolder.positionInQueue.setVisibility(View.GONE);
-            groupActivityViewHolder.queueIcon.setVisibility(View.GONE);
+//            groupActivityViewHolder.queueIcon.setVisibility(View.GONE);
         }
     }
 
@@ -288,7 +288,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         TextView positionInQueue;
         TextView timeHours;
         TextView timeMinutes;
-        ImageView queueIcon;
+//        ImageView queueIcon;
     }
 
     class PrivateActivityViewHolder
