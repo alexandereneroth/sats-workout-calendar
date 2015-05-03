@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity
 
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.bottom_fragment_container,
-                new ClassDetailFragment()).commit();
+                new ClassDetailFragment()).addToBackStack(null).commit();
 
         EventBus.getDefault().postSticky(new ClassDetailEvent(wrapper));
     }
@@ -146,6 +146,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onBackPressed()
     {
-        super.onBackPressed();
+        getFragmentManager().popBackStack();
     }
 }

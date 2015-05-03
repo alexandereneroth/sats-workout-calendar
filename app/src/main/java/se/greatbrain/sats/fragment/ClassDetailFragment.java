@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeIntents;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.ActivityWrapper;
@@ -20,9 +23,12 @@ import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.ClassDetailEvent;
 import se.greatbrain.sats.util.DateUtil;
 
-public class ClassDetailFragment extends Fragment
+public class ClassDetailFragment extends Fragment implements YouTubeThumbnailView.OnInitializedListener
 {
     private ActivityWrapper wrapper;
+    private String videoId;
+
+    private final static String API_KEY = "AIzaSyBW0jMIhMr20zsk6DuZ5pAv6aTKfc2fGTE";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,35 +55,31 @@ public class ClassDetailFragment extends Fragment
         ProgressBar agility = (ProgressBar) view.findViewById(R.id
                 .class_detail_agility_progress_bar);
 
-        VideoView classVideo = (VideoView) view.findViewById(R.id.class_detail_youtube_video);
+//        VideoView classVideo = (VideoView) view.findViewById(R.id.class_detail_youtube_video);
+
+        YouTubeThumbnailView thumbnail = (YouTubeThumbnailView) view.findViewById(R.id
+                .class_detail_youtube_video);
+        thumbnail.initialize(API_KEY, this);
 
         final String videoUrl = wrapper.trainingActivity.getClassType().getVideoUrl();
         int questionMarkPosition = videoUrl.indexOf("?");
-        final String videoId = videoUrl.substring(questionMarkPosition - 11, questionMarkPosition);
+        videoId = videoUrl.substring(questionMarkPosition - 11, questionMarkPosition);
 
         Log.d("Url", videoUrl);
         Log.d("VideoId", videoId);
 
-        classVideo.setOnTouchListener(new View.OnTouchListener() {
+        thumbnail.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent)
             {
                 Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(getActivity(),
-                        videoId,
-                        false, false);
+                        videoId, false, false);
                 startActivity(intent);
 
                 return false;
             }
         });
-
-//        MediaController mediaController = new MediaController(getActivity());
-//        mediaController.setAnchorView(classVideo);
-//
-//        Uri videoUri2 = Uri.parse("rtsp://r6---sn-4g57kuez.c.youtube.com/CiILENy73wIaGQliMKu9r4gSIBMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
-//        Uri videoUri = Uri.parse(wrapper.trainingActivity.getClassType().getVideoUrl());
-//        classVideo.setMediaController(mediaController);
-//        classVideo.setVideoURI(videoUri2);
 
         className.setText(wrapper.trainingActivity.getClassType().getName());
         classDuration.setText(String.valueOf(wrapper.trainingActivity.getDurationInMinutes()) +
@@ -119,5 +121,41 @@ public class ClassDetailFragment extends Fragment
     public void onEventMainThread(ClassDetailEvent event)
     {
         wrapper = event.getSourceEvent();
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
+            YouTubeThumbnailLoader youTubeThumbnailLoader)
+    {
+//        Toast.makeText(getActivity(), "YouTubeThumbnailView.onInitializationSuccess()",
+//                Toast.LENGTH_LONG).show();
+
+        youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader
+                .OnThumbnailLoadedListener() {
+            @Override
+            public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s)
+            {
+//                Toast.makeText(getActivity(), "ThumbnailLoadedListener.onThumbnailLoaded()",
+//                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView,
+                    YouTubeThumbnailLoader.ErrorReason errorReason)
+            {
+                Toast.makeText(getActivity(), "ThumbnailLoadedListener.onThumbnailError()",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        youTubeThumbnailLoader.setVideo(videoId);
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView,
+            YouTubeInitializationResult youTubeInitializationResult)
+    {
+        Toast.makeText(getActivity(), "YouTubeThumbnailView.onInitializationFailure()",
+                Toast.LENGTH_LONG).show();
     }
 }

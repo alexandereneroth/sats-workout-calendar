@@ -75,10 +75,16 @@
             android:layout_below="@id/class_detail_header_container"
             android:id="@+id/class_detail_video_container">
 
-            <VideoView
-                android:layout_width="wrap_content"
+            <com.google.android.youtube.player.YouTubeThumbnailView
+                android:layout_width="fill_parent"
                 android:layout_height="200dp"
                 android:id="@+id/class_detail_youtube_video"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play_round_big_icon"/>
 
         </RelativeLayout>
 
