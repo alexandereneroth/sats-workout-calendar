@@ -1,4 +1,4 @@
-package se.greatbrain.sats;
+package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -16,8 +16,13 @@ import android.widget.Toast;
 import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.ActivityWrapper;
+import se.greatbrain.sats.R;
+import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
+import se.greatbrain.sats.event.ClassDetailEvent;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
+import se.greatbrain.sats.fragment.ClassDetailFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -33,9 +38,14 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Intent intent = new Intent(this, ClassDetailActivity.class);
+//        startActivity(intent);
         loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
+        //ClassDetailFragment classDetailFragment = new ClassDetailFragment();
+//
         FragmentManager manager = getFragmentManager();
         workoutListFragment = new WorkoutListFragment();
         manager.beginTransaction().add(R.id.bottom_fragment_container,
@@ -120,5 +130,22 @@ public class MainActivity extends ActionBarActivity
     {
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
+    }
+
+    public void onEventMainThread(ClassDetailButtonClickedEvent event)
+    {
+        ActivityWrapper wrapper = event.getSourceEvent();
+
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.bottom_fragment_container,
+                new ClassDetailFragment()).commit();
+
+        EventBus.getDefault().postSticky(new ClassDetailEvent(wrapper));
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
     }
 }

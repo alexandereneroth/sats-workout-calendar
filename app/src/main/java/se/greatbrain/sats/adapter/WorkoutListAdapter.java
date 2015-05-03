@@ -1,7 +1,6 @@
 package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
-public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter, StickyListHeadersListView.OnStickyHeaderChangedListener
+public class WorkoutListAdapter extends BaseAdapter implements StickyListHeadersAdapter
 {
     private static final String TAG = "WorkoutListAdapter";
 
@@ -208,7 +207,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         pastActivityViewHolder.checkbox.setImageResource(checkboxId);
     }
     
-    private void setUpGroupActivityView(View convertView, int position)
+    private void setUpGroupActivityView(View convertView, final int position)
     {
         ActivityWrapper activityWrapper = (ActivityWrapper) getItem(position);
         TrainingActivity trainingActivity = activityWrapper.trainingActivity;
@@ -229,7 +228,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             @Override
             public void onClick(View view)
             {
-                Log.d("Hej", "Button clicked");
+                ActivityWrapper wrapper = listItems.get(position);
+                EventBus.getDefault().post(new ClassDetailButtonClickedEvent(wrapper));
+//                Intent intent = new Intent(activity, ClassDetailActivity.class);
+//                activity.startActivity(intent);
             }
         });
         groupActivityViewHolder.title.setText(title);
@@ -260,13 +262,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         privateActivityViewHolder.title.setText(title);
         privateActivityViewHolder.duration.setText(duration);
         privateActivityViewHolder.comment.setText(comment);
-    }
-
-    @Override
-    public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
-            View view, int itemPosition, long headerId)
-    {
-        Log.d(TAG, "Sticki header psotiotonj" + itemPosition);
     }
 
     /**
@@ -391,20 +386,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
                 .trainingActivity.getDate());
         if (activityIsCompletedOrInThePast)
         {
-            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
-            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            //nånting.setText("Tidigare träning");
-            //Log.d(TAG, "Tidigare träning position: " + position);
-
             return DateUtil.getListTitleCompleted(activityWrapper.trainingActivity.getDate());
         }
         else
         {
-            // So we know if we should show the "Kommande träning" or "Tidigare träning" header
-            TextView nånting = (TextView) activity.findViewById(R.id.training_list_headline);
-            //nånting.setText("Kommande träning");
-            //Log.d(TAG, "Kommande träning position: " + position);
-
             return DateUtil.getListTitlePlanned(activityWrapper.trainingActivity.getDate());
         }
     }
