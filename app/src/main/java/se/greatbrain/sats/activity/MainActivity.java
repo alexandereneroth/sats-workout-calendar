@@ -159,7 +159,6 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     {
         slidingMenu = new SlidingMenu(this);
         slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
         slidingMenu.setShadowWidth(200);
         slidingMenu.setFadeDegree(0.35f);

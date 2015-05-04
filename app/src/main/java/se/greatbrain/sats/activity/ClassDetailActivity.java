@@ -18,10 +18,10 @@ public class ClassDetailActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_class_detail);
 
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().add(R.id.bottom_fragment_container,
+        manager.beginTransaction().add(R.id.class_detail_fragment_container,
                 new ClassDetailFragment()).commit();
     }
 
