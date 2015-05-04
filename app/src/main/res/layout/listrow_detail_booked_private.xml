@@ -1,182 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <!-- Hela övre sektionen -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/background_body"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/listrow_detail_booked_private_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Styrketräning"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/linearlayout_booked_time_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/listrow_detail_booked_private_name">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_time"
+                android:layout_marginEnd="4dp"
+                android:paddingTop="3dp"/>
+
+            <TextView
+                android:id="@+id/listrow_detail_booked_private_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/gray"
+                android:text="80 min"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linearlayout_booked_time_row">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_comment"
+                android:layout_marginEnd="4dp"
+                android:paddingTop="3dp"/>
+            <TextView
+                android:id="@+id/listrow_detail_booked_private_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:textSize="11sp"
+                android:textColor="@color/gray"
+                android:text="1 kommentar"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/listrow_detail_booked_private_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/mytraining_details_round_button"
+            android:text="Detaljer"
+            android:layout_gravity="end"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <!-- Neder sektionen med knapparna -->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <!-- Hela övre sektionen -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_body"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <!-- left column layout -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_item_training_buttons"
+            android:clickable="false">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="2"
-                android:layout_marginStart="5dp">
-
-                <TextView
-                    android:id="@+id/listrow_detail_booked_private_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Styrketräning"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:src="@drawable/ic_time"
-                        android:layout_marginEnd="4dp"
-                        android:paddingTop="3dp"/>
-
-                    <TextView
-                        android:id="@+id/listrow_detail_booked_private_duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="11sp"
-                        android:textColor="@color/gray"
-                        android:text="Hornstull"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/ic_comment"
-                    android:layout_marginEnd="4dp"
-                    android:paddingTop="3dp"/>
-
-                    <TextView
-                        android:id="@+id/listrow_detail_booked_private_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
-                        android:textSize="11sp"
-                        android:textColor="@color/gray"
-                        android:text="1 kommentar"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/listrow_detail_booked_private_calender_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/listrow_detail_booked_private_cancel_button"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/add_to_calender_image_description"
+                    android:src="@drawable/ic_calender"
+                    android:id="@+id/listrow_detail_booked_private_calender_image"/>
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:background="@drawable/mytraining_details_round_button"
-                    android:text="Detaljer"
-                    android:layout_gravity="end"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/add_to_calender_button_text"
+                    android:textSize="8sp"/>
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <!-- Neder sektionen med knapparna -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_item_training_buttons">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            <LinearLayout
+                android:id="@+id/listrow_detail_booked_private_fitness_programme_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal"
+                android:clickable="true">
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/list_item_training_buttons"
-                android:clickable="false">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/fitness_programme_description"
+                    android:src="@drawable/book_dark"/>
 
-                <LinearLayout
-                    android:id="@+id/listrow_detail_booked_private_calender_button"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                    android:paddingTop="2dp"
+                    android:paddingStart="5dp"
+                    android:text="Träningsprogram"
+                    android:textSize="8sp"/>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/add_to_calender_image_description"
-                        android:src="@drawable/ic_calender"
-                        android:id="@+id/listrow_detail_booked_private_calender_image"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingStart="5dp"
-                        android:text="@string/add_to_calender_button_text"
-                        android:textSize="8sp"/>
+        </RelativeLayout>
 
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/list_item_training_buttons">
-
-                <LinearLayout
-                    android:id="@+id/listrow_detail_booked_private_fitness_programme_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal"
-                    android:clickable="true">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="@string/fitness_programme_description"
-                        android:src="@drawable/book_dark"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="2dp"
-                        android:paddingStart="5dp"
-                        android:text="Träningsprogram"
-                        android:textSize="8sp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
