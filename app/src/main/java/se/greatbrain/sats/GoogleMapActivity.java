@@ -112,7 +112,7 @@ public class GoogleMapActivity extends ActionBarActivity
                         slidingMenu.toggle();
                     }
                 });
-        
+
         return super.onCreateOptionsMenu(menu);
     }
 

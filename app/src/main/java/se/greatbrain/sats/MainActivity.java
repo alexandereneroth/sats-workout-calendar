@@ -107,18 +107,6 @@ public class MainActivity extends ActionBarActivity
                         slidingMenu.toggle();
                     }
                 });
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setIcon(R.drawable.sats_logo_menu);
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayShowHomeEnabled(true);
-
-
-//        actionBar.setHomeAsUpIndicator(R.drawable.sats_logo_menu);
-
-        //back to activity
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//
-
 
         return true;
     }
@@ -129,11 +117,6 @@ public class MainActivity extends ActionBarActivity
 //
         switch (item.getItemId())
         {
-//            case R.id.action_bar_menu_button:
-//            {
-//                slidingMenu.toggle();
-//                return true;
-//            }
             case R.id.action_bar_refresh_button:
             {
                 setupReloadItemMenu();
