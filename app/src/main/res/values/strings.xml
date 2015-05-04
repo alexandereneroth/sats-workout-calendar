@@ -22,4 +22,6 @@
     <string name="listrow_detail_booked_class_hours_text">10</string>
     <string name="fitness_programme_description">En tränings kalender knapp</string>
     <string name="reload_btn_description">Reload button</string>
+    <string name="listrow_detail_booked_private_time_icon_description">Time icon</string>
+    <string name="listrow_detail_booked_private_comment_icon_description">Comment icon</string>
 </resources>

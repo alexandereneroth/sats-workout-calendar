@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:background="@color/background_body"
         android:orientation="horizontal"
         android:padding="5dp">
@@ -24,50 +24,47 @@
             android:textSize="14sp"
             android:textStyle="bold"/>
 
-        <LinearLayout
-            android:id="@+id/linearlayout_booked_time_row"
+        <ImageView
+            android:id="@+id/listrow_detail_booked_private_time_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_time"
+            android:contentDescription="@string/listrow_detail_booked_private_time_icon_description"
+            android:layout_below="@+id/listrow_detail_booked_private_name"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:id="@+id/listrow_detail_booked_private_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/listrow_detail_booked_private_name">
+            android:textSize="11sp"
+            android:textColor="@color/gray"
+            android:text="80 min"
+            android:layout_toEndOf="@id/listrow_detail_booked_private_time_icon"
+            android:layout_alignTop="@+id/listrow_detail_booked_private_time_icon"
+            />
 
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_time"
-                android:layout_marginEnd="4dp"
-                android:paddingTop="3dp"/>
+        <ImageView
+            android:id="@+id/listrow_detail_booked_private_comment_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_comment"
+            android:contentDescription="@string/listrow_detail_booked_private_comment_icon_description"
+            android:layout_below="@id/listrow_detail_booked_private_time_icon"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"/>
 
-            <TextView
-                android:id="@+id/listrow_detail_booked_private_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="@color/gray"
-                android:text="80 min"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/listrow_detail_booked_private_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/linearlayout_booked_time_row">
-
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_comment"
-                android:layout_marginEnd="4dp"
-                android:paddingTop="3dp"/>
-            <TextView
-                android:id="@+id/listrow_detail_booked_private_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:textSize="11sp"
-                android:textColor="@color/gray"
-                android:text="1 kommentar"/>
-        </LinearLayout>
+            android:paddingBottom="5dp"
+            android:textSize="11sp"
+            android:textColor="@color/gray"
+            android:text="1 kommentar"
+            android:layout_alignTop="@+id/listrow_detail_booked_private_comment_icon"
+            android:layout_toEndOf="@+id/listrow_detail_booked_private_comment_icon"/>
 
         <Button
             android:id="@+id/listrow_detail_booked_private_cancel_button"
