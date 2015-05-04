@@ -5,6 +5,6 @@
 
     <stroke
         android:width="3px"
-        android:color="@color/material_blue_grey_950" />
+        android:color="@color/calendar_seperator" />
 
 </shape>
