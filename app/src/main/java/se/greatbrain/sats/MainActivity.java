@@ -14,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.HashSet;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
+import se.greatbrain.sats.model.WeekAndDate;
+import se.greatbrain.sats.util.DateUtil;
 
 public class MainActivity extends ActionBarActivity
 {
