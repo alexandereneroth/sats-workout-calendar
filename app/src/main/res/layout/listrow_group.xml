@@ -10,4 +10,4 @@
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
     android:textStyle="bold"
-    android:background="@color/list_item_background"/>
+    android:background="@color/list_title_background"/>
