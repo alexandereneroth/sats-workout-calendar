@@ -45,23 +45,7 @@ public class MainActivity extends ActionBarActivity
         manager.beginTransaction().add(R.id.bottom_fragment_container,
                 workoutListFragment).commit();
 
-        slidingMenu = new SlidingMenu(this);
-        slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        slidingMenu.setShadowWidth(200);
-        slidingMenu.setFadeDegree(0.35f);
-        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        slidingMenu.setMenu(R.layout.sliding_menu);
-
-        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
-                startActivity(intent);
-            }
-        });
+        setupSlidingMenu();
     }
 
     @Override
@@ -91,7 +75,8 @@ public class MainActivity extends ActionBarActivity
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // remove left actionbar padding
-        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar) actionBarView.getParent();
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
+                actionBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
@@ -114,16 +99,11 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-//
-        switch (item.getItemId())
+        if (item.getItemId() == R.id.action_bar_refresh_button)
         {
-            case R.id.action_bar_refresh_button:
-            {
-                setupReloadItemMenu();
-                loadJsonDataFromWeb();
-                return true;
-            }
-
+            setupReloadItemMenu();
+            loadJsonDataFromWeb();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -157,10 +137,32 @@ public class MainActivity extends ActionBarActivity
     {
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
-
+    
     private void updateWorkoutListFragment()
     {
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
+    }
+
+    private void setupSlidingMenu()
+    {
+        slidingMenu = new SlidingMenu(this);
+        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+        slidingMenu.setShadowWidth(200);
+        slidingMenu.setFadeDegree(0.35f);
+        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        slidingMenu.setMenu(R.layout.sliding_menu);
+
+        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

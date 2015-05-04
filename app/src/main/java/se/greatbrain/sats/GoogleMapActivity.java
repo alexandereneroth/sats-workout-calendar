@@ -1,15 +1,10 @@
 package se.greatbrain.sats;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.LevelListDrawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +34,7 @@ public class GoogleMapActivity extends ActionBarActivity
 {
     private GoogleMap map ;
     private SlidingMenu slidingMenu;
+    private Map<Marker, Center> markerCenterMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,38 +48,13 @@ public class GoogleMapActivity extends ActionBarActivity
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setMyLocationEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        final Map<Marker, Center> markerCenterMap = addCenterMarkers(map);
 
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
-        {
-            @Override
-            public void onInfoWindowClick(Marker marker)
-            {
-                Intent intent = new Intent(getApplicationContext(), FindCenterDetailActivity.class);
-                intent.putExtra("centerUrl", markerCenterMap.get(marker).getUrl());
-                startActivity(intent);
-            }
-        });
+        markerCenterMap = addCenterMarkers(map);
 
-
-        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap
-                .OnMyLocationChangeListener()
-        {
-            boolean moveToMyLocation = true;
-            @Override
-            public void onMyLocationChange(Location location)
-            {
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
-                if (map != null && moveToMyLocation)
-                {
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 10.0f));
-                    moveToMyLocation=false;
-                }
-            }
-        };
-        map.setOnMyLocationChangeListener(myLocationChangeListener);
+        findCenterDetailView();
+        moveCameraToMyLocation();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -100,6 +71,13 @@ public class GoogleMapActivity extends ActionBarActivity
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_text_view);
         actionBarTitle.setText("HITTA CENTER");
 
+        setupSlidingMenu();
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setupSlidingMenu()
+    {
         slidingMenu = new SlidingMenu(this);
         slidingMenu.setMode(SlidingMenu.LEFT);
         slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
@@ -118,8 +96,40 @@ public class GoogleMapActivity extends ActionBarActivity
                         slidingMenu.toggle();
                     }
                 });
+    }
 
-        return super.onCreateOptionsMenu(menu);
+    private void findCenterDetailView() {
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+        {
+            @Override
+            public void onInfoWindowClick(Marker marker)
+            {
+                Intent intent = new Intent(getApplicationContext(), FindCenterDetailActivity.class);
+                intent.putExtra("centerUrl", markerCenterMap.get(marker).getUrl());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void moveCameraToMyLocation()
+    {
+        GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap
+                .OnMyLocationChangeListener()
+        {
+            boolean moveToMyLocation = true;
+            @Override
+            public void onMyLocationChange(Location location)
+            {
+                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                if (map != null && moveToMyLocation)
+                {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 10.0f));
+                    moveToMyLocation=false;
+                }
+            }
+        };
+        map.setOnMyLocationChangeListener(myLocationChangeListener);
     }
 
     private Map<Marker, Center> addCenterMarkers(GoogleMap map)
@@ -144,6 +154,5 @@ public class GoogleMapActivity extends ActionBarActivity
         }
         return markerCenterMap;
     }
-
 }
 
