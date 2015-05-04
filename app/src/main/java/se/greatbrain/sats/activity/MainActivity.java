@@ -1,7 +1,8 @@
-package se.greatbrain.sats;
+package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,18 +18,22 @@ import java.util.HashSet;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
+import se.greatbrain.sats.fragment.GraphColumnFragment;
+import se.greatbrain.sats.fragment.GraphFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 import se.greatbrain.sats.model.WeekAndDate;
 import se.greatbrain.sats.util.DateUtil;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
 {
-    private static final String TAG_LOG = "MainActivity";
+    private static final String TAG = "MainActivity";
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
+    private GraphFragment graphFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
 
     @Override
@@ -36,13 +41,19 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
+        android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
+
         workoutListFragment = new WorkoutListFragment();
-        manager.beginTransaction().add(R.id.bottom_fragment_container,
-                workoutListFragment).commit();
+        graphFragment = new GraphFragment();
+        supportManager.beginTransaction()
+                .add(R.id.top_fragment_container, graphFragment)
+                .add(R.id.bottom_fragment_container, workoutListFragment)
+                .commit();
     }
 
     @Override
@@ -54,7 +65,7 @@ public class MainActivity extends ActionBarActivity
 
     private void loadJsonDataFromWeb()
     {
-        Log.d(TAG_LOG, "loadJsonDataFromWeb");
+        Log.d(TAG, "loadJsonDataFromWeb");
         IonClient.getInstance(this).getAllData();
     }
 
@@ -70,6 +81,11 @@ public class MainActivity extends ActionBarActivity
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
+                actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
@@ -123,5 +139,13 @@ public class MainActivity extends ActionBarActivity
     {
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
+    }
+
+    @Override
+    public void onPageClicked (int page)
+    {
+        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
+                true);
+        Log.d(TAG, "Page: " + page);
     }
 }

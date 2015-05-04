@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/actionbar_background">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/btn_back_sats"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        android:src="@drawable/back_icon"
+        android:paddingTop="4dp"/>
+
+    <ImageButton
+        android:id="@+id/btn_logo_sats"
+        android:layout_height="30dp"
+        android:layout_width="75dp"
+        android:background="@null"
+        android:layout_toEndOf="@id/btn_back_sats"
+        android:scaleType="centerInside"
+        android:src="@drawable/sats_logo"
+        android:paddingTop="4dp"
+        android:layout_marginRight="10dp"/>
+
+</RelativeLayout>

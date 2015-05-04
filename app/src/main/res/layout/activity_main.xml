@@ -5,9 +5,14 @@
                 tools:context=".MainActivity">
 
     <FrameLayout
+        android:id="@+id/top_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <FrameLayout
         android:id="@+id/bottom_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_fragment_container"/>
 
 </RelativeLayout>

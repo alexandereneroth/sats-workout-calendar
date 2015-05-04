@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/graph_column"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="@color/green">
+
+    <TextView
+        style="?android:textAppearanceMedium"
+        android:id="@+id/graph_week_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:padding="16dp"
+        android:text="@string/placeholder_graph_week"
+        android:textColor="@color/abc_primary_text_material_light"/>
+
+</RelativeLayout>
