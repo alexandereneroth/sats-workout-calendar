@@ -1,22 +1,17 @@
 package se.greatbrain.sats;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
 
 public class ActivityWrapper
 {
-    public static final int COMPLETED = 0;
-    public static final int PLANNED = 1;
     public static final int GROUP = 2;
     public static final int PRIVATE = 3;
 
     public final int year;
     public final int week;
     public final int activityType;
-    public final int activityStatus;
+    public final boolean isCompleted;
     public final TrainingActivity trainingActivity;
 
     public ActivityWrapper(final int year, final int week, TrainingActivity activity)
@@ -25,14 +20,8 @@ public class ActivityWrapper
         this.week = week;
         this.trainingActivity = activity;
 
-        if (activity.getStatus().equalsIgnoreCase("completed"))
-        {
-            activityStatus = COMPLETED;
-        }
-        else
-        {
-            activityStatus = PLANNED;
-        }
+        isCompleted = activity.getStatus().equalsIgnoreCase("completed");
+
         if (activity.getType().equalsIgnoreCase("group") && activity.getBooking() != null)
         {
             activityType = GROUP;
@@ -41,5 +30,10 @@ public class ActivityWrapper
         {
             activityType = PRIVATE;
         }
+    }
+
+    public boolean isPastOrCompleted()
+    {
+        return isCompleted || DateUtil.dateHasPassed(trainingActivity.getDate());
     }
 }
