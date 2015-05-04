@@ -31,4 +31,5 @@
     <string name="class_detail_movement_question">Rörlighet</string>
     <string name="class_detail_balance_question">Balans</string>
     <string name="class_detail_flexibility_question">Spänst</string>
+    <string name="placeholder_graph_week">v.14</string>
 </resources>
