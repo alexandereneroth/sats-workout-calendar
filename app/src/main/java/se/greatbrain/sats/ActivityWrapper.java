@@ -1,10 +1,6 @@
 package se.greatbrain.sats;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import se.greatbrain.sats.model.realm.TrainingActivity;
-import se.greatbrain.sats.util.DateUtil;
 
 public class ActivityWrapper
 {

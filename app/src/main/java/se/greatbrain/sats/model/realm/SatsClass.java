@@ -2,7 +2,6 @@ package se.greatbrain.sats.model.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class SatsClass extends RealmObject {

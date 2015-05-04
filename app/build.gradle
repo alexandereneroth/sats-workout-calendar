@@ -26,4 +26,7 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'io.realm:realm-android:0.80.1'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.google.android.gms:play-services:7.3.0'
+    compile project(':libraries:SlidingMenu')
+
 }

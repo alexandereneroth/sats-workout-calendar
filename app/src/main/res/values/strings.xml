@@ -22,4 +22,9 @@
     <string name="listrow_detail_booked_class_hours_text">10</string>
     <string name="fitness_programme_description">En tränings kalender knapp</string>
     <string name="reload_btn_description">Reload button</string>
+    <string name="menu_btn_title">Menu</string>
+    <string name="menu_btn_sats_logo">satsLogo</string>
+    <string name="menu_btn">Menu</string>
+    <string name="my_training_activity">MIN TRÄNING</string>
+    <string name="find_center">Hitta center</string>
 </resources>

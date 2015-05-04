@@ -13,6 +13,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import se.greatbrain.sats.ActivityWrapper;
+import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Profile;
@@ -65,7 +66,7 @@ public class RealmClient
             }
         });
 
-        realm.close();
+//        realm.close();
     }
 
     public List<ActivityWrapper> getAllActivitiesWithWeek()
@@ -96,4 +97,12 @@ public class RealmClient
 
         return activitiesWithWeek;
     }
+
+//
+    public RealmResults<Center> getAllCenters()
+    {
+        realm = Realm.getInstance(context);
+        return  realm.where(Center.class).findAll();
+    }
+//
 }
