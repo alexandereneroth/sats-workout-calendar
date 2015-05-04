@@ -4,15 +4,15 @@ import se.greatbrain.sats.ActivityWrapper;
 
 public class ClassDetailEvent
 {
-    private final ActivityWrapper sourceEvent;
+    private final ActivityWrapper activityWrapper;
 
-    public ClassDetailEvent(ActivityWrapper sourceEvent)
+    public ClassDetailEvent(ActivityWrapper activityWrapper)
     {
-        this.sourceEvent = sourceEvent;
+        this.activityWrapper = activityWrapper;
     }
 
-    public ActivityWrapper getSourceEvent()
+    public ActivityWrapper getActivityWrapper()
     {
-        return sourceEvent;
+        return activityWrapper;
     }
 }

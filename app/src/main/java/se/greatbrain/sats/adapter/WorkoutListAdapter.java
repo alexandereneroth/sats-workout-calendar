@@ -19,7 +19,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.activity.ClassDetailActivity;
-import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
+import se.greatbrain.sats.event.ClassDetailEvent;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.realm.TrainingActivity;
 import se.greatbrain.sats.util.DateUtil;
@@ -225,7 +225,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             public void onClick(View view)
             {
                 ActivityWrapper wrapper = listItems.get(position);
-                EventBus.getDefault().postSticky(new ClassDetailButtonClickedEvent(wrapper));
+                EventBus.getDefault().postSticky(new ClassDetailEvent(wrapper));
 
                 Intent intent = new Intent(activity, ClassDetailActivity.class);
                 activity.startActivity(intent);

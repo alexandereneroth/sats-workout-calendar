@@ -19,7 +19,7 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
+import se.greatbrain.sats.event.ClassDetailEvent;
 import se.greatbrain.sats.util.DateUtil;
 
 public class ClassDetailFragment extends Fragment implements YouTubeThumbnailView.OnInitializedListener
@@ -55,8 +55,6 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
                 .class_detail_balance_progress_bar);
         ProgressBar agility = (ProgressBar) view.findViewById(R.id
                 .class_detail_agility_progress_bar);
-
-//        VideoView classVideo = (VideoView) view.findViewById(R.id.class_detail_youtube_video);
 
         YouTubeThumbnailView thumbnail = (YouTubeThumbnailView) view.findViewById(R.id
                 .class_detail_youtube_video);
@@ -117,9 +115,9 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         EventBus.getDefault().registerSticky(this);
     }
 
-    public void onEventMainThread(ClassDetailButtonClickedEvent event)
+    public void onEventMainThread(ClassDetailEvent event)
     {
-        wrapper = event.getSourceEvent();
+        wrapper = event.getActivityWrapper();
     }
 
     @Override
