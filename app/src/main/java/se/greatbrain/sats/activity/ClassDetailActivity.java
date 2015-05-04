@@ -47,7 +47,6 @@ public class ClassDetailActivity extends ActionBarActivity
         ImageView satsBack = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
         satsBack.setImageResource(R.drawable.sats_logo_back);
 
-        ImageView backButton = (ImageView) actionBarView.findViewById(R.id.btn_back_sats);
         satsBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
