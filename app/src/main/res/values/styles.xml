@@ -7,4 +7,17 @@
         <item name="colorPrimary">@color/actionbar_background</item>
     </style>
 
+
+    <!--TextView Styles-->
+
+    <style name="ListItemBottomButtonTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
+
+

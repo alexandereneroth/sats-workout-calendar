@@ -41,17 +41,16 @@
 
         <TextView
             android:id="@+id/listrow_detail_booked_class_duration_minutes"
-            android:layout_margin="4dp"
             android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_time"
+            android:drawableLeft="@drawable/ic_time_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:textSize="11sp"
             android:text="@string/listrow_detail_booked_class_minutes_length"
             android:textColor="@color/gray"
             android:textStyle="bold"
-            android:layout_below="@id/listrow_detail_booked_class_time_hours"/>
+            android:layout_below="@id/listrow_detail_booked_class_time_hours"
+            android:layout_marginTop="8dp"/>
 
         <!-- mid column layout -->
 
@@ -63,7 +62,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
-            android:layout_marginLeft="4dp"/>
+            android:layout_marginStart="6dp"/>
 
         <TextView
             android:id="@+id/listrow_detail_booked_class_location"
@@ -74,7 +73,7 @@
             android:textSize="11sp"
             android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
             android:layout_below="@id/listrow_detail_booked_class_name"
-            android:layout_alignLeft="@+id/listrow_detail_booked_class_name"/>
+            android:layout_alignStart="@+id/listrow_detail_booked_class_name"/>
 
         <TextView
             android:id="@+id/listrow_detail_booked_class_instructor_name"
@@ -101,17 +100,17 @@
 
         <TextView
             android:id="@+id/listrow_detail_booked_class_person_queue"
-            android:drawableStart="@drawable/people_icon"
+            android:drawableStart="@drawable/ic_people_icon_small"
             android:drawablePadding="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="2dp"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/satsyou_red"
             android:text="20"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:gravity="center"/>
 
     </RelativeLayout>
 
@@ -132,22 +131,11 @@
             android:clickable="false"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:contentDescription="@string/about_the_class_description"
-                android:layout_toStartOf="@+id/add_to_calender_textview"
-                android:src="@drawable/ic_calender"
-                android:layout_centerInParent="true"/>
-
             <TextView
+                style="@style/ListItemBottomButtonTextView"
                 android:id="@+id/add_to_calender_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/add_to_calender_button_text"
-                android:textSize="8sp"
-                android:paddingStart="5dp"
-                android:layout_centerInParent="true"/>
+                android:drawableStart="@drawable/ic_calender_small"/>
 
 
         </RelativeLayout>
@@ -161,25 +149,12 @@
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center">
 
-
-            <ImageView
-                android:layout_toStartOf="@+id/about_the_class_textview"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:contentDescription="@string/about_the_class_description"
-                android:src="@drawable/ic_more"
-                android:layout_centerInParent="true"/>
-
             <TextView
+                style="@style/ListItemBottomButtonTextView"
                 android:id="@+id/about_the_class_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="5dp"
                 android:text="@string/about_the_class_button_text"
-                android:textSize="8sp"
-                android:layout_centerInParent="true"/>
-
-
+                android:drawableStart="@drawable/ic_more_small"
+                android:drawablePadding="5dp"/>
         </RelativeLayout>
 
     </LinearLayout>
