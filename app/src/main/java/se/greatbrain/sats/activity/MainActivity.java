@@ -70,6 +70,12 @@ public class MainActivity extends ActionBarActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
+
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
+                actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
 
