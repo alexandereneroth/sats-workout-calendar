@@ -1,161 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="15dp"
+    android:background="@drawable/listitem_border">
 
     <!-- Hela övre sektionen -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="@color/background_body"
-        android:orientation="horizontal"
-        android:padding="5dp">
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_time_hours"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/clock_background"
+        android:text="@string/listrow_detail_booked_class_hours_text"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="5dp"/>
 
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_time_hours"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/clock_background"
-            android:text="@string/listrow_detail_booked_class_hours_text"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:layout_marginEnd="3dp"/>
-
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_time_minutes"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/clock_background"
-            android:text="@string/listrow_detail_booked_class_minutes_text"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"/>
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_time_minutes"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/clock_background"
+        android:text="@string/listrow_detail_booked_class_minutes_text"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"/>
 
 
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_duration_minutes"
-            android:drawablePadding="4dp"
-            android:drawableLeft="@drawable/ic_time_small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="@string/listrow_detail_booked_class_minutes_length"
-            android:textColor="@color/gray"
-            android:textStyle="bold"
-            android:layout_below="@id/listrow_detail_booked_class_time_hours"
-            android:layout_marginTop="8dp"/>
-
-        <!-- mid column layout -->
-
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SATS CORE"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
-            android:layout_marginStart="6dp"/>
-
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hornstull"
-            android:textColor="@color/gray"
-            android:textSize="11sp"
-            android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
-            android:layout_below="@id/listrow_detail_booked_class_name"
-            android:layout_alignStart="@+id/listrow_detail_booked_class_name"/>
-
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_instructor_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sven Svensson"
-            android:textColor="@color/gray"
-            android:textSize="11sp"
-            android:layout_alignStart="@+id/listrow_detail_booked_class_name"
-            android:layout_below="@id/listrow_detail_booked_class_location"/>
-
-
-        <Button
-            android:id="@+id/listrow_detail_booked_class_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:background="@drawable/mytraining_details_round_button"
-            android:text="Avboka"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="false"/>
-
-        <TextView
-            android:id="@+id/listrow_detail_booked_class_person_queue"
-            android:drawableStart="@drawable/ic_people_icon_small"
-            android:drawablePadding="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/satsyou_red"
-            android:text="20"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"/>
-
-    </RelativeLayout>
-
-    <!-- Neder sektionen med knapparna -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_duration_minutes"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_time_small"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:background="@drawable/list_item_training_buttons">
+        android:textSize="11sp"
+        android:text="@string/listrow_detail_booked_class_minutes_length"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:layout_below="@id/listrow_detail_booked_class_time_hours"
+        android:layout_marginTop="8dp"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"/>
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/list_item_training_buttons"
-            android:clickable="false"
-            android:gravity="center">
+    <!-- mid column layout -->
 
-            <TextView
-                style="@style/ListItemBottomButtonTextView"
-                android:id="@+id/add_to_calender_textview"
-                android:text="@string/add_to_calender_button_text"
-                android:drawableStart="@drawable/ic_calender_small"/>
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SATS CORE"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
+        android:layout_marginStart="6dp"/>
+
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hornstull"
+        android:textColor="@color/gray"
+        android:textSize="11sp"
+        android:layout_below="@id/listrow_detail_booked_class_name"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_name"/>
+
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_instructor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sven Svensson"
+        android:textColor="@color/gray"
+        android:textSize="11sp"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_name"
+        android:layout_below="@id/listrow_detail_booked_class_location"/>
 
 
-        </RelativeLayout>
+    <Button
+        android:id="@+id/listrow_detail_booked_class_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/mytraining_details_round_button"
+        android:text="Avboka"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginEnd="5dp"/>
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:id="@+id/listrow_detail_booked_class_about_class_button"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center">
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_person_queue"
+        android:drawableStart="@drawable/ic_people_icon_small"
+        android:drawablePadding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/satsyou_red"
+        android:text="20"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/listrow_detail_booked_class_duration_minutes"
+        android:layout_marginEnd="5dp"/>
 
-            <TextView
-                style="@style/ListItemBottomButtonTextView"
-                android:id="@+id/about_the_class_textview"
-                android:text="@string/about_the_class_button_text"
-                android:drawableStart="@drawable/ic_more_small"
-                android:drawablePadding="5dp"/>
-        </RelativeLayout>
+    <!-- Nedre sektionen med knapparna -->
 
-    </LinearLayout>
-</LinearLayout>
+    <View
+        android:id="@+id/listrow_detail_booked_class_button_divider"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/listrow_detail_booked_class_person_queue"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:id="@+id/add_to_calender_textview"
+        android:text="@string/add_to_calender_button_text"
+        android:drawableStart="@drawable/ic_calender_small"
+        android:layout_toStartOf="@+id/listrow_detail_booked_class_button_divider"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@id/listrow_detail_booked_class_button_divider"/>
+
+
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:id="@+id/about_the_class_textview"
+        android:text="@string/about_the_class_button_text"
+        android:drawableStart="@drawable/ic_more_small"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_button_divider"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/listrow_detail_booked_class_button_divider"
+        android:clickable="true"/>
+
+</RelativeLayout>

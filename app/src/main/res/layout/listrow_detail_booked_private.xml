@@ -2,15 +2,13 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/listrow_detail_booked_private_top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:paddingEnd="10dp"
     android:paddingStart="10dp"
     android:paddingBottom="10dp"
     android:paddingTop="15dp"
-    android:id="@+id/listrow_detail_booked_private_top"
     android:background="@drawable/listitem_border">
 
     <!-- Hela övre sektionen -->
@@ -76,42 +74,23 @@
         android:layout_marginTop="10dp"/>
 
 
-    <LinearLayout
-        android:id="@+id/listrow_detail_booked_private_calender_button"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:background="@drawable/list_item_training_buttons"
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:text="@string/add_to_calender_button_text"
+        android:drawableStart="@drawable/ic_calender_small"
         android:layout_toStartOf="@+id/listrow_detail_booked_private_button_divider"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"
-        android:gravity="center">
+        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"/>
 
-        <TextView
-            style="@style/ListItemBottomButtonTextView"
-            android:text="@string/add_to_calender_button_text"
-            android:drawableStart="@drawable/ic_calender_small"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/listrow_detail_booked_private_fitness_programme_button"
-        android:background="@drawable/list_item_training_buttons"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:text="Träningsprogram"
+        android:drawableStart="@drawable/ic_book_dark_small"
         android:clickable="true"
         android:layout_toEndOf="@id/listrow_detail_booked_private_button_divider"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"
-        android:gravity="center">
-
-        <TextView
-            style="@style/ListItemBottomButtonTextView"
-            android:text="Träningsprogram"
-            android:drawableStart="@drawable/ic_book_dark_small"
-            android:drawablePadding="3dp"/>
-    </LinearLayout>
+        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"/>
 
 
 </RelativeLayout>
