@@ -3,7 +3,6 @@ package se.greatbrain.sats.activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
-import se.greatbrain.sats.GoogleMapActivity;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;

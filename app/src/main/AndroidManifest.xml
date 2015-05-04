@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".GoogleMapActivity"/>
-        <activity android:name=".FindCenterDetailActivity"/>
+        <activity android:name=".activity.GoogleMapActivity"/>
+        <activity android:name=".activity.FindCenterDetailActivity"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBdCJsb57ergsYg6-xZhG4OX4lpqXTxmY0" />

@@ -1,4 +1,4 @@
-package se.greatbrain.sats;
+package se.greatbrain.sats.activity;
 
 import android.content.Intent;
 import android.location.Location;
@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.realm.RealmResults;
+import se.greatbrain.sats.R;
 import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.realm.RealmClient;
 

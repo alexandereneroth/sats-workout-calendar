@@ -1,4 +1,4 @@
-package se.greatbrain.sats;
+package se.greatbrain.sats.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import se.greatbrain.sats.R;
+import se.greatbrain.sats.WebViewClientImpl;
 
 /**
  * Created by aymenarbi on 30/04/15.
