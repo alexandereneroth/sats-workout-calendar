@@ -39,6 +39,11 @@ public class ClassDetailActivity extends ActionBarActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
+                actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
         ImageView backButton = (ImageView) actionBarView.findViewById(R.id.btn_back_sats);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
