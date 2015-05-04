@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -39,6 +38,8 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         TextView className = (TextView) view.findViewById(R.id.class_detail_class_name);
         TextView classDuration = (TextView) view.findViewById(R.id.class_detail_class_duration);
         TextView classInfo = (TextView) view.findViewById(R.id.class_detail_class_info);
+        TextView availableSpots = (TextView) view.findViewById(R.id
+                .class_detail_deltagare_max_question);
         TextView queuePosition = (TextView) view.findViewById(R.id.class_detail_queue_position);
         TextView centerName = (TextView) view.findViewById(R.id.class_detail_center_answer);
         TextView classDate = (TextView) view.findViewById(R.id.class_detail_date_answer);
@@ -68,16 +69,13 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         Log.d("Url", videoUrl);
         Log.d("VideoId", videoId);
 
-        thumbnail.setOnTouchListener(new View.OnTouchListener() {
-
+        thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent)
+            public void onClick(View view)
             {
                 Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(getActivity(),
                         videoId, false, false);
                 startActivity(intent);
-
-                return false;
             }
         });
 
@@ -85,6 +83,7 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         classDuration.setText(String.valueOf(wrapper.trainingActivity.getDurationInMinutes()) +
                 "min");
         classInfo.setText(wrapper.trainingActivity.getClassType().getDescription());
+//        availableSpots.setText(wrapper.trainingActivity.getBooking().getSatsClass());
         queuePosition.setText(String.valueOf(wrapper.trainingActivity.getBooking()
                 .getPositionInQueue()));
         centerName.setText(wrapper.trainingActivity.getCenter().getName());

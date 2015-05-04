@@ -117,7 +117,8 @@
                 android:layout_height="wrap_content"
                 android:text="20/22"
                 android:textSize="22sp"
-                android:textColor="@color/gray"
+                android:textColor="@color/pink"
+                android:textStyle="bold"
                 android:layout_toEndOf="@id/class_detail_deltagare_max_question"/>
 
             <TextView
