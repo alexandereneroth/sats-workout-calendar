@@ -1,6 +1,7 @@
 package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.activity.ClassDetailActivity;
 import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.realm.TrainingActivity;
@@ -32,6 +34,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private final int numberOfListItems;
     private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
+    private final Activity activity;
 
     private final LayoutInflater inflater;
 
@@ -39,6 +42,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         this.inflater = activity.getLayoutInflater();
         this.listItems = listItems;
+        this.activity = activity;
 
         numberOfListItems = listItems.size();
 
@@ -221,9 +225,12 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             public void onClick(View view)
             {
                 ActivityWrapper wrapper = listItems.get(position);
-                EventBus.getDefault().post(new ClassDetailButtonClickedEvent(wrapper));
-//                Intent intent = new Intent(activity, ClassDetailActivity.class);
-//                activity.startActivity(intent);
+                EventBus.getDefault().postSticky(new ClassDetailButtonClickedEvent(wrapper));
+
+                Intent intent = new Intent(activity, ClassDetailActivity.class);
+                activity.startActivity(intent);
+
+
             }
         });
         groupActivityViewHolder.title.setText(title);

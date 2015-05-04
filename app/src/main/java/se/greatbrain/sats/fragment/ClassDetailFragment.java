@@ -19,7 +19,7 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.event.ClassDetailEvent;
+import se.greatbrain.sats.event.ClassDetailButtonClickedEvent;
 import se.greatbrain.sats.util.DateUtil;
 
 public class ClassDetailFragment extends Fragment implements YouTubeThumbnailView.OnInitializedListener
@@ -39,7 +39,7 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         TextView classDuration = (TextView) view.findViewById(R.id.class_detail_class_duration);
         TextView classInfo = (TextView) view.findViewById(R.id.class_detail_class_info);
         TextView availableSpots = (TextView) view.findViewById(R.id
-                .class_detail_deltagare_max_question);
+                .class_detail_deltagare_max_answer);
         TextView queuePosition = (TextView) view.findViewById(R.id.class_detail_queue_position);
         TextView centerName = (TextView) view.findViewById(R.id.class_detail_center_answer);
         TextView classDate = (TextView) view.findViewById(R.id.class_detail_date_answer);
@@ -83,7 +83,9 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         classDuration.setText(String.valueOf(wrapper.trainingActivity.getDurationInMinutes()) +
                 "min");
         classInfo.setText(wrapper.trainingActivity.getClassType().getDescription());
-//        availableSpots.setText(wrapper.trainingActivity.getBooking().getSatsClass());
+        availableSpots.setText(wrapper.trainingActivity.getBooking().getSatsClass()
+                .getBookedPersonsCount() + "/" + wrapper.trainingActivity.getBooking()
+                .getSatsClass().getMaxPersonsCount());
         queuePosition.setText(String.valueOf(wrapper.trainingActivity.getBooking()
                 .getPositionInQueue()));
         centerName.setText(wrapper.trainingActivity.getCenter().getName());
@@ -117,7 +119,7 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         EventBus.getDefault().registerSticky(this);
     }
 
-    public void onEventMainThread(ClassDetailEvent event)
+    public void onEventMainThread(ClassDetailButtonClickedEvent event)
     {
         wrapper = event.getSourceEvent();
     }
@@ -126,16 +128,11 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
     public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
             YouTubeThumbnailLoader youTubeThumbnailLoader)
     {
-//        Toast.makeText(getActivity(), "YouTubeThumbnailView.onInitializationSuccess()",
-//                Toast.LENGTH_LONG).show();
-
         youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader
                 .OnThumbnailLoadedListener() {
             @Override
             public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s)
             {
-//                Toast.makeText(getActivity(), "ThumbnailLoadedListener.onThumbnailLoaded()",
-//                        Toast.LENGTH_LONG).show();
             }
 
             @Override
