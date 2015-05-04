@@ -34,7 +34,7 @@ public class ClassDetailActivity extends ActionBarActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
 
-        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu_class_detail,
+        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu,
                 null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -44,8 +44,11 @@ public class ClassDetailActivity extends ActionBarActivity
                 actionBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
+        ImageView satsBack = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        satsBack.setImageResource(R.drawable.sats_logo_back);
+
         ImageView backButton = (ImageView) actionBarView.findViewById(R.id.btn_back_sats);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        satsBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
