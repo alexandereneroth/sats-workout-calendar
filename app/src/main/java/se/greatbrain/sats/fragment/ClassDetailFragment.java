@@ -94,8 +94,6 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
         instructorName.setText(
                 wrapper.trainingActivity.getBooking().getSatsClass().getInstructorId());
 
-//        TODO Bokade personer // Max personer i klassen, hittar ej den infon nånstans
-
         int conditionValue = wrapper.trainingActivity.getClassType().getProfile().get(0).getValue();
         int strengthValue = wrapper.trainingActivity.getClassType().getProfile().get(1).getValue();
         int flexibilityValue = wrapper.trainingActivity.getClassType().getProfile().get(2)
