@@ -1,10 +1,15 @@
 package se.greatbrain.sats;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,18 +65,20 @@ public class GoogleMapActivity extends ActionBarActivity
             }
         });
 
+
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap
                 .OnMyLocationChangeListener()
         {
+            boolean moveToMyLocation = true;
             @Override
             public void onMyLocationChange(Location location)
             {
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                Marker locationMarker = map.addMarker(new MarkerOptions().position(myLocation)
-//                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_location)));
-                if (map != null)
+
+                if (map != null && moveToMyLocation)
                 {
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 10.0f));
+                    moveToMyLocation=false;
                 }
             }
         };
@@ -95,7 +102,6 @@ public class GoogleMapActivity extends ActionBarActivity
 
         slidingMenu = new SlidingMenu(this);
         slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
         slidingMenu.setShadowWidth(200);
         slidingMenu.setFadeDegree(0.35f);
@@ -133,11 +139,11 @@ public class GoogleMapActivity extends ActionBarActivity
                         .title(center.getName())
                         .flat(true)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.sats_pin_normal)));
-
                 markerCenterMap.put(satsMarker, center);
             }
         }
         return markerCenterMap;
     }
+
 }
 
