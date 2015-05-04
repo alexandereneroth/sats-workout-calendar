@@ -75,7 +75,7 @@ public final class DateUtil
         return listTitle;
     }
 
-    public static String getCompletedActivityDate(String dateString)
+    public static String getPastOrCompletedActivityDate(String dateString)
     {
         Date date = parseString(dateString);
         calendar.setTime(date);

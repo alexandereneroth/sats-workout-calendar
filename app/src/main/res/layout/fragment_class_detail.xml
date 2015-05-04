@@ -1,0 +1,321 @@
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray_light"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/gray_light"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp">
+
+        <!-- Rubrik -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/class_detail_header_container">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zumba"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:id="@+id/class_detail_class_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45min"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:id="@+id/class_detail_class_duration"
+                android:layout_toEndOf="@id/class_detail_class_name"
+                android:paddingStart="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/pink"
+                android:id="@+id/class_detail_queue_position"
+                android:layout_marginEnd="10dp"
+                android:paddingStart="5dp"
+                android:layout_alignParentEnd="true"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:src="@drawable/people_icon"
+                android:layout_marginTop="5dp"
+                android:paddingTop="3dp"
+                android:layout_toStartOf="@id/class_detail_queue_position"/>
+
+        </RelativeLayout>
+
+        <!-- Videon -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_below="@id/class_detail_header_container"
+            android:id="@+id/class_detail_video_container">
+
+            <com.google.android.youtube.player.YouTubeThumbnailView
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:id="@+id/class_detail_youtube_video"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play_round_big_icon"/>
+
+        </RelativeLayout>
+
+        <!-- Info om passet -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/class_detail_shape"
+            android:layout_below="@id/class_detail_video_container">
+
+            <TextView
+                android:id="@+id/class_detail_deltagare_max_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bokade/max: "
+                android:textSize="22sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/class_detail_deltagare_max_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20/22"
+                android:textSize="22sp"
+                android:textColor="@color/pink"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/class_detail_deltagare_max_question"/>
+
+            <TextView
+                android:id="@+id/class_detail_center_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_center_question"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_deltagare_max_question"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/class_detail_center_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SATS Bromma"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:layout_toEndOf="@id/class_detail_center_question"
+                android:layout_below="@id/class_detail_deltagare_max_question"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/class_detail_date_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_date_question"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_center_question"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/class_detail_date_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Torsdag 12 November"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:layout_toEndOf="@id/class_detail_date_question"
+                android:layout_below="@id/class_detail_center_answer"/>
+
+            <TextView
+                android:id="@+id/class_detail_instructor_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_instructor_question"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_date_question"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/class_detail_instructor_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Annika Bottne"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:layout_toEndOf="@id/class_detail_instructor_question"
+                android:layout_below="@id/class_detail_date_answer"/>
+
+            <TextView
+                android:id="@+id/class_detail_class_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_class_info_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:layout_below="@id/class_detail_instructor_question"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/class_detail_condition_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_condition_question"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_class_info"
+                android:layout_marginTop="20dp"/>
+
+            <ProgressBar
+                android:id="@+id/class_detail_condition_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomProgressBarHorizontal"
+                android:progress="100"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/class_detail_center_answer"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/class_detail_condition_question"/>
+
+            <TextView
+                android:id="@+id/class_detail_strength_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_strength_question"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_condition_question"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/class_detail_strength_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomProgressBarHorizontal"
+                android:progress="70"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/class_detail_strength_question"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/class_detail_strength_question"
+                android:layout_alignStart="@+id/class_detail_condition_progress_bar"/>
+
+            <TextView
+                android:id="@+id/class_detail_flexibility_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_movement_question"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_strength_question"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/class_detail_flexibility_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomProgressBarHorizontal"
+                android:progress="10"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/class_detail_flexibility_question"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/class_detail_flexibility_question"
+                android:layout_alignStart="@id/class_detail_condition_progress_bar"/>
+
+            <TextView
+                android:id="@+id/class_detail_balance_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_balance_question"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_flexibility_question"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/class_detail_balance_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomProgressBarHorizontal"
+                android:progress="0"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/class_detail_balance_question"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/class_detail_balance_question"
+                android:layout_alignStart="@id/class_detail_condition_progress_bar"/>
+
+            <TextView
+                android:id="@+id/class_detail_agility_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_detail_flexibility_question"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/class_detail_balance_question"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/class_detail_agility_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomProgressBarHorizontal"
+                android:progress="0"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/class_detail_agility_question"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/class_detail_agility_question"
+                android:layout_alignStart="@id/class_detail_condition_progress_bar"/>
+
+        </RelativeLayout>
+
+</RelativeLayout>
+
+</ScrollView>

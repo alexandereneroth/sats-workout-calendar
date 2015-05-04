@@ -6,5 +6,11 @@
 
         <item name="colorPrimary">@color/actionbar_background</item>
     </style>
+    
+    <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_bar_drawable_style</item>
+        <item name="android:max">100</item>
+    </style>
 
 </resources>

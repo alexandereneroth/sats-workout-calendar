@@ -16,6 +16,7 @@ public class SatsClass extends RealmObject {
     private String name;
     private String startTime;
     private int bookedPersonsCount;
+    private int maxPersonsCount;
     private String regionId;
     private int waitingListCount;
     private RealmList<ClassCategoryIds> classCategoryIds;
@@ -98,6 +99,17 @@ public class SatsClass extends RealmObject {
 
     public void setWaitingListCount(int waitingListCount) {
         this.waitingListCount = waitingListCount;
+    }
+
+    public void setMaxPersonsCount(int maxPersonsCount)
+    {
+        this.maxPersonsCount = maxPersonsCount;
+    }
+
+    public int getMaxPersonsCount()
+    {
+
+        return maxPersonsCount;
     }
 
     public RealmList<ClassCategoryIds> getClassCategoryIds() {
