@@ -3,8 +3,12 @@ package se.greatbrain.sats;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,6 +17,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +33,7 @@ import se.greatbrain.sats.realm.RealmClient;
 public class GoogleMapActivity extends ActionBarActivity
 {
     private GoogleMap map ;
+    private SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,7 +81,38 @@ public class GoogleMapActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        ActionBar actionBar = getSupportActionBar();
+        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
+        actionBar.setCustomView(actionBarView);
+        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar) actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
+        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_text_view);
+        actionBarTitle.setText("HITTA CENTER");
+
+        slidingMenu = new SlidingMenu(this);
+        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+        slidingMenu.setShadowWidth(200);
+        slidingMenu.setFadeDegree(0.35f);
+        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        slidingMenu.setMenu(R.layout.sliding_menu);
+
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        slidingMenu.toggle();
+                    }
+                });
+        
         return super.onCreateOptionsMenu(menu);
     }
 

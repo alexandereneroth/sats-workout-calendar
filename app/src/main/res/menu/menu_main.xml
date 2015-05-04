@@ -3,12 +3,12 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
 
-    <item
-        android:id="@+id/action_bar_menu_button"
-        android:icon="@drawable/sats_logo_menu"
-        android:title="@string/menu_btn_title"
-        app:showAsAction="always"
-        />
+    <!--<item-->
+        <!--android:id="@+id/action_bar_menu_button"-->
+        <!--android:icon="@drawable/sats_logo_menu"-->
+        <!--android:title="@string/menu_btn_title"-->
+        <!--app:showAsAction="always"-->
+        <!--/>-->
 
     <!--<item-->
         <!--android:id="@+id/btn_logo_sats"-->

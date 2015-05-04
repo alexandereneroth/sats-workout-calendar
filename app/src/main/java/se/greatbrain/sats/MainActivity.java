@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
-    private SlidingMenu menu;
+    private SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,14 +45,14 @@ public class MainActivity extends ActionBarActivity
         manager.beginTransaction().add(R.id.bottom_fragment_container,
                 workoutListFragment).commit();
 
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        menu.setShadowWidth(200);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.sliding_menu);
+        slidingMenu = new SlidingMenu(this);
+        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+        slidingMenu.setShadowWidth(200);
+        slidingMenu.setFadeDegree(0.35f);
+        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        slidingMenu.setMenu(R.layout.sliding_menu);
 
         findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +85,28 @@ public class MainActivity extends ActionBarActivity
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
+
+        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
+        actionBar.setCustomView(actionBarView);
+        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar) actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
+        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
+        setupReloadItemMenu();
+
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        slidingMenu.toggle();
+                    }
+                });
 //        actionBar.setDisplayShowTitleEnabled(true);
 //        actionBar.setIcon(R.drawable.sats_logo_menu);
 //        actionBar.setHomeButtonEnabled(true);
@@ -96,12 +118,7 @@ public class MainActivity extends ActionBarActivity
         //back to activity
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 //
-//        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
-//        actionBar.setCustomView(actionBarView);
-//        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        reloadButton = menu.findItem(R.id.action_bar_refresh_button);
-        setupReloadItemMenu();
 
         return true;
     }
@@ -112,11 +129,11 @@ public class MainActivity extends ActionBarActivity
 //
         switch (item.getItemId())
         {
-            case R.id.action_bar_menu_button:
-            {
-                menu.toggle();
-                return true;
-            }
+//            case R.id.action_bar_menu_button:
+//            {
+//                slidingMenu.toggle();
+//                return true;
+//            }
             case R.id.action_bar_refresh_button:
             {
                 setupReloadItemMenu();
@@ -125,7 +142,7 @@ public class MainActivity extends ActionBarActivity
             }
 
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 
