@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,7 +71,7 @@ public class GoogleMapActivity extends ActionBarActivity
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // remove left actionbar padding
-        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar) actionBarView.getParent();
+        Toolbar parent = (Toolbar) actionBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_text_view);
@@ -109,19 +110,6 @@ public class GoogleMapActivity extends ActionBarActivity
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        if(wasBackPressed.getAndSet(true))
-        {
-            super.onBackPressed();
-        }
-        else
-        {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
     }
 
     private void moveCameraToMyLocation()
@@ -188,6 +176,19 @@ public class GoogleMapActivity extends ActionBarActivity
                         }
                     }
                 });
+    }
+    
+    @Override
+    public void onBackPressed()
+    {
+        if(wasBackPressed.getAndSet(true))
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 }
 
