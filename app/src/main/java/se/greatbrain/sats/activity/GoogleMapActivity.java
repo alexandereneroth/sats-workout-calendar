@@ -177,7 +177,7 @@ public class GoogleMapActivity extends ActionBarActivity
                     }
                 });
     }
-    
+
     @Override
     public void onBackPressed()
     {
