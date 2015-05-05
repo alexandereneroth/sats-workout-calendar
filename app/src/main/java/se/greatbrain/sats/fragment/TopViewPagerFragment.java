@@ -27,6 +27,13 @@ public class TopViewPagerFragment extends Fragment
 
         SlidingTabLayout tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
 
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position)
+            {
+                return getResources().getColor(R.color.pink);
+            }
+        });
         tabs.setDistributeEvenly(true);
         tabs.setViewPager(viewPager);
 
