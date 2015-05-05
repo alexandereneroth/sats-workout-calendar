@@ -1,8 +1,11 @@
 package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,7 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -99,7 +105,15 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
                     @Override
                     public void onClick(View v)
                     {
-                        slidingMenu.toggle();
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if(drawer.isDrawerOpen(GravityCompat.START))
+                        {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
+                        else
+                        {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
                     }
                 });
 
@@ -157,21 +171,44 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
 
     private void setupSlidingMenu()
     {
-        slidingMenu = new SlidingMenu(this);
-        slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        slidingMenu.setShadowWidth(200);
-        slidingMenu.setFadeDegree(0.35f);
-        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        slidingMenu.setMenu(R.layout.sliding_menu);
+//        slidingMenu = new SlidingMenu(this);
+//        slidingMenu.setMode(SlidingMenu.LEFT);
+//        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+//        slidingMenu.setShadowWidth(200);
+//        slidingMenu.setFadeDegree(0.35f);
+//        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+//        slidingMenu.setMenu(R.layout.sliding_menu);
+//
+//        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
-        {
+        final ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
+        String[] menuItems = new String[]{"MIN TRÄNING", "HITTA CENTER"};
+        drawerMenu.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                menuItems));
+        final Context context = this;
+        final DrawerLayout layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v)
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
-                startActivity(intent);
+                if(position == 1)
+                {
+                    Intent intent = new Intent(context, GoogleMapActivity.class);
+                    startActivity(intent);
+                    layout.closeDrawer(GravityCompat.START);
+                }
+                else
+                {
+                    layout.closeDrawer(GravityCompat.START);
+                }
             }
         });
     }
