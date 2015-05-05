@@ -4,13 +4,13 @@
 
     <permission
         android:name="se.greatbrain.sats.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"/>
 
-    <uses-permission android:name="se.greatbrain.sats.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="se.greatbrain.sats.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -21,6 +21,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,12 +29,19 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GoogleMapActivity"/>
-        <activity android:name=".activity.FindCenterDetailActivity"/>
+        <activity
+            android:name=".activity.GoogleMapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.FindCenterDetailActivity"
+            android:parentActivityName=".activity.GoogleMapActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBdCJsb57ergsYg6-xZhG4OX4lpqXTxmY0" />
-        <activity android:name=".activity.ClassDetailActivity"
+            android:value="AIzaSyBdCJsb57ergsYg6-xZhG4OX4lpqXTxmY0"/>
+        <activity
+            android:name=".activity.ClassDetailActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"/>
     </application>

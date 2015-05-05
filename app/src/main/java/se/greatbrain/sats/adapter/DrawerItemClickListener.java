@@ -30,12 +30,14 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener
             case 0:
                 Intent mainIntent = new Intent(view.getContext(), MainActivity.class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 view.getContext().startActivity(mainIntent);
                 new Handler().postDelayed(new DrawerCloser(drawerLayout), 70);
                 break;
             case 1:
                 Intent mapIntent = new Intent(view.getContext(), GoogleMapActivity.class);
                 mapIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 view.getContext().startActivity(mapIntent);
                 new Handler().postDelayed(new DrawerCloser(drawerLayout), 70);
                 break;

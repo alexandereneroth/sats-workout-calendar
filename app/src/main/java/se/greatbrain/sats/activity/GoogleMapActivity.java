@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.realm.RealmResults;
 import se.greatbrain.sats.R;
@@ -38,6 +39,8 @@ public class GoogleMapActivity extends ActionBarActivity
 {
     private GoogleMap map ;
     private Map<Marker, Center> markerCenterMap;
+    private AtomicBoolean wasBackPressed = new AtomicBoolean(false);
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,7 +84,7 @@ public class GoogleMapActivity extends ActionBarActivity
     private void setupSlidingMenu()
     {
         ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
         drawerMenu.setOnItemClickListener(new DrawerItemClickListener(drawerLayout));
     }
@@ -106,6 +109,19 @@ public class GoogleMapActivity extends ActionBarActivity
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(wasBackPressed.getAndSet(true))
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 
     private void moveCameraToMyLocation()
