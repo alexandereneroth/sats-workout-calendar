@@ -15,6 +15,7 @@ import se.greatbrain.sats.tabs.SlidingTabLayout;
 public class TopViewPagerFragment extends Fragment
 {
     private GraphFragment graphFragment = new GraphFragment();
+    private static final int NUMBER_OF_TABS = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +83,7 @@ public class TopViewPagerFragment extends Fragment
         @Override
         public int getCount ()
         {
-            return 2;
+            return NUMBER_OF_TABS;
         }
 
     }
