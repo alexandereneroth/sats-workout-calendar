@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.realm.RealmResults;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.adapter.DrawerItemClickListener;
+import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.model.DrawerMenuItem;
 import se.greatbrain.sats.model.realm.Center;
@@ -38,9 +38,10 @@ import se.greatbrain.sats.realm.RealmClient;
 
 public class GoogleMapActivity extends ActionBarActivity
 {
+    public static boolean wasBackPressed = false;
+
     private GoogleMap map ;
     private Map<Marker, Center> markerCenterMap;
-    private AtomicBoolean wasBackPressed = new AtomicBoolean(false);
     private DrawerLayout drawerLayout;
 
     @Override
@@ -87,7 +88,9 @@ public class GoogleMapActivity extends ActionBarActivity
         ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
-        drawerMenu.setOnItemClickListener(new DrawerItemClickListener(drawerLayout));
+        DrawerMenuListener listener = new DrawerMenuListener(this);
+        drawerMenu.setOnItemClickListener(listener);
+        drawerLayout.setDrawerListener(listener);
     }
 
     private List<DrawerMenuItem> populateDrawerList()
@@ -99,7 +102,8 @@ public class GoogleMapActivity extends ActionBarActivity
         return items;
     }
 
-    private void findCenterDetailView() {
+    private void findCenterDetailView()
+    {
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
         {
             @Override
@@ -166,7 +170,7 @@ public class GoogleMapActivity extends ActionBarActivity
                     public void onClick(View v)
                     {
                         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        if(drawer.isDrawerOpen(GravityCompat.START))
+                        if (drawer.isDrawerOpen(GravityCompat.START))
                         {
                             drawer.closeDrawer(GravityCompat.START);
                         }
@@ -181,13 +185,14 @@ public class GoogleMapActivity extends ActionBarActivity
     @Override
     public void onBackPressed()
     {
-        if(wasBackPressed.getAndSet(true))
+        if(wasBackPressed)
         {
             super.onBackPressed();
         }
         else
         {
             drawerLayout.openDrawer(GravityCompat.START);
+            wasBackPressed = true;
         }
     }
 }

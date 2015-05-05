@@ -1,8 +1,6 @@
 package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,8 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,7 +22,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.adapter.DrawerItemClickListener;
+import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
@@ -151,20 +147,22 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
         workoutListFragment.refreshList();
     }
 
-    private void setupSlidingMenu()
-    {
-        ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
-        drawerMenu.setOnItemClickListener(new DrawerItemClickListener(drawerLayout));
-    }
-
     @Override
     public void onPageClicked (int page)
     {
         graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
                 true);
         Log.d(TAG, "Page: " + page);
+    }
+
+    private void setupSlidingMenu()
+    {
+        ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
+        DrawerMenuListener listener = new DrawerMenuListener(this);
+        drawerMenu.setOnItemClickListener(listener);
+        drawerLayout.setDrawerListener(listener);
     }
 
     private List<DrawerMenuItem> populateDrawerList()
