@@ -40,7 +40,8 @@
     <color name="actionbar_background">#ffe8e8e8</color>
     <color name="section_header">#ffe8ebed</color>
     <color name="calendar_background">#fff1f6f9</color>
-    <color name="list_item_background">#ffdbe5eb</color>
+    <color name="list_title_background">#ffdbe5eb</color>
+    <color name="list_item_background">#ffe8e8e8</color>
 
     <!-- Boka class colors -->
     <color name="boka_box_title">#ffe9ebed</color>
