@@ -1,4 +1,4 @@
-include ':app', 'libraries:SlidingMenu'
+include ':app'
 
 
 

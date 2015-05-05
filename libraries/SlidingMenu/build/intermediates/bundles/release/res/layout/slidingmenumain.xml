@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.jeremyfeinstein.slidingmenu.lib.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/slidingmenumain"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" />
-
-
-<!-- From: file:/Users/alexandereneroth/Documents/1_development/2_courses_yhc3l/7_scrum/tmp/sats/libraries/SlidingMenu/res/layout/slidingmenumain.xml -->
