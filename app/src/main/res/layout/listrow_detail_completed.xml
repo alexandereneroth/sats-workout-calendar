@@ -36,16 +36,6 @@
         android:textSize="12sp"
         android:layout_alignStart="@+id/listrow_detail_completed_class_name"/>
 
-    <ImageView
-        android:id="@+id/listrow_detail_completed_comment_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:contentDescription="@string/comment_description"
-        android:paddingEnd="5dp"
-        android:src="@drawable/ic_comment"
-        android:layout_alignStart="@id/listrow_detail_completed_class_name"
-        android:layout_below="@+id/listrow_detail_completed_class_date"/>
-
     <TextView
         android:id="@+id/listrow_detail_completed_class_comment"
         android:layout_width="match_parent"
@@ -54,8 +44,10 @@
         android:text="@string/listrow_detail_completed_class_comment_string"
         android:textAllCaps="true"
         android:textSize="10dp"
-        android:layout_toEndOf="@+id/listrow_detail_completed_comment_icon"
-        android:layout_alignTop="@+id/listrow_detail_completed_comment_icon"/>
+        android:drawableStart="@drawable/ic_comment_small"
+        android:drawablePadding="5dp"
+        android:layout_alignStart="@id/listrow_detail_completed_class_name"
+        android:layout_below="@+id/listrow_detail_completed_class_date"/>
 
     <TextView
         android:id="@+id/listrow_detail_completed_class_completed"

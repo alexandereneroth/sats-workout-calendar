@@ -1,14 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp"
-    android:paddingBottom="10dp"
-    android:paddingTop="15dp"
-    android:background="@drawable/listitem_border">
+    style="@style/ListrowItemBooked">
 
     <!-- Hela övre sektionen -->
 
@@ -35,7 +27,6 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"/>
-
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_duration_minutes"
@@ -83,13 +74,12 @@
         android:layout_alignStart="@+id/listrow_detail_booked_class_name"
         android:layout_below="@id/listrow_detail_booked_class_location"/>
 
-
     <Button
         android:id="@+id/listrow_detail_booked_class_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:background="@drawable/mytraining_details_round_button"
+        android:background="@drawable/list_item_orange_button"
         android:text="Avboka"
         android:textColor="@color/white"
         android:textSize="12sp"
@@ -118,9 +108,7 @@
         android:id="@+id/listrow_detail_booked_class_button_divider"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/listrow_detail_booked_class_person_queue"
-        android:layout_marginTop="10dp"/>
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         style="@style/ListItemBottomButtonTextView"
@@ -128,9 +116,7 @@
         android:text="@string/add_to_calender_button_text"
         android:drawableStart="@drawable/ic_calender_small"
         android:layout_toStartOf="@+id/listrow_detail_booked_class_button_divider"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@id/listrow_detail_booked_class_button_divider"/>
-
+        android:layout_alignParentStart="true"/>
 
     <TextView
         style="@style/ListItemBottomButtonTextView"
@@ -139,7 +125,5 @@
         android:drawableStart="@drawable/ic_more_small"
         android:layout_toEndOf="@id/listrow_detail_booked_class_button_divider"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/listrow_detail_booked_class_button_divider"
         android:clickable="true"/>
-
 </RelativeLayout>

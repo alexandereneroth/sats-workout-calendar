@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listrow_detail_booked_private_top"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="125dp"
     android:paddingEnd="10dp"
     android:paddingStart="10dp"
     android:paddingBottom="10dp"
     android:paddingTop="15dp"
-    android:background="@drawable/listitem_border">
+    android:background="@drawable/list_item_border">
 
     <!-- Hela övre sektionen -->
 
@@ -20,7 +17,7 @@
         android:text="Styrketräning"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginStart="5dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_private_duration"
@@ -55,13 +52,13 @@
         android:id="@+id/listrow_detail_booked_private_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:background="@drawable/mytraining_details_round_button"
+        android:background="@drawable/list_item_orange_button"
         android:text="Detaljer"
         android:layout_gravity="end"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginEnd="5dp"/>
 
     <!-- Nedre sektionen med knapparna -->
 
@@ -69,19 +66,14 @@
         android:id="@+id/listrow_detail_booked_private_button_divider"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/listrow_detail_booked_private_comment"
-        android:layout_marginTop="10dp"/>
-
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         style="@style/ListItemBottomButtonTextView"
         android:text="@string/add_to_calender_button_text"
         android:drawableStart="@drawable/ic_calender_small"
         android:layout_toStartOf="@+id/listrow_detail_booked_private_button_divider"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"/>
-
+        android:layout_alignParentStart="true"/>
 
     <TextView
         style="@style/ListItemBottomButtonTextView"
@@ -89,8 +81,5 @@
         android:drawableStart="@drawable/ic_book_dark_small"
         android:clickable="true"
         android:layout_toEndOf="@id/listrow_detail_booked_private_button_divider"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/listrow_detail_booked_private_button_divider"/>
-
-
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
