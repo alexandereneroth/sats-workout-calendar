@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,6 +68,8 @@ public class MainActivity extends ActionBarActivity
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        Toolbar parent = (Toolbar) actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
