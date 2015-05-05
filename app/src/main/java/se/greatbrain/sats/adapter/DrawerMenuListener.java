@@ -18,8 +18,8 @@ import se.greatbrain.sats.R;
 import se.greatbrain.sats.activity.GoogleMapActivity;
 import se.greatbrain.sats.activity.MainActivity;
 
-public class DrawerMenuListener extends DrawerLayout.SimpleDrawerListener implements ListView
-        .OnItemClickListener
+public class DrawerMenuListener extends DrawerLayout.SimpleDrawerListener
+                                implements ListView.OnItemClickListener
 {
     private final Activity activity;
     private int position;
@@ -50,29 +50,34 @@ public class DrawerMenuListener extends DrawerLayout.SimpleDrawerListener implem
 
         if (itemClicked)
         {
-            switch (position)
-            {
-                case 0:
-                    Intent mainIntent = new Intent(drawerView.getContext(), MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    drawerView.getContext().startActivity(mainIntent);
-                    if(activity.getClass() != MainActivity.class)
-                    {
-                        activity.finish();
-                    }
-                    break;
-                case 1:
-                    Intent mapIntent = new Intent(drawerView.getContext(), GoogleMapActivity.class);
-                    mapIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    drawerView.getContext().startActivity(mapIntent);
-                    if(activity.getClass() != GoogleMapActivity.class)
-                    {
-                        activity.finish();
-                    }
-                    break;
-            }
-
+            startIntent(drawerView);
             itemClicked = false;
+        }
+    }
+
+    private void startIntent(View drawerView)
+    {
+        if(position == 0)
+        {
+            Intent mainIntent = new Intent(drawerView.getContext(), MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            drawerView.getContext().startActivity(mainIntent);
+
+            if(activity.getClass() != MainActivity.class)
+            {
+                activity.finish();
+            }
+        }
+        else
+        {
+            Intent mapIntent = new Intent(drawerView.getContext(), GoogleMapActivity.class);
+            mapIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            drawerView.getContext().startActivity(mapIntent);
+
+            if(activity.getClass() != GoogleMapActivity.class)
+            {
+                activity.finish();
+            }
         }
     }
 }
