@@ -45,7 +45,7 @@ public class RealmClient
     {
         realm = Realm.getInstance(context);
 
-        if (type.equals(ClassType.class))
+        if (type == ClassType.class)
         {
             realm.beginTransaction();
             realm.clear(Profile.class);
