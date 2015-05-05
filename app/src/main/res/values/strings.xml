@@ -38,5 +38,6 @@
     <string name="class_detail_balance_question">Balans</string>
     <string name="class_detail_flexibility_question">Spänst</string>
     <string name="placeholder_graph_week">v.14</string>
+    <string name="drawer_menu_content_description">Menu drawer icon</string>
 
 </resources>

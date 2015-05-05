@@ -168,27 +168,8 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
         workoutListFragment.refreshList();
     }
 
-
     private void setupSlidingMenu()
     {
-//        slidingMenu = new SlidingMenu(this);
-//        slidingMenu.setMode(SlidingMenu.LEFT);
-//        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-//        slidingMenu.setShadowWidth(200);
-//        slidingMenu.setFadeDegree(0.35f);
-//        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-//        slidingMenu.setMenu(R.layout.sliding_menu);
-//
-//        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         final ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
         String[] menuItems = new String[]{"MIN TRÄNING", "HITTA CENTER"};
         drawerMenu.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
@@ -219,6 +200,5 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
         graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
                 true);
         Log.d(TAG, "Page: " + page);
-
     }
 }
