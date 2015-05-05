@@ -17,7 +17,6 @@ import se.greatbrain.sats.activity.MainActivity;
 
 public class GraphColumnFragment extends Fragment
 {
-
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
     public interface OnPageClickedListener
