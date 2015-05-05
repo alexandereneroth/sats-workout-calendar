@@ -24,6 +24,7 @@ import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.GraphColumnFragment;
 import se.greatbrain.sats.fragment.GraphFragment;
+import se.greatbrain.sats.fragment.TopViewPagerFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private GraphFragment graphFragment;
+    private TopViewPagerFragment topViewPagerFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
     private SlidingMenu slidingMenu;
 
@@ -50,8 +52,9 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
 
         workoutListFragment = new WorkoutListFragment();
         graphFragment = new GraphFragment();
+        topViewPagerFragment = new TopViewPagerFragment();
         supportManager.beginTransaction()
-                .add(R.id.top_fragment_container, graphFragment)
+                .add(R.id.top_fragment_container, topViewPagerFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
                 .commit();
 
@@ -179,8 +182,11 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     @Override
     public void onPageClicked (int page)
     {
-        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
-                true);
+        topViewPagerFragment.onPageClicked(page);
+
+
+//        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANES_PAGES / 2),
+//                true);
         Log.d(TAG, "Page: " + page);
 
     }
