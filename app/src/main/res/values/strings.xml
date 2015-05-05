@@ -24,4 +24,20 @@
     <string name="reload_btn_description">Reload button</string>
     <string name="listrow_detail_booked_private_time_icon_description">Time icon</string>
     <string name="listrow_detail_booked_private_comment_icon_description">Comment icon</string>
+    <string name="menu_btn_title">Menu</string>
+    <string name="menu_btn_sats_logo">satsLogo</string>
+    <string name="menu_btn">Menu</string>
+    <string name="my_training_activity">MIN TRÄNING</string>
+    <string name="find_center">Hitta center</string>
+    <string name="min_traning">Min träning</string>
+    <string name="class_detail_center_question">Center:</string>
+    <string name="class_detail_date_question">Datum:</string>
+    <string name="class_detail_instructor_question">Instruktör:</string>
+    <string name="class_detail_class_info_text">Latinamerikanska rytmer och rörelseglädje karaktäriserar denna heta dansklass. Join the party!</string>
+    <string name="class_detail_condition_question">Kondition</string>
+    <string name="class_detail_strength_question">Styrka</string>
+    <string name="class_detail_movement_question">Rörlighet</string>
+    <string name="class_detail_balance_question">Balans</string>
+    <string name="class_detail_flexibility_question">Spänst</string>
+    <string name="placeholder_graph_week">v.14</string>
 </resources>

@@ -1,6 +1,7 @@
-package se.greatbrain.sats;
+package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,33 +14,48 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
 import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
+import se.greatbrain.sats.fragment.GraphColumnFragment;
+import se.greatbrain.sats.fragment.GraphFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
 {
-    private static final String TAG_LOG = "MainActivity";
+    private static final String TAG = "MainActivity";
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
+    private GraphFragment graphFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+    private SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
         FragmentManager manager = getFragmentManager();
+        android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
+
         workoutListFragment = new WorkoutListFragment();
-        manager.beginTransaction().add(R.id.bottom_fragment_container,
-                workoutListFragment).commit();
+        graphFragment = new GraphFragment();
+        supportManager.beginTransaction()
+                .add(R.id.top_fragment_container, graphFragment)
+                .add(R.id.bottom_fragment_container, workoutListFragment)
+                .commit();
+
+        setupSlidingMenu();
     }
 
     @Override
@@ -51,7 +67,7 @@ public class MainActivity extends ActionBarActivity
 
     private void loadJsonDataFromWeb()
     {
-        Log.d(TAG_LOG, "loadJsonDataFromWeb");
+        Log.d(TAG, "loadJsonDataFromWeb");
         IonClient.getInstance(this).getAllData();
     }
 
@@ -62,14 +78,30 @@ public class MainActivity extends ActionBarActivity
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        // remove left actionbar padding
+        android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
+                actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
+
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        slidingMenu.toggle();
+                    }
+                });
 
         return true;
     }
@@ -115,10 +147,41 @@ public class MainActivity extends ActionBarActivity
     {
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
-
+    
     private void updateWorkoutListFragment()
     {
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
+    }
+
+
+    private void setupSlidingMenu()
+    {
+        slidingMenu = new SlidingMenu(this);
+        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
+        slidingMenu.setShadowWidth(200);
+        slidingMenu.setFadeDegree(0.35f);
+        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        slidingMenu.setMenu(R.layout.sliding_menu);
+
+        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onPageClicked (int page)
+    {
+        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
+                true);
+        Log.d(TAG, "Page: " + page);
+
     }
 }
