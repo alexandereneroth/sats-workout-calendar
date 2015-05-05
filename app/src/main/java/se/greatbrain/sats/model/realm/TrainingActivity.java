@@ -1,7 +1,5 @@
 package se.greatbrain.sats.model.realm;
 
-import android.util.Log;
-
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
