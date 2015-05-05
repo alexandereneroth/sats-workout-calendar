@@ -20,18 +20,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.adapter.DrawerItemClickListener;
+import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.GraphColumnFragment;
 import se.greatbrain.sats.fragment.GraphFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
+import se.greatbrain.sats.model.DrawerMenuItem;
 
 public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
 {
@@ -40,7 +43,6 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     private WorkoutListFragment workoutListFragment;
     private GraphFragment graphFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
-    private SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,8 +62,6 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
                 .add(R.id.top_fragment_container, graphFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
                 .commit();
-
-        setupSlidingMenu();
     }
 
     @Override
@@ -97,25 +97,8 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
-
-        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
-        menuIcon.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        if(drawer.isDrawerOpen(GravityCompat.START))
-                        {
-                            drawer.closeDrawer(GravityCompat.START);
-                        }
-                        else
-                        {
-                            drawer.openDrawer(GravityCompat.START);
-                        }
-                    }
-                });
+        setupSlidingMenu();
+        setOnClickHomeButton();
 
         return true;
     }
@@ -170,28 +153,10 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
 
     private void setupSlidingMenu()
     {
-        final ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
-        String[] menuItems = new String[]{"MIN TRÄNING", "HITTA CENTER"};
-        drawerMenu.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                menuItems));
-        final Context context = this;
-        final DrawerLayout layout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                if(position == 1)
-                {
-                    Intent intent = new Intent(context, GoogleMapActivity.class);
-                    startActivity(intent);
-                    layout.closeDrawer(GravityCompat.START);
-                }
-                else
-                {
-                    layout.closeDrawer(GravityCompat.START);
-                }
-            }
-        });
+        ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
+        drawerMenu.setOnItemClickListener(new DrawerItemClickListener(drawerLayout));
     }
 
     @Override
@@ -200,5 +165,36 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
         graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
                 true);
         Log.d(TAG, "Page: " + page);
+    }
+
+    private List<DrawerMenuItem> populateDrawerList()
+    {
+        List<DrawerMenuItem> items = new ArrayList<>();
+        items.add(new DrawerMenuItem(R.drawable.my_training, "min träning"));
+        items.add(new DrawerMenuItem(R.drawable.sats_pin_drawer_menu, "hitta center"));
+
+        return items;
+    }
+
+    private void setOnClickHomeButton()
+    {
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if(drawer.isDrawerOpen(GravityCompat.START))
+                        {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
+                        else
+                        {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
+                    }
+                });
     }
 }

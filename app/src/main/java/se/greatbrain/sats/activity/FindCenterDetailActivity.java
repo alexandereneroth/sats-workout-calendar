@@ -10,27 +10,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.WebViewClientImpl;
+import se.greatbrain.sats.CenterDetailWebView;
 
-/**
- * Created by aymenarbi on 30/04/15.
- */
 public class FindCenterDetailActivity extends ActionBarActivity
 {
-    private WebView mWebView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_center_detail);
 
-        mWebView = (WebView) findViewById(R.id.find_center_detail_web_view);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        WebViewClientImpl webViewClient = new WebViewClientImpl(this);
-        mWebView.setWebViewClient(webViewClient);
+        WebView webView = (WebView) findViewById(R.id.find_center_detail_web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        CenterDetailWebView webViewClient = new CenterDetailWebView();
+        webView.setWebViewClient(webViewClient);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String centerUrl = extras.getString("centerUrl");
-            mWebView.loadUrl(centerUrl);
+            webView.loadUrl(centerUrl);
         }
 
     }

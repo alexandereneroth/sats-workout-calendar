@@ -3,11 +3,14 @@ package se.greatbrain.sats.activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,24 +20,23 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.realm.RealmResults;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.adapter.DrawerItemClickListener;
+import se.greatbrain.sats.adapter.DrawerMenuAdapter;
+import se.greatbrain.sats.model.DrawerMenuItem;
 import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.realm.RealmClient;
-
-/**
- * Created by aymenarbi on 30/04/15.
- */
 
 public class GoogleMapActivity extends ActionBarActivity
 {
     private GoogleMap map ;
-    private SlidingMenu slidingMenu;
     private Map<Marker, Center> markerCenterMap;
 
     @Override
@@ -56,7 +58,6 @@ public class GoogleMapActivity extends ActionBarActivity
         moveCameraToMyLocation();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -71,7 +72,7 @@ public class GoogleMapActivity extends ActionBarActivity
 
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_text_view);
         actionBarTitle.setText("HITTA CENTER");
-
+        setOnClickHomeButton();
         setupSlidingMenu();
 
         return super.onCreateOptionsMenu(menu);
@@ -79,24 +80,19 @@ public class GoogleMapActivity extends ActionBarActivity
 
     private void setupSlidingMenu()
     {
-        slidingMenu = new SlidingMenu(this);
-        slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        slidingMenu.setShadowWidth(200);
-        slidingMenu.setFadeDegree(0.35f);
-        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        slidingMenu.setMenu(R.layout.sliding_menu);
+        ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
+        drawerMenu.setOnItemClickListener(new DrawerItemClickListener(drawerLayout));
+    }
 
-        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
-        menuIcon.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        slidingMenu.toggle();
-                    }
-                });
+    private List<DrawerMenuItem> populateDrawerList()
+    {
+        List<DrawerMenuItem> items = new ArrayList<>();
+        items.add(new DrawerMenuItem(R.drawable.my_training, "min träning"));
+        items.add(new DrawerMenuItem(R.drawable.sats_pin_drawer_menu, "hitta center"));
+
+        return items;
     }
 
     private void findCenterDetailView() {
@@ -154,6 +150,28 @@ public class GoogleMapActivity extends ActionBarActivity
             }
         }
         return markerCenterMap;
+    }
+
+    private void setOnClickHomeButton()
+    {
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if(drawer.isDrawerOpen(GravityCompat.START))
+                        {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
+                        else
+                        {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
+                    }
+                });
     }
 }
 
