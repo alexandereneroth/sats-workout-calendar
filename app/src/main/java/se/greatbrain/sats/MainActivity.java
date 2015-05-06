@@ -18,7 +18,6 @@ import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
-import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -95,7 +94,7 @@ public class MainActivity extends ActionBarActivity
     {
         Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
 
-        if(finishedJsonParseEvents.size() == 0)
+        if (finishedJsonParseEvents.size() == 0)
         {
             reloadButton.setActionView(R.layout.action_bar_reloading);
             ImageView imageView = (ImageView) reloadButton.getActionView()
@@ -108,9 +107,10 @@ public class MainActivity extends ActionBarActivity
     {
         if (event.getSourceEvent().contains("error"))
         {
-            if(errorMessageNotShown)
+            if (errorMessageNotShown)
             {
-                Toast.makeText(this, "Server connection failed, please refresh", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Server connection failed, please refresh",
+                        Toast.LENGTH_LONG).show();
                 errorMessageNotShown = false;
             }
         }
@@ -128,7 +128,10 @@ public class MainActivity extends ActionBarActivity
 
     private void updateWorkoutListFragment()
     {
-        reloadButton.setActionView(null);
-        workoutListFragment.refreshList();
+        if (reloadButton != null)
+        {
+            reloadButton.setActionView(null);
+            workoutListFragment.refreshList();
+        }
     }
 }
