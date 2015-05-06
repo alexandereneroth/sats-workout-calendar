@@ -22,6 +22,8 @@
     <string name="listrow_detail_booked_class_hours_text">10</string>
     <string name="fitness_programme_description">En tränings kalender knapp</string>
     <string name="reload_btn_description">Reload button</string>
+    <string name="listrow_detail_booked_private_time_icon_description">Time icon</string>
+    <string name="listrow_detail_booked_private_comment_icon_description">Comment icon</string>
     <string name="menu_btn_title">Menu</string>
     <string name="menu_btn_sats_logo">satsLogo</string>
     <string name="menu_btn">Menu</string>
@@ -39,5 +41,4 @@
     <string name="class_detail_flexibility_question">Spänst</string>
     <string name="placeholder_graph_week">v.14</string>
     <string name="drawer_menu_content_description">Menu drawer icon</string>
-
 </resources>
