@@ -51,6 +51,7 @@
         android:text="SATS CORE"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:textColor="@color/actionbar_title"
         android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
         android:layout_marginStart="6dp"/>
 

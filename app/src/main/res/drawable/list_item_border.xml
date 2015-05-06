@@ -1,5 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke android:width="10dp" android:color="@color/list_item_background" />
-    <solid android:color="@color/background_body" />
-</shape>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--<stroke android:width="10dp" android:color="@color/list_item_background" />-->
+<!--<solid android:color="@color/background_body" />-->
+<!--</shape>-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <!--BACKGROUND LAYER-->
+    <item>
+        <shape>
+            <solid android:color="@color/list_item_background"/>
+        </shape>
+    </item>
+
+
+    <!--android:bottom="8dp"-->
+    <!--android:right="8dp"-->
+    <!--android:left="8dp"-->
+    <!--android:top="9.8dp"-->
+     <!--SHADOW LAYER-->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:centerX="96%"
+                android:centerY="96%"
+                android:startColor="#FF9c9c9c"
+                android:centerColor="#FF9c9c9c"
+                android:endColor="#FFe8e8e8"/>
+            <stroke android:color="@color/light_gray"/>
+            <corners android:radius="2dip"/>
+            <size
+                android:width="2dp"
+                android:height="2dp"/>
+        </shape>
+    </item>
+
+    <!-- BORDER -->
+    <item
+        android:bottom="9.8dp"
+        android:right="9.8dp"
+        android:left="9.8dp"
+        android:top="9.8dp">
+        <shape>
+            <solid android:color="@color/pink"/>
+            <corners android:radius="2.5dp"/>
+        </shape>
+    </item>
+
+
+    <!-- CONTENT LAYER -->
+    <item
+        android:bottom="10dp"
+        android:right="10dp"
+        android:left="10dp"
+        android:top="10dp">
+        <shape>
+            <solid android:color="@color/background_body"/>
+            <corners android:radius="2.5dip"/>
+        </shape>
+    </item>
+
+
+</layer-list>

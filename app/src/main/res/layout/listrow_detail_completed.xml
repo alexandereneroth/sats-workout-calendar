@@ -20,6 +20,7 @@
         android:id="@+id/listrow_detail_completed_class_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/actionbar_title"
         android:text="@string/listrow_detail_completed_class_name_string"
         android:textSize="16sp"
         android:textStyle="bold"
