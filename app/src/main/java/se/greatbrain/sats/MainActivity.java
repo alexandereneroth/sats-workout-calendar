@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +17,7 @@ import android.widget.Toast;
 import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
-import se.greatbrain.sats.event.JsonParseCompleteEvent;
-import se.greatbrain.sats.event.ServerErrorEvent;
+import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+    private boolean errorMessageNotShown = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +68,8 @@ public class MainActivity extends ActionBarActivity
         View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        Toolbar parent = (Toolbar) actionBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
@@ -90,35 +93,45 @@ public class MainActivity extends ActionBarActivity
     private void setupReloadItemMenu()
     {
         Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
-        reloadButton.setActionView(R.layout.action_bar_reloading);
 
-        ImageView imageView = (ImageView) reloadButton.getActionView()
-                .findViewById(R.id.action_bar_refresh_button_reloading);
-
-        imageView.startAnimation(reloadAnimation);
+        if (finishedJsonParseEvents.size() == 0)
+        {
+            reloadButton.setActionView(R.layout.action_bar_reloading);
+            ImageView imageView = (ImageView) reloadButton.getActionView()
+                    .findViewById(R.id.action_bar_refresh_button_reloading);
+            imageView.startAnimation(reloadAnimation);
+        }
     }
 
-    public void onEventMainThread(JsonParseCompleteEvent event)
+    public void onEventMainThread(IonCallCompleteEvent event)
     {
-        Log.d("jsonEvent", event.getSourceEvent());
+        if (event.getSourceEvent().contains("error"))
+        {
+            if (errorMessageNotShown)
+            {
+                Toast.makeText(this, "Server connection failed, please refresh",
+                        Toast.LENGTH_LONG).show();
+                errorMessageNotShown = false;
+            }
+        }
+
         if (finishedJsonParseEvents.add(event.getSourceEvent()))
         {
             if (finishedJsonParseEvents.size() == 6)
             {
                 finishedJsonParseEvents.clear();
+                errorMessageNotShown = true;
                 updateWorkoutListFragment();
             }
         }
     }
 
-    public void onEventMainThread(ServerErrorEvent event)
-    {
-        Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
-    }
-
     private void updateWorkoutListFragment()
     {
-        reloadButton.setActionView(null);
-        workoutListFragment.refreshList();
+        if (reloadButton != null)
+        {
+            reloadButton.setActionView(null);
+            workoutListFragment.refreshList();
+        }
     }
 }

@@ -201,7 +201,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         TrainingActivity trainingActivity = activityWrapper.trainingActivity;
 
         String title = getListRowTitle(trainingActivity);
-        String duration = String.valueOf(trainingActivity.getDurationInMinutes());
+        String duration = String.valueOf(trainingActivity.getDurationInMinutes() + " min");
         String location = trainingActivity.getCenter().getName();
         String instructor = trainingActivity.getBooking().getSatsClass().getInstructorId();
         TimeOfDay timeOfDay = DateUtil.getTimeOfDayFromDate(trainingActivity.getDate());

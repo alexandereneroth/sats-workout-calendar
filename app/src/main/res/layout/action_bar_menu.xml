@@ -9,8 +9,7 @@
         android:id="@+id/btn_dots_logo_sats"
         android:background="@null"
         android:scaleType="centerInside"
-        android:src="@drawable/meny_icon"
-        android:paddingTop="4dp"/>
+        android:src="@drawable/meny_icon"/>
 
     <ImageButton
         android:id="@+id/btn_logo_sats"
@@ -20,7 +19,6 @@
         android:layout_toEndOf="@id/btn_dots_logo_sats"
         android:scaleType="centerInside"
         android:src="@drawable/sats_logo"
-        android:paddingTop="4dp"
         android:layout_marginEnd="10dp"/>
 
     <TextView
@@ -32,5 +30,5 @@
         android:textColor="@color/actionbar_title"
         android:text="@string/my_training_actionbar_text"
         android:background="@null"
-        android:paddingTop="4dp"/>
+        android:paddingTop="2dp"/>
 </RelativeLayout>
