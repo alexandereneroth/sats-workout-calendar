@@ -32,7 +32,8 @@ import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 import se.greatbrain.sats.model.DrawerMenuItem;
 
-public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
+public class MainActivity extends ActionBarActivity implements GraphColumnFragment
+        .OnPageClickedListener
 {
     private static final String TAG = "MainActivity";
     private DrawerLayout drawerLayout;
@@ -141,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     {
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
-    
+
     private void updateWorkoutListFragment()
     {
         reloadButton.setActionView(null);
@@ -149,7 +150,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     }
 
     @Override
-    public void onPageClicked (int page)
+    public void onPageClicked(int page)
     {
         graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
                 true);
@@ -200,15 +201,24 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     @Override
     public void onBackPressed()
     {
-        if(DrawerMenuListener.wasBackPressed)
+
+        if (DrawerMenuListener.wasBackPressed)
         {
             super.onBackPressed();
             DrawerMenuListener.wasBackPressed = false;
         }
         else
         {
-            drawerLayout.openDrawer(GravityCompat.START);
-            DrawerMenuListener.wasBackPressed = true;
+            if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else
+            {
+                drawerLayout.openDrawer(GravityCompat.START);
+                DrawerMenuListener.wasBackPressed = true;
+            }
         }
     }
 }
+

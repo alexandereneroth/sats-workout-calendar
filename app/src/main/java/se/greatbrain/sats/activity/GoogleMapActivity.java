@@ -183,15 +183,22 @@ public class GoogleMapActivity extends ActionBarActivity
     @Override
     public void onBackPressed()
     {
-        if(DrawerMenuListener.wasBackPressed)
+        if (DrawerMenuListener.wasBackPressed)
         {
             super.onBackPressed();
             DrawerMenuListener.wasBackPressed = false;
         }
         else
         {
-            drawerLayout.openDrawer(GravityCompat.START);
-            DrawerMenuListener.wasBackPressed = true;
+            if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else
+            {
+                drawerLayout.openDrawer(GravityCompat.START);
+                DrawerMenuListener.wasBackPressed = true;
+            }
         }
     }
 }
