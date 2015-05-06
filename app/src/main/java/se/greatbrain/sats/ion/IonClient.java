@@ -9,8 +9,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import de.greenrobot.event.EventBus;
-import se.greatbrain.sats.event.JsonParseCompleteEvent;
-import se.greatbrain.sats.event.ServerErrorEvent;
+import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.json.JsonParser;
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
@@ -69,7 +68,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                            bus.post(new IonCallCompleteEvent("error activities"));
                         }
                     }
                 });
@@ -92,7 +91,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                            bus.post(new IonCallCompleteEvent("error classtypes"));
                         }
                     }
                 });
@@ -115,7 +114,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                            bus.post(new IonCallCompleteEvent("error centers"));
                         }
                     }
                 });
@@ -136,7 +135,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Connection failed, please refresh"));
+                            bus.post(new IonCallCompleteEvent("error classcategories"));
                         }
                     }
                 });
@@ -159,7 +158,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Server connection error"));
+                            bus.post(new IonCallCompleteEvent("error instructors"));
                         }
                     }
                 });
@@ -180,7 +179,7 @@ public class IonClient
                         }
                         else
                         {
-                            bus.post(new ServerErrorEvent("Server connection error"));
+                            bus.post(new IonCallCompleteEvent("error types"));
                         }
                     }
                 });
@@ -207,7 +206,7 @@ public class IonClient
         @Override
         protected void onPostExecute(Void aVoid)
         {
-            bus.post(new JsonParseCompleteEvent(type.getName()));
+            bus.post(new IonCallCompleteEvent(type.getName()));
         }
     }
 }
