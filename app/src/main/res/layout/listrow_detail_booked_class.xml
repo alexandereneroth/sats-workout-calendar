@@ -14,7 +14,8 @@
         android:textSize="30sp"
         android:gravity="center"
         android:layout_marginEnd="3dp"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_time_minutes"
@@ -25,8 +26,8 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"/>
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_duration_minutes"
@@ -53,6 +54,7 @@
         android:textStyle="bold"
         android:textColor="@color/actionbar_title"
         android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"
         android:layout_marginStart="6dp"/>
 
     <TextView
@@ -86,7 +88,8 @@
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="7dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_person_queue"
@@ -101,7 +104,7 @@
         android:layout_alignParentEnd="true"
         android:gravity="center"
         android:layout_alignBottom="@+id/listrow_detail_booked_class_duration_minutes"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="10dp"/>
 
     <!-- Nedre sektionen med knapparna -->
 
