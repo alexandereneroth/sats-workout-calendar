@@ -9,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.activity.MainActivity;
 
 public class GraphColumnFragment extends Fragment
 {
@@ -107,7 +105,7 @@ public class GraphColumnFragment extends Fragment
         row.setText("12-14/3");
         row.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         row.setBackground(getResources().getDrawable(R.drawable.graph_column_bg));
-        row.setPadding(0,17,0,0);
+        row.setPadding(0, 17, 0, 0);
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams

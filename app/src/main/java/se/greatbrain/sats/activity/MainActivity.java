@@ -1,10 +1,11 @@
 package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,14 +13,17 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.adapter.DrawerMenuAdapter;
+import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.GraphColumnFragment;
@@ -27,16 +31,18 @@ import se.greatbrain.sats.fragment.GraphFragment;
 import se.greatbrain.sats.fragment.TopViewPagerFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
+import se.greatbrain.sats.model.DrawerMenuItem;
 
-public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
+public class MainActivity extends AppCompatActivity implements GraphColumnFragment
+        .OnPageClickedListener
 {
     private static final String TAG = "MainActivity";
+    private DrawerLayout drawerLayout;
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private GraphFragment graphFragment;
     private TopViewPagerFragment topViewPagerFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
-    private SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,8 +63,6 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
                 .add(R.id.top_fragment_container, topViewPagerFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
                 .commit();
-
-        setupSlidingMenu();
     }
 
     @Override
@@ -94,17 +98,8 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
-
-        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
-        menuIcon.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        slidingMenu.toggle();
-                    }
-                });
+        setupSlidingMenu();
+        setOnClickHomeButton();
 
         return true;
     }
@@ -150,44 +145,80 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     {
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
     }
-    
+
     private void updateWorkoutListFragment()
     {
         reloadButton.setActionView(null);
         workoutListFragment.refreshList();
     }
 
+    @Override
+    public void onPageClicked(int page)
+    {
+        topViewPagerFragment.onPageClicked(page);
+    }
 
     private void setupSlidingMenu()
     {
-        slidingMenu = new SlidingMenu(this);
-        slidingMenu.setMode(SlidingMenu.LEFT);
-        slidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_offset);
-        slidingMenu.setShadowWidth(200);
-        slidingMenu.setFadeDegree(0.35f);
-        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        slidingMenu.setMenu(R.layout.sliding_menu);
+        ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
+        DrawerMenuListener listener = new DrawerMenuListener(this);
+        drawerMenu.setOnItemClickListener(listener);
+        drawerLayout.setDrawerListener(listener);
+    }
 
-        findViewById(R.id.sliding_menu_find_center).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(v.getContext(), GoogleMapActivity.class);
-                startActivity(intent);
-            }
-        });
+    private List<DrawerMenuItem> populateDrawerList()
+    {
+        List<DrawerMenuItem> items = new ArrayList<>();
+        items.add(new DrawerMenuItem(R.drawable.my_training, "min träning"));
+        items.add(new DrawerMenuItem(R.drawable.sats_pin_drawer_menu, "hitta center"));
+
+        return items;
+    }
+
+    private void setOnClickHomeButton()
+    {
+        ImageView menuIcon = (ImageView) findViewById(R.id.btn_dots_logo_sats_menu);
+        menuIcon.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if (drawer.isDrawerOpen(GravityCompat.START))
+                        {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
+                        else
+                        {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
+                    }
+                });
     }
 
     @Override
-    public void onPageClicked (int page)
+    public void onBackPressed()
     {
-        topViewPagerFragment.onPageClicked(page);
-
-
-//        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANES_PAGES / 2),
-//                true);
-        Log.d(TAG, "Page: " + page);
-
+        if (DrawerMenuListener.wasBackPressed)
+        {
+            super.onBackPressed();
+            DrawerMenuListener.wasBackPressed = false;
+        }
+        else
+        {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            else
+            {
+                drawerLayout.openDrawer(GravityCompat.START);
+                DrawerMenuListener.wasBackPressed = true;
+            }
+        }
     }
 }
+
