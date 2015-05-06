@@ -38,8 +38,6 @@ import se.greatbrain.sats.realm.RealmClient;
 
 public class GoogleMapActivity extends ActionBarActivity
 {
-    public static boolean wasBackPressed = false;
-
     private GoogleMap map ;
     private Map<Marker, Center> markerCenterMap;
     private DrawerLayout drawerLayout;
@@ -185,14 +183,15 @@ public class GoogleMapActivity extends ActionBarActivity
     @Override
     public void onBackPressed()
     {
-        if(wasBackPressed)
+        if(DrawerMenuListener.wasBackPressed)
         {
             super.onBackPressed();
+            DrawerMenuListener.wasBackPressed = false;
         }
         else
         {
             drawerLayout.openDrawer(GravityCompat.START);
-            wasBackPressed = true;
+            DrawerMenuListener.wasBackPressed = true;
         }
     }
 }

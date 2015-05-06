@@ -35,6 +35,7 @@ import se.greatbrain.sats.model.DrawerMenuItem;
 public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
 {
     private static final String TAG = "MainActivity";
+    private DrawerLayout drawerLayout;
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private GraphFragment graphFragment;
@@ -158,7 +159,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     private void setupSlidingMenu()
     {
         ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerMenu.setAdapter(new DrawerMenuAdapter(this, populateDrawerList()));
         DrawerMenuListener listener = new DrawerMenuListener(this);
         drawerMenu.setOnItemClickListener(listener);
@@ -184,7 +185,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
                     public void onClick(View v)
                     {
                         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        if(drawer.isDrawerOpen(GravityCompat.START))
+                        if (drawer.isDrawerOpen(GravityCompat.START))
                         {
                             drawer.closeDrawer(GravityCompat.START);
                         }
@@ -194,5 +195,20 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(DrawerMenuListener.wasBackPressed)
+        {
+            super.onBackPressed();
+            DrawerMenuListener.wasBackPressed = false;
+        }
+        else
+        {
+            drawerLayout.openDrawer(GravityCompat.START);
+            DrawerMenuListener.wasBackPressed = true;
+        }
     }
 }

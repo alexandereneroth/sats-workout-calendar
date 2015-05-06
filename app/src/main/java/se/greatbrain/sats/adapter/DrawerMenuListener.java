@@ -21,6 +21,8 @@ import se.greatbrain.sats.activity.MainActivity;
 public class DrawerMenuListener extends DrawerLayout.SimpleDrawerListener
                                 implements ListView.OnItemClickListener
 {
+    public static boolean wasBackPressed = false;
+
     private final Activity activity;
     private int position;
     private boolean itemClicked = false;
@@ -43,15 +45,16 @@ public class DrawerMenuListener extends DrawerLayout.SimpleDrawerListener
     @Override
     public void onDrawerClosed(View drawerView)
     {
-        if(GoogleMapActivity.wasBackPressed)
+        if(wasBackPressed)
         {
-            GoogleMapActivity.wasBackPressed = false;
+            wasBackPressed = false;
         }
 
         if (itemClicked)
         {
             startIntent(drawerView);
             itemClicked = false;
+            wasBackPressed = false;
         }
     }
 
