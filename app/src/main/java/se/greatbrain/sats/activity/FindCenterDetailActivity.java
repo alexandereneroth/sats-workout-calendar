@@ -22,14 +22,13 @@ public class FindCenterDetailActivity extends ActionBarActivity
 
         WebView webView = (WebView) findViewById(R.id.find_center_detail_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
-        CenterDetailWebView webViewClient = new CenterDetailWebView();
+        CenterDetailWebView webViewClient = new CenterDetailWebView(this);
         webView.setWebViewClient(webViewClient);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String centerUrl = extras.getString("centerUrl");
             webView.loadUrl(centerUrl);
         }
-
     }
 
     @Override
