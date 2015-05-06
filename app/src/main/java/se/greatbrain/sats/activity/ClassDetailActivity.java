@@ -1,10 +1,9 @@
 package se.greatbrain.sats.activity;
 
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.fragment.ClassDetailFragment;
 
-public class ClassDetailActivity extends ActionBarActivity
+public class ClassDetailActivity extends AppCompatActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)

@@ -12,7 +12,6 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.json.JsonParser;
-import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.model.realm.ClassCategory;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Instructor;

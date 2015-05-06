@@ -2,17 +2,11 @@ package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SlidingDrawer;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.activity.GoogleMapActivity;

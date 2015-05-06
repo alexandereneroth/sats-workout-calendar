@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -26,17 +26,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.realm.RealmResults;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.adapter.DrawerMenuAdapter;
+import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.model.DrawerMenuItem;
 import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.realm.RealmClient;
 
-public class GoogleMapActivity extends ActionBarActivity
+public class GoogleMapActivity extends AppCompatActivity
 {
     private GoogleMap map ;
     private Map<Marker, Center> markerCenterMap;
