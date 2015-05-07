@@ -21,7 +21,7 @@ public class CalendarColumnFragment extends Fragment
     //TODO set number of rows based on max activities in a week
     private static final int NUM_ROWS = 7;
 
-    private float topFragmentHeight;
+    private float calendarHeight;
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
     public interface OnPageClickedListener
@@ -52,7 +52,7 @@ public class CalendarColumnFragment extends Fragment
     {
         Resources r = getResources();
 
-        topFragmentHeight = r.getDimension(R.dimen.calendar_height);
+        calendarHeight = r.getDimension(R.dimen.calendar_height);
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
@@ -99,12 +99,19 @@ public class CalendarColumnFragment extends Fragment
 
     private void addRows(LinearLayout rootView)
     {
+        boolean shouldShowCircle = false;
         // start at row 'rows' and add all rows through 1, the zero row will be added in daterow and
         // is not part of the number of rows
         for (int i = NUM_ROWS; i > 0; --i)
         {
+            if (i == 5){
+                shouldShowCircle = true;
+            }else{
+                shouldShowCircle = false;
+            }
+
             CalendarRowView row = new CalendarRowView(rootView.getContext(),
-                    getHeightOfOneColumnRow(NUM_ROWS), true, false);
+                    getHeightOfOneColumnRow(NUM_ROWS), shouldShowCircle, false);
             row.setText(String.valueOf(i));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
@@ -142,6 +149,6 @@ public class CalendarColumnFragment extends Fragment
 
     private int getHeightOfOneColumnRow(int rows)
     {
-        return (int) (topFragmentHeight / (rows + 2.5));
+        return (int) (calendarHeight / (rows + 2.5));
     }
 }

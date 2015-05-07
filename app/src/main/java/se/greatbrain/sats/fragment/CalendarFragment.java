@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.realm.RealmClient;
 
 public class CalendarFragment extends Fragment
 {
