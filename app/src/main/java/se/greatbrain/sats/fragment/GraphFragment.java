@@ -1,13 +1,11 @@
 package se.greatbrain.sats.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +14,11 @@ import se.greatbrain.sats.R;
 
 public class GraphFragment extends Fragment
 {
-
     public static final int NUM_PAGES = 100;
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
     private static final String TAG = "MainActivity";
 
     public ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,12 +27,12 @@ public class GraphFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
         mPager = (ViewPager) view.findViewById(R.id.pager);
 
-        mPagerAdapter = new ScreenSlidePagerAdapter( getFragmentManager() );
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter( getFragmentManager() );
 
         // It is recommended to load twice, or three times the number of simultaneous pages
         mPager.setOffscreenPageLimit( NUM_SIMULTANEOUS_PAGES * 2 );
 
-        mPager.setAdapter( mPagerAdapter );
+        mPager.setAdapter( pagerAdapter );
         mPager.setCurrentItem((NUM_PAGES/2)-(NUM_SIMULTANEOUS_PAGES/2), false);
 
         return view;

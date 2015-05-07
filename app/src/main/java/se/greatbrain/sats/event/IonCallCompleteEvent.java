@@ -1,10 +1,10 @@
 package se.greatbrain.sats.event;
 
-public final class JsonParseCompleteEvent
+public final class IonCallCompleteEvent
 {
     private final String sourceEvent;
 
-    public JsonParseCompleteEvent(String sourceEvent)
+    public IonCallCompleteEvent(String sourceEvent)
     {
         this.sourceEvent = sourceEvent;
     }

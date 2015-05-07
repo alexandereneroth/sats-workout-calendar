@@ -1,256 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListrowItemBooked">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+    <!-- Hela övre sektionen -->
 
-        <!-- Hela övre sektionen -->
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_time_hours"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/clock_background"
+        android:text="@string/listrow_detail_booked_class_hours_text"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_body"
-            android:orientation="horizontal"
-            android:padding="5dp">
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_time_minutes"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/clock_background"
+        android:text="@string/listrow_detail_booked_class_minutes_text"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_duration_minutes"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_time_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="@string/listrow_detail_booked_class_minutes_length"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:layout_below="@id/listrow_detail_booked_class_time_hours"
+        android:layout_marginTop="8dp"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"
+        android:layout_marginLeft="1dp"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+    <!-- mid column layout -->
 
-                    <RelativeLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="3dp"
-                        android:background="@drawable/clock_background">
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SATS CORE"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/actionbar_title"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"
+        android:layout_marginStart="8dp"
+        android:autoText="false"
+        android:layout_marginTop="-2dp"/>
 
-                        <TextView
-                            android:id="@+id/listrow_detail_booked_class_time_hours"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="@string/listrow_detail_booked_class_hours_text"
-                            android:textColor="@color/white"
-                            android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hornstull"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        android:layout_below="@id/listrow_detail_booked_class_name"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_name"/>
 
-                    </RelativeLayout>
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_instructor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sven Svensson"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        android:layout_alignStart="@+id/listrow_detail_booked_class_name"
+        android:layout_below="@id/listrow_detail_booked_class_location"/>
 
-                    <RelativeLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/clock_background">
+    <Button
+        android:id="@+id/listrow_detail_booked_class_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/list_item_orange_button"
+        android:text="Avboka"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="7dp"
+        android:textStyle="bold"/>
 
-                        <TextView
-                            android:id="@+id/listrow_detail_booked_class_time_minutes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="@string/listrow_detail_booked_class_minutes_text"
-                            android:textColor="@color/white"
-                            android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/listrow_detail_booked_class_person_queue"
+        android:drawableStart="@drawable/ic_people_icon_small"
+        android:drawablePadding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/satsyou_red"
+        android:text="20"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/listrow_detail_booked_class_duration_minutes"
+        android:layout_marginEnd="10dp"/>
 
-                    </RelativeLayout>
+    <!-- Nedre sektionen med knapparna -->
 
-                </LinearLayout>
+    <View
+        android:id="@+id/listrow_detail_booked_class_button_divider"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="7dp">
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:id="@+id/add_to_calender_textview"
+        android:text="@string/add_to_calender_button_text"
+        android:drawableStart="@drawable/ic_calender_small"
+        android:layout_toStartOf="@+id/listrow_detail_booked_class_button_divider"
+        android:layout_alignParentStart="true"/>
 
-                    <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/ic_time"/>
-
-                    <TextView
-                        android:id="@+id/listrow_detail_booked_class_duration_minutes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:textSize="11sp"
-                        android:layout_weight="1"
-                        android:text="@string/listrow_detail_booked_class_minutes_length"
-                        android:textColor="@color/gray"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- mid column layout -->
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/listrow_detail_booked_class_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SATS CORE"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/listrow_detail_booked_class_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hornstull"
-                    android:textColor="@color/gray"
-                    android:textSize="11sp"/>
-
-                <TextView
-                    android:id="@+id/listrow_detail_booked_class_instructor_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sven Svensson"
-                    android:textColor="@color/gray"
-                    android:textSize="11sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/listrow_detail_booked_class_cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/mytraining_details_round_button"
-                    android:text="Avboka"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:orientation="horizontal"
-                    android:paddingEnd="7dp"
-                    android:paddingTop="5dp">
-
-                    <ImageView
-                        android:id="@+id/listrow_detail_booked_class_person_queue_icon"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingTop="2dp"
-                        android:src="@drawable/people_icon"/>
-
-                    <TextView
-                        android:id="@+id/listrow_detail_booked_class_person_queue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="7dp"
-                        android:layout_marginBottom="4dp"
-                        android:paddingBottom="2dp"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/satsyou_red"
-                        android:text="20"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <!-- Neder sektionen med knapparna -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:background="@drawable/list_item_training_buttons">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/list_item_training_buttons"
-                android:clickable="false">
-
-                <LinearLayout
-                    android:id="@+id/listrow_detail_booked_class_calender_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/listrow_detail_booked_class_calender_image"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/add_to_calender_image_description"
-                        android:src="@drawable/ic_calender"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/add_to_calender_button_text"
-                        android:textSize="8sp"/>
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:id="@+id/listrow_detail_booked_class_about_class_button"
-                android:background="?android:attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/about_the_class_description"
-                        android:src="@drawable/ic_more"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/about_the_class_button_text"
-                        android:textSize="8sp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </LinearLayout>
+    <TextView
+        style="@style/ListItemBottomButtonTextView"
+        android:id="@+id/about_the_class_textview"
+        android:text="@string/about_the_class_button_text"
+        android:drawableStart="@drawable/ic_more_small"
+        android:layout_toEndOf="@id/listrow_detail_booked_class_button_divider"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"/>
 </RelativeLayout>

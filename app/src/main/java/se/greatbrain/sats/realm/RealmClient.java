@@ -13,6 +13,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import se.greatbrain.sats.ActivityWrapper;
+import se.greatbrain.sats.model.realm.Center;
 import se.greatbrain.sats.model.realm.ClassCategoryIds;
 import se.greatbrain.sats.model.realm.ClassType;
 import se.greatbrain.sats.model.realm.Profile;
@@ -45,7 +46,7 @@ public class RealmClient
     {
         realm = Realm.getInstance(context);
 
-        if (type.equals(ClassType.class))
+        if (type == ClassType.class)
         {
             realm.beginTransaction();
             realm.clear(Profile.class);
@@ -94,5 +95,11 @@ public class RealmClient
         }
 
         return activitiesWithWeek;
+    }
+
+    public RealmResults<Center> getAllCenters()
+    {
+        realm = Realm.getInstance(context);
+        return  realm.where(Center.class).findAll();
     }
 }
