@@ -41,7 +41,8 @@
         android:textStyle="bold"
         android:layout_below="@id/listrow_detail_booked_class_time_hours"
         android:layout_marginTop="8dp"
-        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"/>
+        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"
+        android:layout_marginLeft="1dp"/>
 
     <!-- mid column layout -->
 
@@ -57,7 +58,7 @@
         android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"
         android:layout_marginStart="8dp"
         android:autoText="false"
-        />
+        android:layout_marginTop="-2dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_location"
@@ -91,7 +92,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
         android:layout_marginEnd="7dp"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginTop="7dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_person_queue"

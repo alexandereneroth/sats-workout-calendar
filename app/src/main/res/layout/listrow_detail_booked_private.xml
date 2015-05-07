@@ -13,8 +13,8 @@
         android:text="Styrketräning"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_private_duration"
@@ -55,8 +55,10 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="7dp"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="bold"
+        android:textStyle="bold"/>
 
     <!-- Nedre sektionen med knapparna -->
 
