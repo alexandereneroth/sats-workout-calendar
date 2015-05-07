@@ -44,7 +44,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         android:text="@string/listrow_detail_completed_class_comment_string"
-        android:textAllCaps="true"
         android:textSize="12sp"
         android:drawableStart="@drawable/ic_comment_small"
         android:drawablePadding="5dp"
