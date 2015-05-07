@@ -82,7 +82,7 @@ public class CalendarColumnFragment extends Fragment
         addTopRow(rootView);
         addRows(rootView);
         addHalfRow(rootView);
-        addDateRow(rootView);
+        addDateRow(rootView, getArguments().getString(CalendarFragment.CalendarPagerAdapter.DATE_STRING));
 
         return rootView;
     }
@@ -132,10 +132,10 @@ public class CalendarColumnFragment extends Fragment
         rootView.addView(halfRow, params);
     }
 
-    private void addDateRow(LinearLayout rootView)
+    private void addDateRow(LinearLayout rootView, String date)
     {
         TextView row = new TextView(rootView.getContext());
-        row.setText("12-14/3");
+        row.setText(date);
         row.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         row.setBackground(getResources().getDrawable(R.drawable.calendar_column_row_date_bg));
         row.setPadding(0, 7, 0, 0);

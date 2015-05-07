@@ -158,44 +158,48 @@ public final class DateUtil
         return new TimeOfDay(hourOfDay, minuteOfHour);
     }
 
-    public static List<WeekAndDate> getWeeksAndDatesBetween(String fromDate, String toDate)
+    public static List<String> getDatesInWeekBetween(String fromDate, String toDate)
     {
         int startYear = getYearFromDate(parseString(fromDate));
         int endYear = getYearFromDate(parseString(toDate));
-        List<WeekAndDate> weeksAndDates = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
         for(int i = startYear; i <= endYear; i++)
         {
-            getWeeksWithDatesForYear(i, weeksAndDates);
+            getWeeksWithDatesForYear(i, dates);
         }
 
-        return weeksAndDates;
+        return dates;
     }
 
-    private static void getWeeksWithDatesForYear(int year, List<WeekAndDate> weeksAndDates)
+    private static void getWeeksWithDatesForYear(int year, List<String> dates)
     {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, 0, 1);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setMinimalDaysInFirstWeek(4);
+        calendar.set(year, Calendar.JANUARY, 1);
         int numberOfWeeks = calendar.getActualMaximum(Calendar.WEEK_OF_YEAR);
+
         for(int week = 1; week <= numberOfWeeks; week++)
         {
             calendar.set(Calendar.WEEK_OF_YEAR, week);
+            calendar.get(Calendar.WEEK_OF_YEAR);
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             int monday = calendar.get(Calendar.DAY_OF_MONTH);
             int startMonth = calendar.get(Calendar.MONTH) + 1;
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            calendar.add(Calendar.DAY_OF_WEEK, 6);
             int sunday = calendar.get(Calendar.DAY_OF_MONTH);
             int endMonth = calendar.get(Calendar.MONTH) + 1;
 
-            String weekString = String.valueOf(week);
             if(startMonth == endMonth)
             {
                 String date = monday + "-" + sunday + "/" + startMonth;
-                weeksAndDates.add(new WeekAndDate(weekString, date));
+                dates.add(date);
             }
             else
             {
-                String date = monday + "/" + startMonth + "-" + sunday + "/" + endMonth;
-                weeksAndDates.add(new WeekAndDate(weekString, date));
+                String date = monday + "/" + startMonth + "-" + sunday + "/" +
+                        endMonth;
+                dates.add(date);
             }
         }
     }

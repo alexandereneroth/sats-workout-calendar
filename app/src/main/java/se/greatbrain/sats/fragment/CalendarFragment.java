@@ -10,15 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
+import se.greatbrain.sats.model.WeekAndDate;
 import se.greatbrain.sats.realm.RealmClient;
+import se.greatbrain.sats.util.DateUtil;
 
 public class CalendarFragment extends Fragment
 {
     private static final String TAG = "MainActivity";
 
-    public static final int NUM_PAGES = 100;
+    public static int NUM_PAGES;
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
     public ViewPager pager;
@@ -31,7 +35,16 @@ public class CalendarFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
 
-        pagerAdapter = new CalendarPagerAdapter( getFragmentManager() );
+        List<ActivityWrapper> wrapperList = RealmClient.getInstance(getActivity())
+                                                       .getAllActivitiesWithWeek();
+
+        String startDate = wrapperList.get(0).trainingActivity.getDate();
+        String endDate = wrapperList.get(wrapperList.size() - 1).trainingActivity.getDate();
+
+        List<String> dates = DateUtil.getDatesInWeekBetween(startDate, endDate);
+        NUM_PAGES = dates.size();
+
+        pagerAdapter = new CalendarPagerAdapter( getFragmentManager(), dates );
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
@@ -47,10 +60,14 @@ public class CalendarFragment extends Fragment
     public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     {
         public static final String ADAPTER_POSITION = "item_index";
+        public static final String DATE_STRING = "date string";
 
-        public CalendarPagerAdapter(FragmentManager fm)
+        public final List<String> dates;
+
+        public CalendarPagerAdapter(FragmentManager fm, List<String> dates)
         {
             super( fm );
+            this.dates = dates;
         }
 
         @Override
@@ -65,6 +82,7 @@ public class CalendarFragment extends Fragment
 
             Bundle bundle = new Bundle( position );
             bundle.putInt(ADAPTER_POSITION, position );
+            bundle.putString(DATE_STRING, dates.get(position));
             fragment.setArguments( bundle );
 
             return fragment;
