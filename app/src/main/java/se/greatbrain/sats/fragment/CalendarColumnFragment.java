@@ -125,7 +125,6 @@ public class CalendarColumnFragment extends Fragment
     private void addHalfRow(LinearLayout rootView)
     {
         View halfRow = new View(rootView.getContext());
-        halfRow.setBackgroundColor(getResources().getColor(R.color.green));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
                 .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS) / 2);
