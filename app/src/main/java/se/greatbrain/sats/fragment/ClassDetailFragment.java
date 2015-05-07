@@ -2,6 +2,7 @@ package se.greatbrain.sats.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeIntents;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
@@ -152,9 +151,8 @@ public class ClassDetailFragment extends Fragment implements YouTubeThumbnailVie
             @Override
             public void onClick(View view)
             {
-                Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(getActivity(),
-                        videoId, false, false);
-                startActivity(intent);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl)));
+
             }
         });
     }

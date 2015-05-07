@@ -22,7 +22,6 @@ public class CalendarColumnFragment extends Fragment
     private static final int NUM_ROWS = 7;
 
     private float topFragmentHeight;
-
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
     public interface OnPageClickedListener
@@ -53,7 +52,7 @@ public class CalendarColumnFragment extends Fragment
     {
         Resources r = getResources();
 
-        topFragmentHeight = r.getDimension(R.dimen.top_fragment_height);
+        topFragmentHeight = r.getDimension(R.dimen.calendar_height);
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
@@ -122,7 +121,7 @@ public class CalendarColumnFragment extends Fragment
         halfRow.setBackgroundColor(getResources().getColor(R.color.green));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS)/2);
+                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS) / 2);
         rootView.addView(halfRow, params);
     }
 
@@ -132,7 +131,7 @@ public class CalendarColumnFragment extends Fragment
         row.setText("12-14/3");
         row.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         row.setBackground(getResources().getDrawable(R.drawable.calendar_column_row_date_bg));
-        row.setPadding(0, 17, 0, 0);
+        row.setPadding(0, 7, 0, 0);
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
