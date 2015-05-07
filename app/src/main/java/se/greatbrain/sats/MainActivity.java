@@ -18,7 +18,6 @@ import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
-import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -27,8 +26,9 @@ public class MainActivity extends ActionBarActivity
     private static final String TAG_LOG = "MainActivity";
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
-    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
+    private HashSet<String> finishedIonCalls = new HashSet<>();
     private boolean errorMessageNotShown = true;
+    private int numberOfErrors = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,12 +95,17 @@ public class MainActivity extends ActionBarActivity
     {
         Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
 
-        if(finishedJsonParseEvents.size() == 0)
+        if(finishedIonCalls.size() == 0 && numberOfErrors < 6)
         {
             reloadButton.setActionView(R.layout.action_bar_reloading);
             ImageView imageView = (ImageView) reloadButton.getActionView()
                     .findViewById(R.id.action_bar_refresh_button_reloading);
             imageView.startAnimation(reloadAnimation);
+            numberOfErrors = 0;
+        }
+        else
+        {
+            numberOfErrors = 0;
         }
     }
 
@@ -108,6 +113,8 @@ public class MainActivity extends ActionBarActivity
     {
         if (event.getSourceEvent().contains("error"))
         {
+            numberOfErrors++;
+
             if(errorMessageNotShown)
             {
                 Toast.makeText(this, "Server connection failed, please refresh", Toast.LENGTH_LONG).show();
@@ -115,11 +122,11 @@ public class MainActivity extends ActionBarActivity
             }
         }
 
-        if (finishedJsonParseEvents.add(event.getSourceEvent()))
+        if (finishedIonCalls.add(event.getSourceEvent()))
         {
-            if (finishedJsonParseEvents.size() == 6)
+            if (finishedIonCalls.size() == 6)
             {
-                finishedJsonParseEvents.clear();
+                finishedIonCalls.clear();
                 errorMessageNotShown = true;
                 updateWorkoutListFragment();
             }
