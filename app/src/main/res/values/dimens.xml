@@ -4,4 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="sliding_menu_offset">100dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
+    <dimen name="top_fragment_height">200dp</dimen>
+    <dimen name="calendar_date_row_height">25dp</dimen>
+    <dimen name="calendar_week_row_height">30dp</dimen>
+    <dimen name="calendar_circle_radius">25dp</dimen>
 </resources>

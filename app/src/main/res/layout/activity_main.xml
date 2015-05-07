@@ -7,7 +7,7 @@
     <FrameLayout
         android:id="@+id/top_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="@dimen/top_fragment_height"/>
 
     <FrameLayout
         android:id="@+id/bottom_fragment_container"

@@ -22,17 +22,17 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.JsonParseCompleteEvent;
 import se.greatbrain.sats.event.ServerErrorEvent;
-import se.greatbrain.sats.fragment.GraphColumnFragment;
-import se.greatbrain.sats.fragment.GraphFragment;
+import se.greatbrain.sats.fragment.CalendarColumnFragment;
+import se.greatbrain.sats.fragment.CalendarFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
-public class MainActivity extends ActionBarActivity implements GraphColumnFragment.OnPageClickedListener
+public class MainActivity extends ActionBarActivity implements CalendarColumnFragment.OnPageClickedListener
 {
     private static final String TAG = "MainActivity";
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
-    private GraphFragment graphFragment;
+    private CalendarFragment calendarFragment;
     private HashSet<String> finishedJsonParseEvents = new HashSet<>();
     private SlidingMenu slidingMenu;
 
@@ -49,9 +49,9 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
         android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
 
         workoutListFragment = new WorkoutListFragment();
-        graphFragment = new GraphFragment();
+        calendarFragment = new CalendarFragment();
         supportManager.beginTransaction()
-                .add(R.id.top_fragment_container, graphFragment)
+                .add(R.id.top_fragment_container, calendarFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
                 .commit();
 
@@ -179,7 +179,7 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     @Override
     public void onPageClicked (int page)
     {
-        graphFragment.mPager.setCurrentItem(page - (graphFragment.NUM_SIMULTANEOUS_PAGES / 2),
+        calendarFragment.pager.setCurrentItem(page - (calendarFragment.NUM_SIMULTANEOUS_PAGES / 2),
                 true);
         Log.d(TAG, "Page: " + page);
 
