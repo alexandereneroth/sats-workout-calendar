@@ -19,9 +19,11 @@ public class CalendarColumnFragment extends Fragment
 {
     private static final String TAG = "ScreenSlidePageFragment";
     //TODO set number of rows based on max activities in a week
-    private static final int NUM_ROWS = 7;
+    private static final int NUM_ROWS = 4;
 
     private float calendarHeight;
+    private int numActivities;
+
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
     public interface OnPageClickedListener
@@ -60,6 +62,8 @@ public class CalendarColumnFragment extends Fragment
         final int indexInAdapter = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
                 .ADAPTER_POSITION);
 
+        numActivities = indexInAdapter % (NUM_ROWS + 1);//TODO - DUMMY DATA
+
         if (indexInAdapter % 2 == 0)
         {
             rootView.setBackgroundColor(getResources().getColor(R.color.primary_calendar));
@@ -91,6 +95,7 @@ public class CalendarColumnFragment extends Fragment
     {
         View topRow = new View(rootView.getContext());
         topRow.setBackgroundColor(getResources().getColor(R.color.green));
+        topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
                 .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
@@ -104,9 +109,12 @@ public class CalendarColumnFragment extends Fragment
         // is not part of the number of rows
         for (int i = NUM_ROWS; i > 0; --i)
         {
-            if (i == 5){
+            if (i == numActivities)
+            {
                 shouldShowCircle = true;
-            }else{
+            }
+            else
+            {
                 shouldShowCircle = false;
             }
 
