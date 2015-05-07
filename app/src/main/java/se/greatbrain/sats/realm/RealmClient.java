@@ -65,6 +65,8 @@ public class RealmClient
                 }
             }
         });
+
+        realm.close();
     }
 
     public List<ActivityWrapper> getAllActivitiesWithWeek()
