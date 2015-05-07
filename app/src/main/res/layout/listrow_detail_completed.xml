@@ -20,6 +20,7 @@
         android:id="@+id/listrow_detail_completed_class_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/actionbar_title"
         android:text="@string/listrow_detail_completed_class_name_string"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -32,22 +33,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/listrow_detail_completed_class_name"
         android:text="@string/listrow_detail_completed_class_date_string"
-        android:textAllCaps="true"
         android:textSize="12sp"
-        android:layout_alignStart="@+id/listrow_detail_completed_class_name"/>
+        android:layout_alignStart="@+id/listrow_detail_completed_class_name"
+        />
 
     <TextView
         android:id="@+id/listrow_detail_completed_class_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
         android:text="@string/listrow_detail_completed_class_comment_string"
-        android:textAllCaps="true"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:drawableStart="@drawable/ic_comment_small"
         android:drawablePadding="5dp"
         android:layout_alignStart="@id/listrow_detail_completed_class_name"
-        android:layout_below="@+id/listrow_detail_completed_class_date"/>
+        android:layout_below="@+id/listrow_detail_completed_class_date"
+        android:layout_marginTop="2dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_completed_class_completed"

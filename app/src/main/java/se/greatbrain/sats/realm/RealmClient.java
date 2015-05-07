@@ -46,7 +46,7 @@ public class RealmClient
     {
         realm = Realm.getInstance(context);
 
-        if (type.equals(ClassType.class))
+        if (type == ClassType.class)
         {
             realm.beginTransaction();
             realm.clear(Profile.class);
@@ -65,8 +65,6 @@ public class RealmClient
                 }
             }
         });
-
-//        realm.close();
     }
 
     public List<ActivityWrapper> getAllActivitiesWithWeek()
@@ -97,11 +95,9 @@ public class RealmClient
         return activitiesWithWeek;
     }
 
-//
     public RealmResults<Center> getAllCenters()
     {
         realm = Realm.getInstance(context);
         return  realm.where(Center.class).findAll();
     }
-//
 }

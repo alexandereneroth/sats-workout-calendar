@@ -20,10 +20,9 @@ import java.util.HashSet;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.event.JsonParseCompleteEvent;
-import se.greatbrain.sats.event.ServerErrorEvent;
 import se.greatbrain.sats.fragment.GraphColumnFragment;
 import se.greatbrain.sats.fragment.GraphFragment;
+import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 
@@ -33,8 +32,10 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     private MenuItem reloadButton;
     private WorkoutListFragment workoutListFragment;
     private GraphFragment graphFragment;
-    private HashSet<String> finishedJsonParseEvents = new HashSet<>();
     private SlidingMenu slidingMenu;
+    private HashSet<String> finishedIonCalls = new HashSet<>();
+    private boolean errorMessageNotShown = true;
+    private int numberOfErrors = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -122,36 +123,53 @@ public class MainActivity extends ActionBarActivity implements GraphColumnFragme
     private void setupReloadItemMenu()
     {
         Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
-        reloadButton.setActionView(R.layout.action_bar_reloading);
 
-        ImageView imageView = (ImageView) reloadButton.getActionView()
-                .findViewById(R.id.action_bar_refresh_button_reloading);
-
-        imageView.startAnimation(reloadAnimation);
+        if(finishedIonCalls.size() == 0 && numberOfErrors < 6)
+        {
+            reloadButton.setActionView(R.layout.action_bar_reloading);
+            ImageView imageView = (ImageView) reloadButton.getActionView()
+                    .findViewById(R.id.action_bar_refresh_button_reloading);
+            imageView.startAnimation(reloadAnimation);
+            numberOfErrors = 0;
+        }
+        else
+        {
+            numberOfErrors = 0;
+        }
     }
 
-    public void onEventMainThread(JsonParseCompleteEvent event)
+    public void onEventMainThread(IonCallCompleteEvent event)
     {
-        Log.d("jsonEvent", event.getSourceEvent());
-        if (finishedJsonParseEvents.add(event.getSourceEvent()))
+        if (event.getSourceEvent().contains("error"))
         {
-            if (finishedJsonParseEvents.size() == 6)
+            numberOfErrors++;
+
+            if (errorMessageNotShown)
             {
-                finishedJsonParseEvents.clear();
+                Toast.makeText(this, "Server connection failed, please refresh",
+                        Toast.LENGTH_LONG).show();
+                errorMessageNotShown = false;
+            }
+        }
+
+        if (finishedIonCalls.add(event.getSourceEvent()))
+        {
+            if (finishedIonCalls.size() == 6)
+            {
+                finishedIonCalls.clear();
+                errorMessageNotShown = true;
                 updateWorkoutListFragment();
             }
         }
     }
-
-    public void onEventMainThread(ServerErrorEvent event)
-    {
-        Toast.makeText(this, event.getMessage(), Toast.LENGTH_LONG).show();
-    }
     
     private void updateWorkoutListFragment()
     {
-        reloadButton.setActionView(null);
-        workoutListFragment.refreshList();
+        if (reloadButton != null)
+        {
+            reloadButton.setActionView(null);
+            workoutListFragment.refreshList();
+        }
     }
 
 

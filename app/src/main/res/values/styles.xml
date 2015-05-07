@@ -19,22 +19,18 @@
     <style name="ListItemBottomButtonTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/list_item_training_buttons</item>
-        <item name="android:drawablePadding">-35dp</item>
-        <item name="android:paddingStart">35dp</item>
+        <item name="android:drawablePadding">-26dp</item>
+        <item name="android:paddingStart">26dp</item>
         <item name="android:layout_alignParentBottom">true</item>
     </style>
 
     <style name="ListrowItemBooked">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">125dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:background">@drawable/list_item_border</item>
+        <item name="android:layout_height">133dp</item>
+        <item name="android:background">@drawable/list_item_background</item>
     </style>
 
 </resources>
