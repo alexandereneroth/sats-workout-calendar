@@ -149,7 +149,6 @@ public class GoogleMapActivity extends AppCompatActivity
                 Marker satsMarker = map.addMarker(new MarkerOptions()
                         .position(satsLocation)
                         .title(center.getName())
-                        .flat(true)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.sats_pin_normal)));
                 markerCenterMap.put(satsMarker, center);
             }
