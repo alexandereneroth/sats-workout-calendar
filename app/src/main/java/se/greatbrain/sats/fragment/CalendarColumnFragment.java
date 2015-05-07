@@ -98,7 +98,7 @@ public class CalendarColumnFragment extends Fragment
         topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
         rootView.addView(topRow, params);
     }
 
@@ -119,12 +119,12 @@ public class CalendarColumnFragment extends Fragment
             }
 
             CalendarRowView row = new CalendarRowView(rootView.getContext(),
-                    getHeightOfOneColumnRow(NUM_ROWS), shouldShowCircle, false);
+                    getHeightOfOneRow(NUM_ROWS), shouldShowCircle, true);
             row.setText(String.valueOf(i));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                    ViewGroup.LayoutParams.MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
 
             rootView.addView(row, params);
         }
@@ -135,7 +135,7 @@ public class CalendarColumnFragment extends Fragment
         View halfRow = new View(rootView.getContext());
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS) / 2);
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS) / 2);
         rootView.addView(halfRow, params);
     }
 
@@ -149,13 +149,14 @@ public class CalendarColumnFragment extends Fragment
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
 
         rootView.addView(row, params);
     }
 
-    private int getHeightOfOneColumnRow(int rows)
+    private int getHeightOfOneRow(int rows)
     {
         return (int) (calendarHeight / (rows + 2.5));
     }
+
 }
