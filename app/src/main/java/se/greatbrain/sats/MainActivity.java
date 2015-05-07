@@ -115,9 +115,10 @@ public class MainActivity extends ActionBarActivity
         {
             numberOfErrors++;
 
-            if(errorMessageNotShown)
+            if (errorMessageNotShown)
             {
-                Toast.makeText(this, "Server connection failed, please refresh", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Server connection failed, please refresh",
+                        Toast.LENGTH_LONG).show();
                 errorMessageNotShown = false;
             }
         }
@@ -135,7 +136,10 @@ public class MainActivity extends ActionBarActivity
 
     private void updateWorkoutListFragment()
     {
-        reloadButton.setActionView(null);
-        workoutListFragment.refreshList();
+        if (reloadButton != null)
+        {
+            reloadButton.setActionView(null);
+            workoutListFragment.refreshList();
+        }
     }
 }

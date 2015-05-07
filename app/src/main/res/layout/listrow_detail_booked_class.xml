@@ -14,7 +14,8 @@
         android:textSize="30sp"
         android:gravity="center"
         android:layout_marginEnd="3dp"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_time_minutes"
@@ -25,8 +26,8 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"/>
+        android:layout_toEndOf="@id/listrow_detail_booked_class_time_hours"
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_duration_minutes"
@@ -34,13 +35,14 @@
         android:drawableStart="@drawable/ic_time_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:text="@string/listrow_detail_booked_class_minutes_length"
         android:textColor="@color/gray"
         android:textStyle="bold"
         android:layout_below="@id/listrow_detail_booked_class_time_hours"
         android:layout_marginTop="8dp"
-        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"/>
+        android:layout_alignStart="@+id/listrow_detail_booked_class_time_hours"
+        android:layout_marginLeft="1dp"/>
 
     <!-- mid column layout -->
 
@@ -49,10 +51,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SATS CORE"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/actionbar_title"
         android:layout_toEndOf="@id/listrow_detail_booked_class_time_minutes"
-        android:layout_marginStart="6dp"/>
+        android:layout_alignTop="@id/listrow_detail_booked_class_time_hours"
+        android:layout_marginStart="8dp"
+        android:autoText="false"
+        android:layout_marginTop="-2dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_location"
@@ -60,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="Hornstull"
         android:textColor="@color/gray"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:layout_below="@id/listrow_detail_booked_class_name"
         android:layout_alignStart="@+id/listrow_detail_booked_class_name"/>
 
@@ -70,7 +76,7 @@
         android:layout_height="wrap_content"
         android:text="Sven Svensson"
         android:textColor="@color/gray"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:layout_alignStart="@+id/listrow_detail_booked_class_name"
         android:layout_below="@id/listrow_detail_booked_class_location"/>
 
@@ -85,7 +91,9 @@
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="7dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_class_person_queue"
@@ -93,14 +101,14 @@
         android:drawablePadding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/satsyou_red"
         android:text="20"
         android:layout_alignParentEnd="true"
         android:gravity="center"
         android:layout_alignBottom="@+id/listrow_detail_booked_class_duration_minutes"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="10dp"/>
 
     <!-- Nedre sektionen med knapparna -->
 

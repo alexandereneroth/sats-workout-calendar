@@ -3,7 +3,7 @@
     <item android:state_pressed="true" >
         <shape android:shape="rectangle">
            <corners
-                android:radius="7dp" />
+                android:radius="50dp" />
             <padding
                 android:left="7dp"
                 android:top="7dp"
@@ -18,7 +18,7 @@
  			<solid 
  			    android:color="@color/orange" />
             <corners
-                android:radius="7dp" />
+                android:radius="50dp" />
             <padding
                 android:left="7dp"
                 android:top="7dp"

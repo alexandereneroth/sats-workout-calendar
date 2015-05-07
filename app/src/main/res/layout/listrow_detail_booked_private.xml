@@ -1,12 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp"
-    android:paddingBottom="10dp"
-    android:paddingTop="15dp"
-    android:background="@drawable/list_item_border">
+    style="@style/ListrowItemBooked">
 
     <!-- Hela övre sektionen -->
 
@@ -14,23 +9,25 @@
         android:id="@+id/listrow_detail_booked_private_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/actionbar_title"
         android:text="Styrketräning"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/listrow_detail_booked_private_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textColor="@color/gray"
         android:text="80 min"
         android:drawableStart="@drawable/ic_time_small"
         android:drawablePadding="5dp"
         android:layout_below="@+id/listrow_detail_booked_private_name"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
         android:layout_alignStart="@+id/listrow_detail_booked_private_name"
         android:gravity="center"/>
 
@@ -39,11 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textColor="@color/gray"
         android:text="1 kommentar"
         android:layout_below="@+id/listrow_detail_booked_private_duration"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:drawableStart="@drawable/ic_comment_small"
         android:drawablePadding="5dp"
         android:layout_alignStart="@+id/listrow_detail_booked_private_name"/>
@@ -58,7 +55,10 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="bold"
+        android:textStyle="bold"/>
 
     <!-- Nedre sektionen med knapparna -->
 
@@ -73,7 +73,8 @@
         android:text="@string/add_to_calender_button_text"
         android:drawableStart="@drawable/ic_calender_small"
         android:layout_toStartOf="@+id/listrow_detail_booked_private_button_divider"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         style="@style/ListItemBottomButtonTextView"
