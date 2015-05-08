@@ -190,7 +190,7 @@ public class CalendarColumnFragment extends Fragment
 
     private boolean hasPastActivity()
     {
-        return pointInTime == PAST_WEEK ? true : false;
+        return pointInTime == PAST_WEEK;
     }
 
 }

@@ -30,6 +30,7 @@ public class CalendarFragment extends Fragment
 
     public static int NUM_PAGES;
     public static int NUM_ROWS;
+    public static int LAST_PASSED_WEEK;
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
     public ViewPager pager;
@@ -65,6 +66,7 @@ public class CalendarFragment extends Fragment
         {
             if(DateUtil.getWeekPointOfTime(dates.get(i)) == 0)
             {
+                LAST_PASSED_WEEK = i;
                 pager.setCurrentItem(i - (NUM_SIMULTANEOUS_PAGES / 2), false);
                 break;
             }
@@ -127,6 +129,7 @@ public class CalendarFragment extends Fragment
         public static final String POINT_IN_TIME = "week in time";
         public static final String NEXT_NUMBER_OF_ACTIVITIES = "next activity num";
         public static final String PREVIOUS_NUMBER_OF_ACTIVITIES = "previous activity num";
+        public static final String HAS_NEXT_WEEK_PASSED = "has next week passed";
 
         public final List<CalendarDate> dates;
 
@@ -143,6 +146,8 @@ public class CalendarFragment extends Fragment
 
             Bundle bundle = new Bundle( position );
 
+
+            bundle.putBoolean(HAS_NEXT_WEEK_PASSED, hasNextWeekPassed(position));
             bundle.putInt(NUMBER_OF_ACTIVITIES, getNumberOfActivities(position));
             bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointOfTime(dates.get(position)));
             bundle.putInt(ADAPTER_POSITION, position);
@@ -166,6 +171,11 @@ public class CalendarFragment extends Fragment
         public float getPageWidth (int position)
         {
             return 1f / NUM_SIMULTANEOUS_PAGES;
+        }
+
+        private boolean hasNextWeekPassed(int position)
+        {
+            return (CalendarFragment.LAST_PASSED_WEEK == position);
         }
 
         private int getNextWeeksActivityCount(int position)
