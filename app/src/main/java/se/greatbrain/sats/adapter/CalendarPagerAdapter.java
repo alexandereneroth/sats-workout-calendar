@@ -40,7 +40,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         if(activities.size() > 0)
         {
             String fromDate = activities.get(0).trainingActivity.getDate();
-            dates = DateUtil.getDatesInWeekBetween(fromDate);
+            dates = DateUtil.getDatesInWeekFrom(fromDate);
         }
 
         NUM_PAGES = dates.size();
