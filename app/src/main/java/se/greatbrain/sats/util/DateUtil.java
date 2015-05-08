@@ -158,7 +158,7 @@ public final class DateUtil
         datesCalendar.get(Calendar.WEEK_OF_YEAR);
         nullifyTimeAndDayInCalendar(datesCalendar);
 
-        return todaysCalendar.compareTo(datesCalendar);
+        return datesCalendar.compareTo(todaysCalendar);
     }
 
     public static TimeOfDay getTimeOfDayFromDate(String dateString)
