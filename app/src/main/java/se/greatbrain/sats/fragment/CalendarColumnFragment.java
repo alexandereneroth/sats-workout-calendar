@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
+import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.view.CalendarRowView.RowBuilder;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
@@ -20,8 +22,6 @@ import se.greatbrain.sats.R;
 public class CalendarColumnFragment extends Fragment
 {
     public static final int PAST_WEEK = -1;
-    public static final int THIS_WEEK = 0;
-    public static final int UPCOMING_WEEK = 1;
 
     private static final String TAG = "ScreenSlidePageFragment";
 
@@ -29,28 +29,10 @@ public class CalendarColumnFragment extends Fragment
     private int numActivities;
     private int pointInTime;
 
-    private OnPageClickedListener listenerOnPageClicked_MainActivity;
-
-    public interface OnPageClickedListener
-    {
-        void onPageClicked(int page);
-    }
-
-    //TODO use Eventbus instead of normal callback
     @Override
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-
-        try
-        {
-            listenerOnPageClicked_MainActivity = (OnPageClickedListener) activity;
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException(activity.toString()
-                    + " must implement" + OnPageClickedListener.class.getName());
-        }
     }
 
     @Override
@@ -85,7 +67,7 @@ public class CalendarColumnFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                listenerOnPageClicked_MainActivity.onPageClicked(indexInAdapter);
+                EventBus.getDefault().post(new ScrollEvent(indexInAdapter));
             }
         });
 

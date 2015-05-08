@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import se.greatbrain.sats.model.CalendarDate;
 import se.greatbrain.sats.model.TimeOfDay;
-import se.greatbrain.sats.model.WeekAndDate;
 
 public final class DateUtil
 {
