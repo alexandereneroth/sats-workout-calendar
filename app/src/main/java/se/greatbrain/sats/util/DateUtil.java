@@ -173,8 +173,10 @@ public final class DateUtil
         return new TimeOfDay(hourOfDay, minuteOfHour);
     }
 
-    public static List<CalendarDate> getDatesInWeekBetween(int fromYear, int toYear)
+    public static List<CalendarDate> getDatesInWeekBetween(String fromDate)
     {
+        int fromYear = getYearFromDate(parseString(fromDate));
+        int toYear = getYearFromDate(new Date());
         List<CalendarDate> dates = new ArrayList<>();
         for(int i = fromYear; i <= toYear; i++)
         {

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,16 +30,20 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     public static int CURRENT_WEEK;
 
     private List<ActivityWrapper> activities;
-    private List<CalendarDate> dates;
+    private List<CalendarDate> dates = new ArrayList<>();
     private Map<Integer, Integer> numberOfActivitiesInWeek = new LinkedHashMap<>();
 
     public CalendarPagerAdapter(FragmentManager fm, Context context)
     {
         super(fm);
         activities = RealmClient.getInstance(context).getAllActivitiesWithWeek();
-        dates = DateUtil.getDatesInWeekBetween(1990, 2025);
-        NUM_PAGES = dates.size();
+        if(activities.size() > 0)
+        {
+            String fromDate = activities.get(0).trainingActivity.getDate();
+            dates = DateUtil.getDatesInWeekBetween(fromDate);
+        }
 
+        NUM_PAGES = dates.size();
         mapPositionToNumberOfActivities();
         NUM_ROWS = getHighestActivityCount();
     }
@@ -113,6 +118,11 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
                     return 7;
                 }
             }
+        }
+
+        if(highestCount < 4)
+        {
+            return 4;
         }
 
         return highestCount;
