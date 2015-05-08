@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class CalendarColumnFragment extends Fragment
 
     private float calendarHeight;
     private int numActivities;
+    private int pointInTime;
 
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
@@ -68,6 +70,7 @@ public class CalendarColumnFragment extends Fragment
         numActivities = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
                 .NUMBER_OF_ACTIVITIES);
         // DATA FOR TESTING: numActivities = indexInAdapter % (NUM_ROWS + 3);
+        pointInTime = getArguments().getInt(CalendarFragment.CalendarPagerAdapter.POINT_IN_TIME);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -110,7 +113,6 @@ public class CalendarColumnFragment extends Fragment
 
     private void addRows(LinearLayout rootView)
     {
-        final boolean isPastActivity = true; //TODO - replace dummy data
         boolean weekHasMoreActivitiesThanRows = false;
 
         if (numActivities > CalendarFragment.NUM_ROWS)
@@ -126,7 +128,7 @@ public class CalendarColumnFragment extends Fragment
 
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
-                int circleType = isPastActivity ?
+                int circleType = hasPastActivity() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
@@ -178,6 +180,11 @@ public class CalendarColumnFragment extends Fragment
     {
         return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex ==
                 CalendarFragment.NUM_ROWS);
+    }
+
+    private boolean hasPastActivity()
+    {
+        return pointInTime == PAST_WEEK ? true : false;
     }
 
 }
