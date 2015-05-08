@@ -68,8 +68,6 @@ public class CalendarRowView extends TextView
                 hollowCircle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.black));
             }
-
-
             canvas.restore();
             super.onDraw(canvas);
         }
@@ -78,7 +76,10 @@ public class CalendarRowView extends TextView
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
+        setIncludeFontPadding(false);
+
         super.onLayout(changed, left, top, right, bottom);
+
         width = getWidth();
         height = getHeight();
         centerX = width / 2;
@@ -96,6 +97,7 @@ public class CalendarRowView extends TextView
                         circleTopOffsetPx + circleDiameter);
         hollowCircle.setBounds(circleLeftOffsetPx, circleTopOffsetPx, circleLeftOffsetPx + circleDiameter,
                 circleTopOffsetPx + circleDiameter);
+
     }
 
     private void drawOrangeLineTowards(Canvas canvas, int x, int y)
@@ -135,10 +137,9 @@ public class CalendarRowView extends TextView
 
         private Builder() {}
 
-        public Builder(Context context, int viewHeightPx)
+        public Builder(Context context)
         {
             this.context = context;
-            this.viewHeightPx = viewHeightPx;
         }
 
         public Builder drawCircle(int activityType)

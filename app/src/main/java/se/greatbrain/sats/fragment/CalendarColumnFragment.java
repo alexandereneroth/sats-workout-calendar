@@ -19,7 +19,7 @@ public class CalendarColumnFragment extends Fragment
 {
     private static final String TAG = "ScreenSlidePageFragment";
     //TODO set number of rows based on max activities in a week
-    private static final int NUM_ROWS = 4;
+    private static final int NUM_ROWS = 14;
 
     private float calendarHeight;
     private int numActivities;
@@ -104,30 +104,19 @@ public class CalendarColumnFragment extends Fragment
 
     private void addRows(LinearLayout rootView)
     {
-        boolean shouldShowCircle = false;
         // start at row 'rows' and add all rows through 1, the zero row will be added in daterow and
         // is not part of the number of rows
         for (int i = NUM_ROWS; i > 0; --i)
         {
+            CalendarRowView.Builder rowBuilder = new CalendarRowView.Builder(rootView.getContext());
+
             if (i == numActivities)
             {
-                shouldShowCircle = true;
-            }
-            else
-            {
-                shouldShowCircle = false;
+                rowBuilder.drawCircle(CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY);
             }
 
-            CalendarRowView row = new CalendarRowView
-                    .Builder(rootView.getContext(),getHeightOfOneRow(NUM_ROWS))
-                    .drawCircle(CalendarRowView.PAST_ACTIVITY)
-                    .drawLineToNextWeek(5)
-                    .build();
-                    /*new CalendarRowView
-            (rootView
-            .getContext(),
-                    getHeightOfOneRow(NUM_ROWS), drawCircle, isPastActivity, shouldShowCircle,
-                    numPreviousWeekActivities, true, numNextWeekActivities);*/
+            CalendarRowView row = rowBuilder.build();
+
             row.setText(String.valueOf(i));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
