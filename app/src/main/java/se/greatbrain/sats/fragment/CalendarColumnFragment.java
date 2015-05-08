@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
+import se.greatbrain.sats.view.CalendarRowView.RowBuilder;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
 
@@ -27,9 +28,6 @@ public class CalendarColumnFragment extends Fragment
     private float calendarHeight;
     private int numActivities;
     private int pointInTime;
-    private int previousWeeksActivities;
-    private int nextWeeksActivities;
-    private boolean shouldDrawLineToNextWeek;
 
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
@@ -59,9 +57,9 @@ public class CalendarColumnFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
-        Resources r = getResources();
+        Resources resources = getResources();
 
-        calendarHeight = r.getDimension(R.dimen.calendar_height);
+        calendarHeight = resources.getDimension(R.dimen.calendar_height);
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
@@ -71,17 +69,14 @@ public class CalendarColumnFragment extends Fragment
         final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
         pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
-        nextWeeksActivities = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
-        previousWeeksActivities = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
-        shouldDrawLineToNextWeek = args.getBoolean(CalendarPagerAdapter.HAS_NEXT_WEEK_PASSED);
 
         if (indexInAdapter % 2 == 0)
         {
-            rootView.setBackgroundColor(getResources().getColor(R.color.primary_calendar));
+            rootView.setBackgroundColor(resources.getColor(R.color.primary_calendar));
         }
         else
         {
-            rootView.setBackgroundColor(getResources().getColor(R.color.secondary_calendar));
+            rootView.setBackgroundColor(resources.getColor(R.color.secondary_calendar));
         }
 
         rootView.setOnClickListener(new View.OnClickListener()
@@ -104,7 +99,6 @@ public class CalendarColumnFragment extends Fragment
     private void addTopRow(LinearLayout rootView)
     {
         View topRow = new View(rootView.getContext());
-        topRow.setBackgroundColor(getResources().getColor(R.color.green));
         topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
@@ -127,19 +121,13 @@ public class CalendarColumnFragment extends Fragment
         {
             boolean isZeroRow = (rowIndex == 0);
 
-            CalendarRowView.Builder rowBuilder = new CalendarRowView
-                    .Builder(rootView.getContext(), numActivities);
+            RowBuilder rowBuilder = new RowBuilder(rootView.getContext());
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
                 int circleType = hasPastActivity() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
-                rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
-                if(shouldDrawLineToNextWeek)
-                {
-                    rowBuilder.drawLineToNextWeek(nextWeeksActivities);
-                }
             }
             if (isZeroRow)
             {

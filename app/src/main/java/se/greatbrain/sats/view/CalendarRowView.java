@@ -19,46 +19,24 @@ public class CalendarRowView extends TextView
 
     private static final String TAG = "CalendarRowView";
 
-    private final int numActivities;
     private final boolean shouldDrawCircle;
     private final boolean isPastActivity;
     private final boolean isZeroRow;
-    private final int numPreviousWeekActivities;
-    private final int numNextWeekActivities;
-    private final boolean shouldDrawLineToPreviousWeek;
-    private final boolean shouldDrawLineToNextWeek;
     private final Drawable horizontalLine;
     private final Drawable circle;
     private final Drawable hollowCircle;
-    private final Drawable lineToNext;
-    private final Drawable lineToPrevious;
 
-    private int drawBoundsWidth;
-    private int drawBoundsHeight;
-    private int width;
-    private int height;
-    private int centerX;
-    private int centerY;
-
-    private CalendarRowView(Context context, int numActivities, boolean shouldDrawCircle,
-            boolean isPastActivity, boolean isZeroRow, boolean drawLineToPreviousWeek,
-            int numPreviousWeekActivities, boolean drawLineToNextWeek, int numNextWeekActivities)
+    private CalendarRowView(Context context, boolean shouldDrawCircle,
+            boolean isPastActivity, boolean isZeroRow)
     {
         super(context);
-        this.numActivities = numActivities;
         this.shouldDrawCircle = shouldDrawCircle;
         this.isPastActivity = isPastActivity;
         this.isZeroRow = isZeroRow;
-        this.shouldDrawLineToPreviousWeek = drawLineToPreviousWeek;
-        this.shouldDrawLineToNextWeek = drawLineToNextWeek;
-        this.numPreviousWeekActivities = numPreviousWeekActivities;
-        this.numNextWeekActivities = numNextWeekActivities;
 
         horizontalLine = getResources().getDrawable(R.drawable.line);
         circle = getResources().getDrawable(R.drawable.calendar_circle);
         hollowCircle = getResources().getDrawable(R.drawable.calendar_hollow_circle);
-        lineToNext = getResources().getDrawable(R.drawable.calendar_line);
-        lineToPrevious = getResources().getDrawable(R.drawable.calendar_line);
     }
 
     @Override
@@ -77,11 +55,6 @@ public class CalendarRowView extends TextView
             {
                 circle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.white));
-                drawOrangeLineToPreviousWeek(canvas);
-                if(shouldDrawLineToNextWeek)
-                {
-                    drawOrangeLineToNextWeek(canvas);
-                }
             }
             else
             {
@@ -101,15 +74,14 @@ public class CalendarRowView extends TextView
 
         super.onLayout(changed, left, top, right, bottom);
 
-        drawBoundsWidth = getWidth();
-        drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
-        width = getWidth();
-        height = getHeight();
-        centerX = drawBoundsWidth / 2;
-        centerY = drawBoundsHeight / 2;
+        int drawBoundsWidth = getWidth();
+        int drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
+        int width = getWidth();
+        int height = getHeight();
+        int centerX = drawBoundsWidth / 2;
+        int centerY = drawBoundsHeight / 2;
 
         horizontalLine.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
-        lineToPrevious.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
 
         int circleDiameter = getResources().getDimensionPixelSize(R.dimen.calendar_circle_diameter);
 
@@ -124,117 +96,21 @@ public class CalendarRowView extends TextView
 
     }
 
-    private void drawOrangeLineToPreviousWeek(Canvas canvas)
-    {
-        Paint linePaint = new Paint();
-        linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(18);
-
-        int deltaActivities = numActivities - numPreviousWeekActivities;
-        int deltaX = -drawBoundsWidth;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
-
-        Point originPoint = new Point( 0, 0);
-        Point deltaPoint = new Point( deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        lengthenLine(originPoint, deltaPoint, -cutoff);
-
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
-                linePaint);
-    }
-
-    private void drawOrangeLineToNextWeek(Canvas canvas)
-    {
-        Paint linePaint = new Paint();
-        linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(18);
-
-        int deltaActivities = numNextWeekActivities - numActivities;
-        int deltaX = drawBoundsWidth;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
-
-        Point originPoint = new Point( 0, 0);
-        Point deltaPoint = new Point( deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        lengthenLine(originPoint, deltaPoint, -cutoff);
-
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
-                linePaint);
-    }
-
-    public void lengthenLine(Point startPoint, Point endPoint, float pixelCount)
-    {
-        if (startPoint == endPoint)
-        {
-            return; // not a line
-        }
-        double dx = endPoint.x - startPoint.x;
-        double dy = endPoint.y - startPoint.y;
-        if (dx == 0)
-        {
-            // vertical line:
-            if (endPoint.y < startPoint.y)
-                endPoint.y -= pixelCount;
-            else
-                endPoint.y += pixelCount;
-        }
-        else if (dy == 0)
-        {
-            // horizontal line:
-            if (endPoint.x < startPoint.x)
-                endPoint.x -= pixelCount;
-            else
-                endPoint.x += pixelCount;
-        }
-        else
-        {
-            // non-horizontal, non-vertical line:
-            double length = Math.sqrt(dx * dx + dy * dy);
-            double scale = (length + pixelCount) / length;
-            dx *= scale;
-            dy *= scale;
-            endPoint.x = startPoint.x + (int)dx;
-            endPoint.y = startPoint.y + (int)dy;
-        }
-    }
-
-    private int dpToPx(int dp)
-    {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics());
-    }
-
-    private double getAngleFromCenterTowards(int x, int y)
-    {
-        int adjacent = x - centerX;
-        int opposite = y - centerY;
-        int ratio = opposite / adjacent;
-        double degrees = Math.atan(ratio);
-        return degrees;
-    }
-
-    public static class Builder
+    public static class RowBuilder
     {
         private Context context;
-        private int numActivities = 0; //TODO refactor away isZeroRow
         private boolean drawCircle = false;
         private boolean isPastActivity;
-        private boolean drawLineToPreviousWeek = false;
-        private boolean drawLineToNextWeek = false;
         private boolean isZeroRow = false;
-        private int numNextWeekActivities;
-        private int numPreviousWeekActivities;
 
-        private Builder() {}
+        private RowBuilder() {}
 
-        public Builder(Context context, int numActivities)
+        public RowBuilder(Context context)
         {
             this.context = context;
-            this.numActivities = numActivities;
         }
 
-        public Builder drawCircle(int activityType)
+        public RowBuilder drawCircle(int activityType)
         {
             if (activityType == PAST_ACTIVITY)
             {
@@ -252,33 +128,17 @@ public class CalendarRowView extends TextView
             return this;
         }
 
-        public Builder setIsZeroRow()
+        public RowBuilder setIsZeroRow()
         {
             isZeroRow = true;
-            return this;
-        }
-
-        public Builder drawLineToPreviousWeek(int numPreviousWeekActivities)
-        {
-            this.drawLineToPreviousWeek = true;
-            this.numPreviousWeekActivities = numPreviousWeekActivities;
-            return this;
-        }
-
-        public Builder drawLineToNextWeek(int numNextWeekActivities)
-        {
-            this.drawLineToNextWeek = true;
-            this.numNextWeekActivities = numNextWeekActivities;
             return this;
         }
 
 
         public CalendarRowView build()
         {
-            return new CalendarRowView(context, numActivities, drawCircle, isPastActivity,
-                    isZeroRow,
-                    drawLineToPreviousWeek, numPreviousWeekActivities, drawLineToNextWeek,
-                    numNextWeekActivities);
+            return new CalendarRowView(context, drawCircle, isPastActivity,
+                    isZeroRow);
         }
 
     }
