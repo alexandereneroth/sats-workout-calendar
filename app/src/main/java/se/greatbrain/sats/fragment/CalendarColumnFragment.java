@@ -118,8 +118,16 @@ public class CalendarColumnFragment extends Fragment
                 shouldShowCircle = false;
             }
 
-            CalendarRowView row = new CalendarRowView(rootView.getContext(),
-                    getHeightOfOneRow(NUM_ROWS), shouldShowCircle, true);
+            CalendarRowView row = new CalendarRowView
+                    .Builder(rootView.getContext(),getHeightOfOneRow(NUM_ROWS))
+                    .drawCircle(CalendarRowView.PAST_ACTIVITY)
+                    .drawLineToNextWeek(5)
+                    .build();
+                    /*new CalendarRowView
+            (rootView
+            .getContext(),
+                    getHeightOfOneRow(NUM_ROWS), drawCircle, isPastActivity, shouldShowCircle,
+                    numPreviousWeekActivities, true, numNextWeekActivities);*/
             row.setText(String.valueOf(i));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
