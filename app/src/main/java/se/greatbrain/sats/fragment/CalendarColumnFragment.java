@@ -29,6 +29,7 @@ public class CalendarColumnFragment extends Fragment
     private float calendarHeight;
     private int numActivities;
     private int pointInTime;
+    private int previousWeeksActivities;
     private int nextWeeksActivities;
 
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
@@ -74,6 +75,8 @@ public class CalendarColumnFragment extends Fragment
         pointInTime = args.getInt(CalendarFragment.CalendarPagerAdapter.POINT_IN_TIME);
         nextWeeksActivities = args.getInt(CalendarFragment.CalendarPagerAdapter
                 .NEXT_NUMBER_OF_ACTIVITIES);
+        previousWeeksActivities = args.getInt(CalendarFragment.CalendarPagerAdapter
+                .PREVIOUS_NUMBER_OF_ACTIVITIES);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -136,7 +139,8 @@ public class CalendarColumnFragment extends Fragment
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
-                rowBuilder.drawLineToNextWeek(nextWeeksActivities);//TODO move and set dynamically
+                rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
+                rowBuilder.drawLineToNextWeek(nextWeeksActivities);
             }
             if (isZeroRow)
             {

@@ -3,6 +3,7 @@ package se.greatbrain.sats.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
@@ -76,6 +77,7 @@ public class CalendarRowView extends TextView
             {
                 circle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.white));
+                drawOrangeLineToPreviousWeek(canvas);
                 drawOrangeLineToNextWeek(canvas);
             }
             else
@@ -87,6 +89,7 @@ public class CalendarRowView extends TextView
             if (!isZeroRow) {super.onDraw(canvas);}
         }
     }
+
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
@@ -118,6 +121,25 @@ public class CalendarRowView extends TextView
 
     }
 
+    private void drawOrangeLineToPreviousWeek(Canvas canvas)
+    {
+        Paint linePaint = new Paint();
+        linePaint.setColor(getResources().getColor(R.color.calendar_item));
+        linePaint.setStrokeWidth(18);
+
+        int deltaActivities = numActivities - numPreviousWeekActivities;
+        int deltaX = -drawBoundsWidth;
+        int deltaY = (-drawBoundsHeight * deltaActivities);
+
+        Point originPoint = new Point( 0, 0);
+        Point deltaPoint = new Point( deltaX, deltaY);
+        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
+        lengthenLine(originPoint, deltaPoint, -cutoff);
+
+        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
+                linePaint);
+    }
+
     private void drawOrangeLineToNextWeek(Canvas canvas)
     {
         Paint linePaint = new Paint();
@@ -127,12 +149,50 @@ public class CalendarRowView extends TextView
         int deltaActivities = numNextWeekActivities - numActivities;
         int deltaX = drawBoundsWidth;
         int deltaY = (-drawBoundsHeight * deltaActivities);
-        if(isZeroRow)
-        {
-            deltaY += height;
-        }
 
-        canvas.drawLine(centerX, centerY, centerX + deltaX, centerY + deltaY, linePaint);
+        Point originPoint = new Point( 0, 0);
+        Point deltaPoint = new Point( deltaX, deltaY);
+        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
+        lengthenLine(originPoint, deltaPoint, -cutoff);
+
+        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
+                linePaint);
+    }
+
+    public void lengthenLine(Point startPoint, Point endPoint, float pixelCount)
+    {
+        if (startPoint == endPoint)
+        {
+            return; // not a line
+        }
+        double dx = endPoint.x - startPoint.x;
+        double dy = endPoint.y - startPoint.y;
+        if (dx == 0)
+        {
+            // vertical line:
+            if (endPoint.y < startPoint.y)
+                endPoint.y -= pixelCount;
+            else
+                endPoint.y += pixelCount;
+        }
+        else if (dy == 0)
+        {
+            // horizontal line:
+            if (endPoint.x < startPoint.x)
+                endPoint.x -= pixelCount;
+            else
+                endPoint.x += pixelCount;
+        }
+        else
+        {
+            // non-horizontal, non-vertical line:
+            double length = Math.sqrt(dx * dx + dy * dy);
+            double scale = (length + pixelCount) / length;
+            dx *= scale;
+            dy *= scale;
+            endPoint.x = startPoint.x + (int)dx;
+            endPoint.y = startPoint.y + (int)dy;
+        }
     }
 
     private int dpToPx(int dp)
