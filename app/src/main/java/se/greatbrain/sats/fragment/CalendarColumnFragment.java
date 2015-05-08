@@ -29,6 +29,7 @@ public class CalendarColumnFragment extends Fragment
     private float calendarHeight;
     private int numActivities;
     private int pointInTime;
+    private int nextWeeksActivities;
 
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
@@ -65,12 +66,14 @@ public class CalendarColumnFragment extends Fragment
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
 
-        final int indexInAdapter = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
-                .ADAPTER_POSITION);
-        numActivities = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
-                .NUMBER_OF_ACTIVITIES);
-        // DATA FOR TESTING: numActivities = indexInAdapter % (NUM_ROWS + 3);
-        pointInTime = getArguments().getInt(CalendarFragment.CalendarPagerAdapter.POINT_IN_TIME);
+        Bundle args = getArguments();
+
+        final int indexInAdapter = args.getInt(
+                CalendarFragment.CalendarPagerAdapter.ADAPTER_POSITION);
+        numActivities = args.getInt(CalendarFragment.CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
+        pointInTime = args.getInt(CalendarFragment.CalendarPagerAdapter.POINT_IN_TIME);
+        nextWeeksActivities = args.getInt(CalendarFragment.CalendarPagerAdapter
+                .NEXT_NUMBER_OF_ACTIVITIES);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -93,9 +96,8 @@ public class CalendarColumnFragment extends Fragment
 
         addTopRow(rootView);
         addRows(rootView);
-//        addHalfRow(rootView);
         addDateRow(rootView,
-                getArguments().getString(CalendarFragment.CalendarPagerAdapter.DATE_STRING));
+                args.getString(CalendarFragment.CalendarPagerAdapter.DATE_STRING));
 
         return rootView;
     }
@@ -127,16 +129,16 @@ public class CalendarColumnFragment extends Fragment
             boolean isZeroRow = (rowIndex == 0);
 
             CalendarRowView.Builder rowBuilder = new CalendarRowView
-                    .Builder(rootView.getContext(),numActivities);
+                    .Builder(rootView.getContext(), numActivities);
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
                 int circleType = hasPastActivity() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
-                rowBuilder.drawLineToNextWeek(0);//TODO move and set dynamically
+                rowBuilder.drawLineToNextWeek(nextWeeksActivities);//TODO move and set dynamically
             }
-            if(isZeroRow)
+            if (isZeroRow)
             {
                 rowBuilder.setIsZeroRow();
             }
