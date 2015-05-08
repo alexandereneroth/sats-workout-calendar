@@ -143,20 +143,12 @@ public class CalendarFragment extends Fragment
 
             Bundle bundle = new Bundle( position );
 
-            if(numberOfActivitiesInWeek.get(position) == null)
-            {
-                bundle.putInt(NUMBER_OF_ACTIVITIES, 0);
-            }
-            else
-            {
-                bundle.putInt(NUMBER_OF_ACTIVITIES, numberOfActivitiesInWeek.get(position));
-            }
-
+            bundle.putInt(NUMBER_OF_ACTIVITIES, getNumberOfActivities(position));
             bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointOfTime(dates.get(position)));
-            bundle.putInt(ADAPTER_POSITION, position );
+            bundle.putInt(ADAPTER_POSITION, position);
             bundle.putString(DATE_STRING, dates.get(position).mDate);
-            bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, numberOfActivitiesInWeek.get(position + 1));
-            bundle.putInt(PREVIOUS_NUMBER_OF_ACTIVITIES, numberOfActivitiesInWeek.get(position - 1));
+            bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, getNextWeeksActivityCount(position));
+            bundle.putInt(PREVIOUS_NUMBER_OF_ACTIVITIES, getPreviousWeeksActivityCount(position));
             fragment.setArguments( bundle );
 
             return fragment;
@@ -174,6 +166,38 @@ public class CalendarFragment extends Fragment
         public float getPageWidth (int position)
         {
             return 1f / NUM_SIMULTANEOUS_PAGES;
+        }
+
+        private int getNextWeeksActivityCount(int position)
+        {
+            if(numberOfActivitiesInWeek.get(position + 1) == null)
+            {
+                return 0;
+            }
+
+            return numberOfActivitiesInWeek.get(position + 1);
+        }
+
+        private int getPreviousWeeksActivityCount(int position)
+        {
+            if(numberOfActivitiesInWeek.get(position - 1) == null)
+            {
+                return 0;
+            }
+
+            return numberOfActivitiesInWeek.get(position - 1);
+        }
+
+        private int getNumberOfActivities(int position)
+        {
+            if(numberOfActivitiesInWeek.get(position) == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return numberOfActivitiesInWeek.get(position);
+            }
         }
     }
 }
