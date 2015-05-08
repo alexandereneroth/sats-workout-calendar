@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import se.greatbrain.sats.model.CalendarDate;
 import se.greatbrain.sats.model.TimeOfDay;
 import se.greatbrain.sats.model.WeekAndDate;
 
@@ -146,6 +147,20 @@ public final class DateUtil
         return todaysCalendar.after(activityCalendar);
     }
 
+    public static int getWeekPointOfTime(CalendarDate date)
+    {
+        Calendar todaysCalendar = Calendar.getInstance();
+        nullifyTimeAndDayInCalendar(todaysCalendar);
+        Calendar datesCalendar = Calendar.getInstance();
+        datesCalendar.set(Calendar.YEAR, date.mYear);
+        datesCalendar.set(Calendar.WEEK_OF_YEAR, date.mWeek);
+        datesCalendar.get(Calendar.YEAR);
+        datesCalendar.get(Calendar.WEEK_OF_YEAR);
+        nullifyTimeAndDayInCalendar(datesCalendar);
+
+        return todaysCalendar.compareTo(datesCalendar);
+    }
+
     public static TimeOfDay getTimeOfDayFromDate(String dateString)
     {
         Date date = parseString(dateString);
@@ -158,12 +173,10 @@ public final class DateUtil
         return new TimeOfDay(hourOfDay, minuteOfHour);
     }
 
-    public static List<String> getDatesInWeekBetween(String fromDate, String toDate)
+    public static List<CalendarDate> getDatesInWeekBetween(int fromYear, int toYear)
     {
-        int startYear = getYearFromDate(parseString(fromDate));
-        int endYear = getYearFromDate(parseString(toDate));
-        List<String> dates = new ArrayList<>();
-        for(int i = startYear; i <= endYear; i++)
+        List<CalendarDate> dates = new ArrayList<>();
+        for(int i = fromYear; i <= toYear; i++)
         {
             getWeeksWithDatesForYear(i, dates);
         }
@@ -171,7 +184,7 @@ public final class DateUtil
         return dates;
     }
 
-    private static void getWeeksWithDatesForYear(int year, List<String> dates)
+    private static void getWeeksWithDatesForYear(int year, List<CalendarDate> dates)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
@@ -186,22 +199,36 @@ public final class DateUtil
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             int monday = calendar.get(Calendar.DAY_OF_MONTH);
             int startMonth = calendar.get(Calendar.MONTH) + 1;
-            calendar.add(Calendar.DAY_OF_WEEK, 6);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             int sunday = calendar.get(Calendar.DAY_OF_MONTH);
             int endMonth = calendar.get(Calendar.MONTH) + 1;
 
             if(startMonth == endMonth)
             {
                 String date = monday + "-" + sunday + "/" + startMonth;
-                dates.add(date);
+                dates.add(new CalendarDate(date, week, year));
             }
             else
             {
                 String date = monday + "/" + startMonth + "-" + sunday + "/" +
                         endMonth;
-                dates.add(date);
+                dates.add(new CalendarDate(date, week, year));
             }
         }
+    }
+
+    private static void nullifyTimeAndDayInCalendar(Calendar calendar)
+    {
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.get(Calendar.HOUR);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.get(Calendar.MINUTE);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.get(Calendar.SECOND);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.get(Calendar.MILLISECOND);
     }
 
     private static String getMonthAsString(Calendar calendar)

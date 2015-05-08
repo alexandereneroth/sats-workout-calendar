@@ -17,6 +17,10 @@ import se.greatbrain.sats.R;
 
 public class CalendarColumnFragment extends Fragment
 {
+    public static final int PAST_WEEK = -1;
+    public static final int THIS_WEEK = 0;
+    public static final int UPCOMING_WEEK = 1;
+
     private static final String TAG = "ScreenSlidePageFragment";
     //TODO set number of rows based on max activities in a week
     private static final int NUM_ROWS = 7;
