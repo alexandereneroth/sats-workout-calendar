@@ -65,8 +65,10 @@ public class CalendarColumnFragment extends Fragment
 
         final int indexInAdapter = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
                 .ADAPTER_POSITION);
+        numActivities = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
+                .NUMBER_OF_ACTIVITIES);
 
-        numActivities = indexInAdapter % (NUM_ROWS + 3);//TODO - replace dummy data
+        // DATA FOR TESTING: numActivities = indexInAdapter % (NUM_ROWS + 3);
 
         if (indexInAdapter % 2 == 0)
         {
