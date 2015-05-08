@@ -26,6 +26,8 @@ public class CalendarColumnFragment extends Fragment
     private static final int NUM_ROWS = 7;
 
     private float calendarHeight;
+    private int numActivities;
+
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
     public interface OnPageClickedListener
@@ -64,6 +66,8 @@ public class CalendarColumnFragment extends Fragment
         final int indexInAdapter = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
                 .ADAPTER_POSITION);
 
+        numActivities = indexInAdapter % (NUM_ROWS + 3);//TODO - replace dummy data
+
         if (indexInAdapter % 2 == 0)
         {
             rootView.setBackgroundColor(getResources().getColor(R.color.primary_calendar));
@@ -95,32 +99,44 @@ public class CalendarColumnFragment extends Fragment
     {
         View topRow = new View(rootView.getContext());
         topRow.setBackgroundColor(getResources().getColor(R.color.green));
+        topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
         rootView.addView(topRow, params);
     }
 
     private void addRows(LinearLayout rootView)
     {
-        boolean shouldShowCircle = false;
-        // start at row 'rows' and add all rows through 1, the zero row will be added in daterow and
-        // is not part of the number of rows
-        for (int i = NUM_ROWS; i > 0; --i)
+        final boolean isPastActivity = true; //TODO - replace dummy data
+        boolean weekHasMoreActivitiesThanRows = false;
+
+        if (numActivities > NUM_ROWS)
         {
-            if (i == 5){
-                shouldShowCircle = true;
-            }else{
-                shouldShowCircle = false;
+            weekHasMoreActivitiesThanRows = true;
+        }
+
+        // Start at row 'NUM_ROWS' and add all rows through 1, the zero row will be added in daterow
+        // and is not part of the number of rows
+        for (int rowIndex = NUM_ROWS; rowIndex > 0; --rowIndex)
+        {
+            CalendarRowView.Builder rowBuilder = new CalendarRowView.Builder(rootView.getContext());
+
+            if (shouldDrawCircleOnThisRow(rowIndex))
+            {
+                int circleType = isPastActivity ?
+                        CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
+
+                rowBuilder.drawCircle(circleType);
             }
 
-            CalendarRowView row = new CalendarRowView(rootView.getContext(),
-                    getHeightOfOneColumnRow(NUM_ROWS), shouldShowCircle, false);
-            row.setText(String.valueOf(i));
+            CalendarRowView row = rowBuilder.build();
+
+            row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                    ViewGroup.LayoutParams.MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
 
             rootView.addView(row, params);
         }
@@ -129,10 +145,9 @@ public class CalendarColumnFragment extends Fragment
     private void addHalfRow(LinearLayout rootView)
     {
         View halfRow = new View(rootView.getContext());
-        halfRow.setBackgroundColor(getResources().getColor(R.color.green));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS) / 2);
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS) / 2);
         rootView.addView(halfRow, params);
     }
 
@@ -146,13 +161,19 @@ public class CalendarColumnFragment extends Fragment
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneColumnRow(NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(NUM_ROWS));
 
         rootView.addView(row, params);
     }
 
-    private int getHeightOfOneColumnRow(int rows)
+    private int getHeightOfOneRow(int rows)
     {
         return (int) (calendarHeight / (rows + 2.5));
     }
+
+    private boolean shouldDrawCircleOnThisRow(int rowIndex)
+    {
+        return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex == NUM_ROWS);
+    }
+
 }

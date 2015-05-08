@@ -7,5 +7,5 @@
     <dimen name="calendar_height">220dp</dimen>
     <dimen name="calendar_date_row_height">25dp</dimen>
     <dimen name="calendar_week_row_height">30dp</dimen>
-    <dimen name="calendar_circle_radius">25dp</dimen>
+    <dimen name="calendar_circle_diameter">25dp</dimen>
 </resources>
