@@ -125,6 +125,8 @@ public class CalendarFragment extends Fragment
         public static final String DATE_STRING = "date string";
         public static final String NUMBER_OF_ACTIVITIES = "number_activities";
         public static final String POINT_IN_TIME = "week in time";
+        public static final String NEXT_NUMBER_OF_ACTIVITIES = "next activity num";
+        public static final String PREVIOUS_NUMBER_OF_ACTIVITIES = "previous activity num";
 
         public final List<CalendarDate> dates;
 
@@ -153,6 +155,8 @@ public class CalendarFragment extends Fragment
             bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointOfTime(dates.get(position)));
             bundle.putInt(ADAPTER_POSITION, position );
             bundle.putString(DATE_STRING, dates.get(position).mDate);
+            bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, numberOfActivitiesInWeek.get(position + 1));
+            bundle.putInt(PREVIOUS_NUMBER_OF_ACTIVITIES, numberOfActivitiesInWeek.get(position - 1));
             fragment.setArguments( bundle );
 
             return fragment;
