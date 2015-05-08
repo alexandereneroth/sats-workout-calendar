@@ -19,7 +19,7 @@ public class CalendarColumnFragment extends Fragment
 {
     private static final String TAG = "ScreenSlidePageFragment";
     //TODO set number of rows based on max activities in a week
-    private static final int NUM_ROWS = 14;
+    private static final int NUM_ROWS = 7;
 
     private float calendarHeight;
     private int numActivities;
@@ -62,7 +62,7 @@ public class CalendarColumnFragment extends Fragment
         final int indexInAdapter = getArguments().getInt(CalendarFragment.CalendarPagerAdapter
                 .ADAPTER_POSITION);
 
-        numActivities = indexInAdapter % (NUM_ROWS + 1);//TODO - DUMMY DATA
+        numActivities = indexInAdapter % (NUM_ROWS + 3);//TODO - replace dummy data
 
         if (indexInAdapter % 2 == 0)
         {
@@ -104,20 +104,31 @@ public class CalendarColumnFragment extends Fragment
 
     private void addRows(LinearLayout rootView)
     {
-        // start at row 'rows' and add all rows through 1, the zero row will be added in daterow and
-        // is not part of the number of rows
-        for (int i = NUM_ROWS; i > 0; --i)
+        final boolean isPastActivity = true; //TODO - replace dummy data
+        boolean weekHasMoreActivitiesThanRows = false;
+
+        if (numActivities > NUM_ROWS)
+        {
+            weekHasMoreActivitiesThanRows = true;
+        }
+
+        // Start at row 'NUM_ROWS' and add all rows through 1, the zero row will be added in daterow
+        // and is not part of the number of rows
+        for (int rowIndex = NUM_ROWS; rowIndex > 0; --rowIndex)
         {
             CalendarRowView.Builder rowBuilder = new CalendarRowView.Builder(rootView.getContext());
 
-            if (i == numActivities)
+            if (shouldDrawCircleOnThisRow(rowIndex))
             {
-                rowBuilder.drawCircle(CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY);
+                int circleType = isPastActivity ?
+                        CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
+
+                rowBuilder.drawCircle(circleType);
             }
 
             CalendarRowView row = rowBuilder.build();
 
-            row.setText(String.valueOf(i));
+            row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -154,6 +165,11 @@ public class CalendarColumnFragment extends Fragment
     private int getHeightOfOneRow(int rows)
     {
         return (int) (calendarHeight / (rows + 2.5));
+    }
+
+    private boolean shouldDrawCircleOnThisRow(int rowIndex)
+    {
+        return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex == NUM_ROWS);
     }
 
 }

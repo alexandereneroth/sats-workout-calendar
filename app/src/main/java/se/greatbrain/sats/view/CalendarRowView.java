@@ -104,7 +104,8 @@ public class CalendarRowView extends TextView
     {
         Paint linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(17);
+        linePaint.setStrokeWidth(18);
+        //TODO linePaint.setAntiAlias(true);
         canvas.drawLine(centerX, centerY, centerX + x, centerY + y, linePaint);
     }
 
