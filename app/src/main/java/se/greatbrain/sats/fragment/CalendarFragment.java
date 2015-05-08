@@ -29,6 +29,7 @@ public class CalendarFragment extends Fragment
     private static final String TAG = "MainActivity";
 
     public static int NUM_PAGES;
+    public static int NUM_ROWS;
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
     public ViewPager pager;
@@ -50,6 +51,8 @@ public class CalendarFragment extends Fragment
 
         mapPositionToNumberOfActivities();
 
+        NUM_ROWS = getHighestActivityCount();
+
         pagerAdapter = new CalendarPagerAdapter( getFragmentManager(), dates );
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
@@ -68,6 +71,20 @@ public class CalendarFragment extends Fragment
         }
 
         return view;
+    }
+
+    private int getHighestActivityCount()
+    {
+        int highestCount = 0;
+        for(Integer count : numberOfActivitiesInWeek.values())
+        {
+            if(count > highestCount)
+            {
+                highestCount = count;
+            }
+        }
+
+        return highestCount;
     }
 
     private void mapPositionToNumberOfActivities()
