@@ -70,6 +70,33 @@ public class CalendarFragment extends Fragment
         return view;
     }
 
+    private void mapPositionToNumberOfActivities()
+    {
+        for(int i = 0; i < activities.size(); i++)
+        {
+            for(int j = 0; j < dates.size(); j++)
+            {
+                if(activities.get(i).year == dates.get(j).mYear)
+                {
+                    if(activities.get(i).week == dates.get(j).mWeek)
+                    {
+                        if(numberOfActivitiesInWeek.get(j) != null)
+                        {
+                            int lastNumberOfActivities = numberOfActivitiesInWeek.get(j);
+                            int newNumberOfActivities = ++lastNumberOfActivities;
+                            numberOfActivitiesInWeek.remove(j);
+                            numberOfActivitiesInWeek.put(j, newNumberOfActivities);
+                        }
+                        else
+                        {
+                            numberOfActivitiesInWeek.put(j, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     {
         public static final String ADAPTER_POSITION = "item_index";
@@ -121,33 +148,6 @@ public class CalendarFragment extends Fragment
         public float getPageWidth (int position)
         {
             return 1f / NUM_SIMULTANEOUS_PAGES;
-        }
-    }
-
-    private void mapPositionToNumberOfActivities()
-    {
-        for(int i = 0; i < activities.size(); i++)
-        {
-            for(int j = 0; j < dates.size(); j++)
-            {
-                if(activities.get(i).year == dates.get(j).mYear)
-                {
-                    if(activities.get(i).week == dates.get(j).mWeek)
-                    {
-                        if(numberOfActivitiesInWeek.get(j) != null)
-                        {
-                            int lastNumberOfActivities = numberOfActivitiesInWeek.get(j);
-                            int newNumberOfActivities = ++lastNumberOfActivities;
-                            numberOfActivitiesInWeek.remove(j);
-                            numberOfActivitiesInWeek.put(j, newNumberOfActivities);
-                        }
-                        else
-                        {
-                            numberOfActivitiesInWeek.put(j, 1);
-                        }
-                    }
-                }
-            }
         }
     }
 }
