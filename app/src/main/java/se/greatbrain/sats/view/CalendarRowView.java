@@ -71,7 +71,7 @@ public class CalendarRowView extends TextView
                 setTextColor(getResources().getColor(R.color.black));
             }
             canvas.restore();
-            super.onDraw(canvas);
+            if (!isZeroRow) {super.onDraw(canvas);}
         }
     }
 
