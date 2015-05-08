@@ -128,7 +128,6 @@ public class CalendarRowView extends TextView
     public static class Builder
     {
         private Context context;
-        private int viewHeightPx;
         private boolean drawCircle = false;
         private boolean isPastActivity;
         private boolean drawLineToPreviousWeek = false;
