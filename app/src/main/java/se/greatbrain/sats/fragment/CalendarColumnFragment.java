@@ -124,15 +124,17 @@ public class CalendarColumnFragment extends Fragment
         // of the number of rows
         for (int rowIndex = CalendarFragment.NUM_ROWS; rowIndex > -1; --rowIndex)
         {
-            boolean isZeroRow = rowIndex == 0 ? true : false;
+            boolean isZeroRow = (rowIndex == 0);
 
-            CalendarRowView.Builder rowBuilder = new CalendarRowView.Builder(rootView.getContext());
+            CalendarRowView.Builder rowBuilder = new CalendarRowView
+                    .Builder(rootView.getContext(),numActivities);
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
                 int circleType = hasPastActivity() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
+                rowBuilder.drawLineToNextWeek(0);//TODO move and set dynamically
             }
             if(isZeroRow)
             {
@@ -153,19 +155,6 @@ public class CalendarColumnFragment extends Fragment
             rootView.addView(row, params);
         }
     }
-
-//    private void addHalfRow(LinearLayout rootView)
-//    {
-//        int circleType = hasPastActivity() ?
-//                CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
-//
-//        CalendarRowView zeroRow = new CalendarRowView.Builder(rootView.getContext())
-//                .drawCircle(circleType).build();
-//
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-//                .MATCH_PARENT, getHeightOfOneRow(CalendarFragment.NUM_ROWS) / 2);
-//        rootView.addView(zeroRow, params);
-//    }
 
     private void addDateRow(LinearLayout rootView, String date)
     {

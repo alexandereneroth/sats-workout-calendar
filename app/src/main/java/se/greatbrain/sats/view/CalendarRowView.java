@@ -17,9 +17,15 @@ public class CalendarRowView extends TextView
     public static final int FUTURE_OR_CURRENT_ACTIVITY = 2;
 
     private static final String TAG = "CalendarRowView";
+
+    private final int numActivities;
     private final boolean shouldDrawCircle;
     private final boolean isPastActivity;
     private final boolean isZeroRow;
+    private final int numPreviousWeekActivities;
+    private final int numNextWeekActivities;
+    private final boolean shouldDrawLineToPreviousWeek;
+    private final boolean shouldDrawLineToNextWeek;
     private final Drawable horizontalLine;
     private final Drawable circle;
     private final Drawable hollowCircle;
@@ -28,17 +34,24 @@ public class CalendarRowView extends TextView
 
     private int drawBoundsWidth;
     private int drawBoundsHeight;
+    private int width;
+    private int height;
     private int centerX;
     private int centerY;
 
-    private CalendarRowView(Context context, boolean shouldDrawCircle,
+    private CalendarRowView(Context context, int numActivities, boolean shouldDrawCircle,
             boolean isPastActivity, boolean isZeroRow, boolean drawLineToPreviousWeek,
             int numPreviousWeekActivities, boolean drawLineToNextWeek, int numNextWeekActivities)
     {
         super(context);
+        this.numActivities = numActivities;
         this.shouldDrawCircle = shouldDrawCircle;
         this.isPastActivity = isPastActivity;
         this.isZeroRow = isZeroRow;
+        this.shouldDrawLineToPreviousWeek = drawLineToPreviousWeek;
+        this.shouldDrawLineToNextWeek = drawLineToNextWeek;
+        this.numPreviousWeekActivities = numPreviousWeekActivities;
+        this.numNextWeekActivities = numNextWeekActivities;
 
         horizontalLine = getResources().getDrawable(R.drawable.line);
         circle = getResources().getDrawable(R.drawable.calendar_circle);
@@ -63,7 +76,7 @@ public class CalendarRowView extends TextView
             {
                 circle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.white));
-                drawOrangeLineTowards(canvas, 320, -40);
+                drawOrangeLineToNextWeek(canvas);
             }
             else
             {
@@ -84,6 +97,8 @@ public class CalendarRowView extends TextView
 
         drawBoundsWidth = getWidth();
         drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
+        width = getWidth();
+        height = getHeight();
         centerX = drawBoundsWidth / 2;
         centerY = drawBoundsHeight / 2;
 
@@ -103,13 +118,21 @@ public class CalendarRowView extends TextView
 
     }
 
-    private void drawOrangeLineTowards(Canvas canvas, int x, int y)
+    private void drawOrangeLineToNextWeek(Canvas canvas)
     {
         Paint linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
         linePaint.setStrokeWidth(18);
-        //TODO linePaint.setAntiAlias(true);
-        canvas.drawLine(centerX, centerY, centerX + x, centerY + y, linePaint);
+
+        int deltaActivities = numNextWeekActivities - numActivities;
+        int deltaX = drawBoundsWidth;
+        int deltaY = (-drawBoundsHeight * deltaActivities);
+        if(isZeroRow)
+        {
+            deltaY += height;
+        }
+
+        canvas.drawLine(centerX, centerY, centerX + deltaX, centerY + deltaY, linePaint);
     }
 
     private int dpToPx(int dp)
@@ -131,6 +154,7 @@ public class CalendarRowView extends TextView
     public static class Builder
     {
         private Context context;
+        private int numActivities = 0; //TODO refactor away isZeroRow
         private boolean drawCircle = false;
         private boolean isPastActivity;
         private boolean drawLineToPreviousWeek = false;
@@ -141,9 +165,10 @@ public class CalendarRowView extends TextView
 
         private Builder() {}
 
-        public Builder(Context context)
+        public Builder(Context context, int numActivities)
         {
             this.context = context;
+            this.numActivities = numActivities;
         }
 
         public Builder drawCircle(int activityType)
@@ -187,7 +212,8 @@ public class CalendarRowView extends TextView
 
         public CalendarRowView build()
         {
-            return new CalendarRowView(context, drawCircle, isPastActivity, isZeroRow,
+            return new CalendarRowView(context, numActivities, drawCircle, isPastActivity,
+                    isZeroRow,
                     drawLineToPreviousWeek, numPreviousWeekActivities, drawLineToNextWeek,
                     numNextWeekActivities);
         }
