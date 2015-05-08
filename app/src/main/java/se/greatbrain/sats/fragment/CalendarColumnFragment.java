@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
 
@@ -69,14 +70,11 @@ public class CalendarColumnFragment extends Fragment
 
         Bundle args = getArguments();
 
-        final int indexInAdapter = args.getInt(
-                CalendarFragment.CalendarPagerAdapter.ADAPTER_POSITION);
-        numActivities = args.getInt(CalendarFragment.CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
-        pointInTime = args.getInt(CalendarFragment.CalendarPagerAdapter.POINT_IN_TIME);
-        nextWeeksActivities = args.getInt(CalendarFragment.CalendarPagerAdapter
-                .NEXT_NUMBER_OF_ACTIVITIES);
-        previousWeeksActivities = args.getInt(CalendarFragment.CalendarPagerAdapter
-                .PREVIOUS_NUMBER_OF_ACTIVITIES);
+        final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
+        numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
+        pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
+        nextWeeksActivities = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
+        previousWeeksActivities = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -99,8 +97,7 @@ public class CalendarColumnFragment extends Fragment
 
         addTopRow(rootView);
         addRows(rootView);
-        addDateRow(rootView,
-                args.getString(CalendarFragment.CalendarPagerAdapter.DATE_STRING));
+        addDateRow(rootView, args.getString(CalendarPagerAdapter.DATE_STRING));
 
         return rootView;
     }
@@ -112,7 +109,7 @@ public class CalendarColumnFragment extends Fragment
         topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarFragment.NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
         rootView.addView(topRow, params);
     }
 
@@ -120,14 +117,14 @@ public class CalendarColumnFragment extends Fragment
     {
         boolean weekHasMoreActivitiesThanRows = false;
 
-        if (numActivities > CalendarFragment.NUM_ROWS)
+        if (numActivities > CalendarPagerAdapter.NUM_ROWS)
         {
             weekHasMoreActivitiesThanRows = true;
         }
 
         // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
         // of the number of rows
-        for (int rowIndex = CalendarFragment.NUM_ROWS; rowIndex > -1; --rowIndex)
+        for (int rowIndex = CalendarPagerAdapter.NUM_ROWS; rowIndex > -1; --rowIndex)
         {
             boolean isZeroRow = (rowIndex == 0);
 
@@ -152,7 +149,7 @@ public class CalendarColumnFragment extends Fragment
             row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
-            int rowFullHeight = getHeightOfOneRow(CalendarFragment.NUM_ROWS);
+            int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS);
             int rowHeight = isZeroRow ? rowFullHeight / 2 : rowFullHeight;
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -172,7 +169,7 @@ public class CalendarColumnFragment extends Fragment
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarFragment.NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
 
         rootView.addView(row, params);
     }
@@ -185,7 +182,7 @@ public class CalendarColumnFragment extends Fragment
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
     {
         return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex ==
-                CalendarFragment.NUM_ROWS);
+                CalendarPagerAdapter.NUM_ROWS);
     }
 
     private boolean hasPastActivity()
