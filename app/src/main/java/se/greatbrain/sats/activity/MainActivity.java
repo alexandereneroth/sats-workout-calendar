@@ -24,6 +24,7 @@ import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
+import se.greatbrain.sats.event.RefreshEvent;
 import se.greatbrain.sats.fragment.CalendarColumnFragment;
 import se.greatbrain.sats.fragment.TopViewPagerFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
@@ -148,17 +149,18 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
             {
                 finishedIonCalls.clear();
                 errorMessageNotShown = true;
-                updateWorkoutListFragment();
+                sendOutRefreshEvent();
             }
         }
     }
 
-    private void updateWorkoutListFragment()
+    private void sendOutRefreshEvent()
     {
         if (reloadButton != null)
         {
             reloadButton.setActionView(null);
-            workoutListFragment.refreshList();
+            EventBus.getDefault().post(new RefreshEvent());
+            //workoutListFragment.refreshList();
         }
     }
 

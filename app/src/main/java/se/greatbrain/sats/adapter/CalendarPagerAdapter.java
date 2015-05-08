@@ -44,7 +44,6 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
         mapPositionToNumberOfActivities();
         NUM_ROWS = getHighestActivityCount();
-        setStartingPosition();
     }
 
     @Override
@@ -78,6 +77,20 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     public float getPageWidth(int position)
     {
         return 1f / CalendarFragment.NUM_SIMULTANEOUS_PAGES;
+    }
+
+    public int getThisWeeksPosition()
+    {
+        for (int i = 0; i < dates.size(); i++)
+        {
+            if (DateUtil.getWeekPointOfTime(dates.get(i)) == 0)
+            {
+                LAST_PASSED_WEEK = i;
+                break;
+            }
+        }
+
+        return LAST_PASSED_WEEK;
     }
 
     private boolean hasNextWeekPassed(int position)
@@ -114,18 +127,6 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         else
         {
             return numberOfActivitiesInWeek.get(position);
-        }
-    }
-
-    private void setStartingPosition()
-    {
-        for (int i = 0; i < dates.size(); i++)
-        {
-            if (DateUtil.getWeekPointOfTime(dates.get(i)) == 0)
-            {
-                LAST_PASSED_WEEK = i;
-                break;
-            }
         }
     }
 

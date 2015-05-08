@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
+import se.greatbrain.sats.event.RefreshEvent;
 import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
@@ -35,12 +37,20 @@ public class WorkoutListFragment extends Fragment
 
         listView = (StickyListHeadersListView) view.findViewById(
                 R.id.expandable_list_view);
+        EventBus.getDefault().register(this);
 
         refreshList();
         return view;
     }
 
-    public void refreshList()
+    @Override
+    public void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    private void refreshList()
     {
         List<ActivityWrapper> activityWrappers = RealmClient.getInstance(getActivity())
                 .getAllActivitiesWithWeek();
@@ -69,5 +79,10 @@ public class WorkoutListFragment extends Fragment
 
         listView.setAdapter(adapter);
         listView.setSelectionFromTop(adapter.positionOfTodaysFirstItem(), 0);
+    }
+
+    public void onEvent(RefreshEvent event)
+    {
+        refreshList();
     }
 }
