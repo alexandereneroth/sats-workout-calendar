@@ -84,6 +84,11 @@ public class CalendarFragment extends Fragment
             }
         }
 
+        if(highestCount > 7)
+        {
+            return 7;
+        }
+
         return highestCount;
     }
 
