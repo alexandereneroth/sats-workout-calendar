@@ -53,6 +53,6 @@ public class CalendarFragment extends Fragment
     {
         CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES/2, false);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES/2, true);
     }
 }

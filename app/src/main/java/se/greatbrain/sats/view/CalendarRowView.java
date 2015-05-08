@@ -78,7 +78,10 @@ public class CalendarRowView extends TextView
                 circle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.white));
                 drawOrangeLineToPreviousWeek(canvas);
-                drawOrangeLineToNextWeek(canvas);
+                if(shouldDrawLineToNextWeek)
+                {
+                    drawOrangeLineToNextWeek(canvas);
+                }
             }
             else
             {

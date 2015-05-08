@@ -29,7 +29,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
     public static int NUM_PAGES;
     public static int NUM_ROWS;
-    public static int LAST_PASSED_WEEK;
+    public static int CURRENT_WEEK;
 
     private List<ActivityWrapper> activities;
     private List<CalendarDate> dates;
@@ -85,17 +85,17 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         {
             if (DateUtil.getWeekPointOfTime(dates.get(i)) == 0)
             {
-                LAST_PASSED_WEEK = i;
+                CURRENT_WEEK = i;
                 break;
             }
         }
 
-        return LAST_PASSED_WEEK;
+        return CURRENT_WEEK;
     }
 
     private boolean hasNextWeekPassed(int position)
     {
-        return (LAST_PASSED_WEEK == position);
+        return position < CURRENT_WEEK - 1;
     }
 
     private int getNextWeeksActivityCount(int position)

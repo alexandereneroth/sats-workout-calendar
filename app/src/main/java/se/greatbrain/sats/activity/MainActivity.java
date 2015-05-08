@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
     private static final String TAG = "MainActivity";
     private DrawerLayout drawerLayout;
     private MenuItem reloadButton;
-    private WorkoutListFragment workoutListFragment;
     private HashSet<String> finishedIonCalls = new HashSet<>();
     private boolean errorMessageNotShown = true;
     private int numberOfErrors = 0;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
 
         android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
 
-        workoutListFragment = new WorkoutListFragment();
+        WorkoutListFragment workoutListFragment = new WorkoutListFragment();
         topViewPagerFragment = new TopViewPagerFragment();
         supportManager.beginTransaction()
                 .add(R.id.top_fragment_container, topViewPagerFragment)
@@ -160,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
         {
             reloadButton.setActionView(null);
             EventBus.getDefault().post(new RefreshEvent());
-            //workoutListFragment.refreshList();
         }
     }
 

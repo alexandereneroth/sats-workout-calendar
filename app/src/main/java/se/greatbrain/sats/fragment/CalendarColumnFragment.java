@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.Calendar;
 
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.view.CalendarRowView;
@@ -32,6 +29,7 @@ public class CalendarColumnFragment extends Fragment
     private int pointInTime;
     private int previousWeeksActivities;
     private int nextWeeksActivities;
+    private boolean shouldDrawLineToNextWeek;
 
     private OnPageClickedListener listenerOnPageClicked_MainActivity;
 
@@ -75,6 +73,7 @@ public class CalendarColumnFragment extends Fragment
         pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
         nextWeeksActivities = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
         previousWeeksActivities = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
+        shouldDrawLineToNextWeek = args.getBoolean(CalendarPagerAdapter.HAS_NEXT_WEEK_PASSED);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -137,7 +136,10 @@ public class CalendarColumnFragment extends Fragment
 
                 rowBuilder.drawCircle(circleType);
                 rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
-                rowBuilder.drawLineToNextWeek(nextWeeksActivities);
+                if(shouldDrawLineToNextWeek)
+                {
+                    rowBuilder.drawLineToNextWeek(nextWeeksActivities);
+                }
             }
             if (isZeroRow)
             {
