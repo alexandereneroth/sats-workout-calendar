@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:id="@+id/graph_column"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,4 +9,4 @@
     android:background="@color/green">
 
 
-</LinearLayout>
+</RelativeLayout>
