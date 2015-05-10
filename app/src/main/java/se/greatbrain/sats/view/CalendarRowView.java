@@ -18,6 +18,8 @@ public class CalendarRowView extends TextView
     public static final int FUTURE_OR_CURRENT_ACTIVITY = 2;
 
     private static final String TAG = "CalendarRowView";
+    private static final int TO_NEXT_WEEK = 1;
+    private static final int TO_PREVIOUS_WEEK = -1;
 
     private final int numActivities;
     private final boolean shouldDrawCircle;
@@ -77,8 +79,8 @@ public class CalendarRowView extends TextView
             {
                 circle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.white));
-                drawOrangeLineToPreviousWeek(canvas);
-                if(shouldDrawLineToNextWeek)
+                drawOrangeLine(TO_PREVIOUS_WEEK, canvas);
+                if (shouldDrawLineToNextWeek)
                 {
                     drawOrangeLineToNextWeek(canvas);
                 }
@@ -124,23 +126,33 @@ public class CalendarRowView extends TextView
 
     }
 
-    private void drawOrangeLineToPreviousWeek(Canvas canvas)
+    private void drawOrangeLine(int direction, Canvas canvas)
     {
         Paint linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
         linePaint.setStrokeWidth(18);
-
+        if (isZeroRow && numPreviousWeekActivities == 0)
+        {
+            linePaint.setStrokeWidth(9);
+        }
         int deltaActivities = numActivities - numPreviousWeekActivities;
-        int deltaX = -drawBoundsWidth;
+        int deltaX = drawBoundsWidth * direction;
         int deltaY = (-drawBoundsHeight * deltaActivities);
 
-        Point originPoint = new Point( 0, 0);
-        Point deltaPoint = new Point( deltaX, deltaY);
+        Point originPoint = new Point(0, 0);
+        Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
         lengthenLine(originPoint, deltaPoint, -cutoff);
 
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
-                linePaint);
+        if (isZeroRow && numPreviousWeekActivities == 0)
+        {
+            canvas.drawLine(centerX, centerY - 6, centerX + deltaPoint.x, centerY - deltaPoint.y -6,
+                    linePaint);
+        }else
+        {
+            canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
+                    linePaint);
+        }
     }
 
     private void drawOrangeLineToNextWeek(Canvas canvas)
@@ -148,18 +160,29 @@ public class CalendarRowView extends TextView
         Paint linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
         linePaint.setStrokeWidth(18);
-
+        if (isZeroRow && numNextWeekActivities == 0)
+        {
+            linePaint.setStrokeWidth(9);
+        }
         int deltaActivities = numNextWeekActivities - numActivities;
         int deltaX = drawBoundsWidth;
         int deltaY = (-drawBoundsHeight * deltaActivities);
 
-        Point originPoint = new Point( 0, 0);
-        Point deltaPoint = new Point( deltaX, deltaY);
+        Point originPoint = new Point(0, 0);
+        Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
         lengthenLine(originPoint, deltaPoint, -cutoff);
 
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
-                linePaint);
+        if (isZeroRow && numNextWeekActivities == 0)
+        {
+            canvas.drawLine(centerX, centerY -6, centerX + deltaPoint.x,
+                    centerY + deltaPoint.y -6,
+                    linePaint);
+        }else
+        {
+            canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
+                    linePaint);
+        }
     }
 
     public void lengthenLine(Point startPoint, Point endPoint, float pixelCount)
@@ -174,17 +197,17 @@ public class CalendarRowView extends TextView
         {
             // vertical line:
             if (endPoint.y < startPoint.y)
-                endPoint.y -= pixelCount;
+            { endPoint.y -= pixelCount; }
             else
-                endPoint.y += pixelCount;
+            { endPoint.y += pixelCount; }
         }
         else if (dy == 0)
         {
             // horizontal line:
             if (endPoint.x < startPoint.x)
-                endPoint.x -= pixelCount;
+            { endPoint.x -= pixelCount; }
             else
-                endPoint.x += pixelCount;
+            { endPoint.x += pixelCount; }
         }
         else
         {
@@ -193,8 +216,8 @@ public class CalendarRowView extends TextView
             double scale = (length + pixelCount) / length;
             dx *= scale;
             dy *= scale;
-            endPoint.x = startPoint.x + (int)dx;
-            endPoint.y = startPoint.y + (int)dy;
+            endPoint.x = startPoint.x + (int) dx;
+            endPoint.y = startPoint.y + (int) dy;
         }
     }
 
