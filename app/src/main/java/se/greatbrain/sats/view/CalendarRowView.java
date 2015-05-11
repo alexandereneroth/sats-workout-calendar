@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
@@ -32,8 +33,6 @@ public class CalendarRowView extends TextView
     private final Drawable horizontalLine;
     private final Drawable circle;
     private final Drawable hollowCircle;
-    private final Drawable lineToNext;
-    private final Drawable lineToPrevious;
 
     private int drawBoundsWidth;
     private int drawBoundsHeight;
@@ -59,8 +58,6 @@ public class CalendarRowView extends TextView
         horizontalLine = getResources().getDrawable(R.drawable.line);
         circle = getResources().getDrawable(R.drawable.calendar_circle);
         hollowCircle = getResources().getDrawable(R.drawable.calendar_hollow_circle);
-        lineToNext = getResources().getDrawable(R.drawable.calendar_line);
-        lineToPrevious = getResources().getDrawable(R.drawable.calendar_line);
     }
 
     @Override
@@ -101,13 +98,12 @@ public class CalendarRowView extends TextView
         setIncludeFontPadding(false);
 
         super.onLayout(changed, left, top, right, bottom);
-
-        int drawBoundsWidth = getWidth();
-        int drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
-        int width = getWidth();
-        int height = getHeight();
-        int centerX = drawBoundsWidth / 2;
-        int centerY = drawBoundsHeight / 2;
+        drawBoundsWidth = getWidth();
+        drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
+        width = getWidth();
+        height = getHeight();
+        centerX = drawBoundsWidth / 2;
+        centerY = drawBoundsHeight / 2;
 
         horizontalLine.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
 
@@ -121,7 +117,6 @@ public class CalendarRowView extends TextView
         hollowCircle.setBounds(circleLeftOffsetPx, circleTopOffsetPx,
                 circleLeftOffsetPx + circleDiameter,
                 circleTopOffsetPx + circleDiameter);
-
     }
 
     private void drawOrangeLine(int direction, Canvas canvas)
@@ -226,19 +221,10 @@ public class CalendarRowView extends TextView
                 getResources().getDisplayMetrics());
     }
 
-    private double getAngleFromCenterTowards(int x, int y)
-    {
-        int adjacent = x - centerX;
-        int opposite = y - centerY;
-        int ratio = opposite / adjacent;
-        double degrees = Math.atan(ratio);
-        return degrees;
-    }
-
     public static class Builder
     {
         private Context context;
-        private int numActivities = 0; //TODO refactor away isZeroRow
+        private int numActivities = 0;
         private boolean drawCircle = false;
         private boolean isPastActivity;
         private boolean drawLineToPreviousWeek = false;

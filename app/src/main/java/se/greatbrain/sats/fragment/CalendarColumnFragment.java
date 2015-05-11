@@ -49,6 +49,9 @@ public class CalendarColumnFragment extends Fragment
         final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
         pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
+        nextWeeksActivities = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
+        previousWeeksActivities = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
+        shouldDrawLineToNextWeek = args.getBoolean(CalendarPagerAdapter.HAS_NEXT_WEEK_PASSED);
 
         if (indexInAdapter % 2 == 0)
         {
