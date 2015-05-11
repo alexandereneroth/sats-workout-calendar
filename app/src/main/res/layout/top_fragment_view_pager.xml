@@ -12,11 +12,11 @@
         android:id="@+id/sliding_tabs"
         android:background="@color/gray_light"/>
 
-    <se.greatbrain.sats.view.NonSwipeAbleViewPager
+    <se.greatbrain.sats.view.NonSwipeableViewPager
         android:id="@+id/pager_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/calendar_height"
         android:layout_below="@id/sliding_tabs">
 
-    </se.greatbrain.sats.view.NonSwipeAbleViewPager>
+    </se.greatbrain.sats.view.NonSwipeableViewPager>
 </RelativeLayout>
