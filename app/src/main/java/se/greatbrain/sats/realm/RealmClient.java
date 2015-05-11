@@ -25,11 +25,11 @@ public class RealmClient
     private static final String TAG = "RealmClient";
     private final Context context;
     private static RealmClient INSTANCE;
-    private static Realm realm;
 
     public RealmClient(Context context)
     {
         this.context = context.getApplicationContext();
+
     }
 
     public static RealmClient getInstance(Context context)
@@ -44,7 +44,7 @@ public class RealmClient
 
     public void addDataToDB(final JsonArray result, final Class type)
     {
-        realm = Realm.getInstance(context);
+        Realm realm = Realm.getInstance(context);
 
         if (type == ClassType.class)
         {
@@ -71,7 +71,7 @@ public class RealmClient
 
     public List<ActivityWrapper> getAllActivitiesWithWeek()
     {
-        realm = Realm.getInstance(context);
+        Realm realm = Realm.getInstance(context);
         RealmResults<TrainingActivity> activities = realm.where(TrainingActivity.class).findAll();
         activities.sort("date");
 
@@ -99,7 +99,7 @@ public class RealmClient
 
     public RealmResults<Center> getAllCenters()
     {
-        realm = Realm.getInstance(context);
+        Realm realm = Realm.getInstance(context);
         return  realm.where(Center.class).findAll();
     }
 }

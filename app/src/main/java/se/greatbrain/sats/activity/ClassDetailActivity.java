@@ -34,8 +34,7 @@ public class ClassDetailActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
 
-        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu,
-                null);
+        View actionBarView = getLayoutInflater().inflate(R.layout.action_bar_menu, null);
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
