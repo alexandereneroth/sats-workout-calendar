@@ -151,7 +151,7 @@ public class GoogleMapActivity extends AppCompatActivity
                         .position(satsLocation)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.sats_pin_normal)));
 
-                map.setInfoWindowAdapter(new SatsInfoWindowAdapter(center));
+                map.setInfoWindowAdapter(new SatsInfoWindowAdapter());
 
                 markerCenterMap.put(satsMarker, center);
             }
@@ -205,13 +205,6 @@ public class GoogleMapActivity extends AppCompatActivity
 
     private class SatsInfoWindowAdapter implements GoogleMap.InfoWindowAdapter
     {
-        private Center center;
-
-        public SatsInfoWindowAdapter(Center center)
-        {
-            this.center = center;
-        }
-
         @Override
         public View getInfoWindow(Marker marker)
         {
@@ -224,6 +217,7 @@ public class GoogleMapActivity extends AppCompatActivity
             View view = getLayoutInflater().inflate(R.layout.marker_info_window_layout, null);
             TextView textView = (TextView) view.findViewById(R.id
                     .marker_info_text_view);
+            Center center = markerCenterMap.get(marker);
             textView.setText("SATS " + center.getName());
 
             ImageView imageView = (ImageView) view.findViewById(R.id
