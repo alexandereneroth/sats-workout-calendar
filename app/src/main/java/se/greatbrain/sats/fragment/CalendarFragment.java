@@ -2,7 +2,6 @@ package se.greatbrain.sats.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.RefreshEvent;
-import se.greatbrain.sats.util.DateUtil;
 
 public class CalendarFragment extends Fragment
 {
@@ -30,14 +28,16 @@ public class CalendarFragment extends Fragment
 
         EventBus.getDefault().register(this);
 
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
+                getActivity());
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
 
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES/2, false);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
+                false);
 
         return view;
     }
@@ -51,8 +51,10 @@ public class CalendarFragment extends Fragment
 
     public void onEvent(RefreshEvent event)
     {
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
+                getActivity());
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES/2, true);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
+                true);
     }
 }

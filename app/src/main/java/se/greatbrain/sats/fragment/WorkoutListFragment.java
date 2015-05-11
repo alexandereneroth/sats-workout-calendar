@@ -15,6 +15,7 @@ import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
 import se.greatbrain.sats.event.RefreshEvent;
+import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
@@ -84,5 +85,10 @@ public class WorkoutListFragment extends Fragment
     public void onEvent(RefreshEvent event)
     {
         refreshList();
+    }
+
+    public void onEvent(ScrollEvent event)
+    {
+        listView.setSelectionFromTop(0, 0);
     }
 }
