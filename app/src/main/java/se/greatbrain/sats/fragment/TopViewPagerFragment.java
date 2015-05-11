@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.ScrollEvent;
-import se.greatbrain.sats.tabs.SlidingTabLayout;
+import se.greatbrain.sats.tab.SlidingTabLayout;
 
 public class TopViewPagerFragment extends Fragment
 {

@@ -1,4 +1,4 @@
-package se.greatbrain.sats.tabs;
+package se.greatbrain.sats.tab;
 
 /*
  * Copyright 2014 Google Inc. All rights reserved.
