@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,25 +24,26 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     public static final String DATE_STRING = "date string";
     public static final String NUMBER_OF_ACTIVITIES = "number_activities";
     public static final String POINT_IN_TIME = "week in time";
-    public static final String NEXT_NUMBER_OF_ACTIVITIES = "next activity num";
-    public static final String PREVIOUS_NUMBER_OF_ACTIVITIES = "previous activity num";
-    public static final String HAS_NEXT_WEEK_PASSED = "has next week passed";
 
     public static int NUM_PAGES;
     public static int NUM_ROWS;
     public static int CURRENT_WEEK;
 
     private List<ActivityWrapper> activities;
-    private List<CalendarDate> dates;
+    private List<CalendarDate> dates = new ArrayList<>();
     private Map<Integer, Integer> numberOfActivitiesInWeek = new LinkedHashMap<>();
 
     public CalendarPagerAdapter(FragmentManager fm, Context context)
     {
         super(fm);
         activities = RealmClient.getInstance(context).getAllActivitiesWithWeek();
-        dates = DateUtil.getDatesInWeekBetween(1990, 2020);
-        NUM_PAGES = dates.size();
+        if(activities.size() > 0)
+        {
+            String fromDate = activities.get(0).trainingActivity.getDate();
+            dates = DateUtil.getDatesInWeekFrom(fromDate);
+        }
 
+        NUM_PAGES = dates.size();
         mapPositionToNumberOfActivities();
         NUM_ROWS = getHighestActivityCount();
     }
@@ -53,13 +55,10 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
         Bundle bundle = new Bundle(position);
 
-        bundle.putBoolean(HAS_NEXT_WEEK_PASSED, hasNextWeekPassed(position));
         bundle.putInt(NUMBER_OF_ACTIVITIES, getNumberOfActivities(position));
         bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointOfTime(dates.get(position)));
         bundle.putInt(ADAPTER_POSITION, position);
         bundle.putString(DATE_STRING, dates.get(position).mDate);
-        bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, getNextWeeksActivityCount(position));
-        bundle.putInt(PREVIOUS_NUMBER_OF_ACTIVITIES, getPreviousWeeksActivityCount(position));
         fragment.setArguments(bundle);
 
         return fragment;
@@ -93,31 +92,6 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         return CURRENT_WEEK;
     }
 
-    private boolean hasNextWeekPassed(int position)
-    {
-        return position < CURRENT_WEEK - 1;
-    }
-
-    private int getNextWeeksActivityCount(int position)
-    {
-        if (numberOfActivitiesInWeek.get(position + 1) == null)
-        {
-            return 0;
-        }
-
-        return numberOfActivitiesInWeek.get(position + 1);
-    }
-
-    private int getPreviousWeeksActivityCount(int position)
-    {
-        if (numberOfActivitiesInWeek.get(position - 1) == null)
-        {
-            return 0;
-        }
-
-        return numberOfActivitiesInWeek.get(position - 1);
-    }
-
     private int getNumberOfActivities(int position)
     {
         if (numberOfActivitiesInWeek.get(position) == null)
@@ -144,6 +118,11 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
                     return 7;
                 }
             }
+        }
+
+        if(highestCount < 4)
+        {
+            return 4;
         }
 
         return highestCount;

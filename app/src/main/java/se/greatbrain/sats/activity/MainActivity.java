@@ -25,14 +25,14 @@ import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.event.RefreshEvent;
+import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.fragment.CalendarColumnFragment;
 import se.greatbrain.sats.fragment.TopViewPagerFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
 import se.greatbrain.sats.model.DrawerMenuItem;
 
-public class MainActivity extends AppCompatActivity implements CalendarColumnFragment
-        .OnPageClickedListener
+public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private DrawerLayout drawerLayout;
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
     private HashSet<String> finishedIonCalls = new HashSet<>();
     private boolean errorMessageNotShown = true;
     private int numberOfErrors = 0;
-    private TopViewPagerFragment topViewPagerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
         android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
-        topViewPagerFragment = new TopViewPagerFragment();
+        TopViewPagerFragment topViewPagerFragment = new TopViewPagerFragment();
         supportManager.beginTransaction()
                 .add(R.id.top_fragment_container, topViewPagerFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
@@ -160,12 +159,6 @@ public class MainActivity extends AppCompatActivity implements CalendarColumnFra
             reloadButton.setActionView(null);
             EventBus.getDefault().post(new RefreshEvent());
         }
-    }
-
-    @Override
-    public void onPageClicked(int page)
-    {
-        topViewPagerFragment.onPageClicked(page);
     }
 
     private void setupSlidingMenu()

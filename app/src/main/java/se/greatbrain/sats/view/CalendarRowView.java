@@ -95,7 +95,6 @@ public class CalendarRowView extends TextView
         }
     }
 
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
@@ -103,15 +102,14 @@ public class CalendarRowView extends TextView
 
         super.onLayout(changed, left, top, right, bottom);
 
-        drawBoundsWidth = getWidth();
-        drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
-        width = getWidth();
-        height = getHeight();
-        centerX = drawBoundsWidth / 2;
-        centerY = drawBoundsHeight / 2;
+        int drawBoundsWidth = getWidth();
+        int drawBoundsHeight = isZeroRow ? getHeight() * 2 : getHeight();
+        int width = getWidth();
+        int height = getHeight();
+        int centerX = drawBoundsWidth / 2;
+        int centerY = drawBoundsHeight / 2;
 
         horizontalLine.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
-        lineToPrevious.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
 
         int circleDiameter = getResources().getDimensionPixelSize(R.dimen.calendar_circle_diameter);
 
@@ -303,6 +301,5 @@ public class CalendarRowView extends TextView
                     drawLineToPreviousWeek, numPreviousWeekActivities, drawLineToNextWeek,
                     numNextWeekActivities);
         }
-
     }
 }

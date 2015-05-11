@@ -37,7 +37,7 @@ import se.greatbrain.sats.realm.RealmClient;
 
 public class GoogleMapActivity extends AppCompatActivity
 {
-    private GoogleMap map ;
+    private GoogleMap map;
     private Map<Marker, Center> markerCenterMap;
     private DrawerLayout drawerLayout;
 
@@ -119,6 +119,7 @@ public class GoogleMapActivity extends AppCompatActivity
                 .OnMyLocationChangeListener()
         {
             boolean moveToMyLocation = true;
+
             @Override
             public void onMyLocationChange(Location location)
             {
@@ -127,7 +128,7 @@ public class GoogleMapActivity extends AppCompatActivity
                 if (map != null && moveToMyLocation)
                 {
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 10.0f));
-                    moveToMyLocation=false;
+                    moveToMyLocation = false;
                 }
             }
         };
@@ -143,13 +144,15 @@ public class GoogleMapActivity extends AppCompatActivity
             RealmClient realmClient = RealmClient.getInstance(this);
             RealmResults<Center> centers = realmClient.getAllCenters();
 
-            for (Center center : centers)
+            for (final Center center : centers)
             {
                 LatLng satsLocation = new LatLng(center.getLat(), center.getLng());
                 Marker satsMarker = map.addMarker(new MarkerOptions()
                         .position(satsLocation)
-                        .title(center.getName())
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.sats_pin_normal)));
+
+                map.setInfoWindowAdapter(new SatsInfoWindowAdapter(center));
+
                 markerCenterMap.put(satsMarker, center);
             }
         }
@@ -197,6 +200,36 @@ public class GoogleMapActivity extends AppCompatActivity
                 drawerLayout.openDrawer(GravityCompat.START);
                 DrawerMenuListener.wasBackPressed = true;
             }
+        }
+    }
+
+    private class SatsInfoWindowAdapter implements GoogleMap.InfoWindowAdapter
+    {
+        private Center center;
+
+        public SatsInfoWindowAdapter(Center center)
+        {
+            this.center = center;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker)
+        {
+            View view = getLayoutInflater().inflate(R.layout.marker_info_window_layout, null);
+            TextView textView = (TextView) view.findViewById(R.id
+                    .marker_info_text_view);
+            textView.setText("SATS " + center.getName());
+
+            ImageView imageView = (ImageView) view.findViewById(R.id
+                    .marker_info_image_view);
+            imageView.setImageResource(R.drawable.arrow);
+            return view;
         }
     }
 }
