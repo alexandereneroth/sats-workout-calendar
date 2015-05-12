@@ -1,6 +1,5 @@
 package se.greatbrain.sats.fragment;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.util.VerticalLayouter;
+import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
 
@@ -34,37 +35,13 @@ public class CalendarColumnFragment extends Fragment
     private boolean shouldDrawLineToNextWeek;
     private boolean hasMoreActivitiesThanAvailibleRows = false;
 
-    private OnPageClickedListener listenerOnPageClicked_MainActivity;
-
-    public interface OnPageClickedListener
-    {
-        void onPageClicked(int page);
-    }
-
-    //TODO use Eventbus instead of normal callback
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        try
-        {
-            listenerOnPageClicked_MainActivity = (OnPageClickedListener) activity;
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException(activity.toString()
-                    + " must implement" + OnPageClickedListener.class.getName());
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
-        Resources r = getResources();
+        final Resources resources = getResources();
 
-        calendarHeight = r.getDimension(R.dimen.calendar_height);
+        calendarHeight = resources.getDimension(R.dimen.calendar_height);
 
         if (numActivities > CalendarPagerAdapter.NUM_ROWS)
         {
@@ -75,7 +52,7 @@ public class CalendarColumnFragment extends Fragment
                 R.layout.fragment_calendar_column,
                 container, false);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
 
         final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
@@ -86,11 +63,11 @@ public class CalendarColumnFragment extends Fragment
 
         if (indexInAdapter % 2 == 0)
         {
-            rootView.setBackgroundColor(getResources().getColor(R.color.primary_calendar));
+            rootView.setBackgroundColor(resources.getColor(R.color.primary_calendar));
         }
         else
         {
-            rootView.setBackgroundColor(getResources().getColor(R.color.secondary_calendar));
+            rootView.setBackgroundColor(resources.getColor(R.color.secondary_calendar));
         }
 
         rootView.setOnClickListener(new View.OnClickListener()
@@ -99,7 +76,7 @@ public class CalendarColumnFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                listenerOnPageClicked_MainActivity.onPageClicked(indexInAdapter);
+                EventBus.getDefault().post(new ScrollEvent(indexInAdapter));
             }
         });
 
@@ -120,7 +97,6 @@ public class CalendarColumnFragment extends Fragment
     private View getTopRow(RelativeLayout rootView)
     {
         View topRow = new View(rootView.getContext());
-        topRow.setBackgroundColor(getResources().getColor(R.color.green));
         topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
         return topRow;
@@ -155,7 +131,6 @@ public class CalendarColumnFragment extends Fragment
     private View getZeroRow(ViewGroup rootView)
     {
         CalendarRowView.Builder rowBuilder = startBuildingRow(rootView, 0);
-
         rowBuilder.setIsZeroRow();
 
         CalendarRowView row = rowBuilder.build();
@@ -192,12 +167,13 @@ public class CalendarColumnFragment extends Fragment
         row.setBackground(getResources().getDrawable(R.drawable.calendar_column_row_date_bg));
         row.setPadding(0, 7, 0, 0);
         row.setGravity(Gravity.CENTER | Gravity.TOP);
+
         return row;
     }
 
     private int getHeightOfOneRow(int rows)
     {
-        return (int) (calendarHeight / (rows + 2.5));
+        return (int)Math.round(calendarHeight / (rows + 2.5));
     }
 
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
