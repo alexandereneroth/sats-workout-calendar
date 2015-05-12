@@ -7,6 +7,7 @@
     <dimen name="calendar_date_row_height">25dp</dimen>
     <dimen name="calendar_week_row_height">30dp</dimen>
     <dimen name="calendar_circle_diameter">25dp</dimen>
-    <dimen name="calendar_line_cutoff">15dp</dimen>
+    <dimen name="calendar_line_shorten_by">10dp</dimen>
+    <dimen name="calendar_line_thickness">8dp</dimen>
     <dimen name="top_tab_textview_padding">10dp</dimen>
 </resources>
