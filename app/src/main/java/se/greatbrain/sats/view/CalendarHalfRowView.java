@@ -26,91 +26,12 @@ public class CalendarHalfRowView extends CalendarRowView
     {
         super.onLayout(changed, left, top, right, bottom);
         shouldDrawTextView = false;
-        drawBoundsHeight = getHeight() * 2;
     }
 
     @Override
     protected int convertToDrawBoundsHeight(int height)
     {
         return height * 2;
-    }
-
-    @Override
-    protected void drawOrangeLine(int direction, Canvas canvas)
-    {
-        int lineThickness = lineThicknessToPreviousWeek;
-
-        Paint linePaint = new Paint();
-        linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(lineThickness);
-        int deltaActivities = numActivities - numPreviousWeekActivities;
-        int deltaX = drawBoundsWidth * direction;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
-
-        Point originPoint = new Point(0, 0);
-        Point deltaPoint = new Point(deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
-
-        // so the line doesn't overlap with the daterow
-        final int originOffsetY = (int)(lineThickness /2);
-        if (numPreviousWeekActivities == 0)
-        {
-
-            canvas.drawLine(
-                    centerX,
-                    centerY - originOffsetY,
-                    centerX + deltaPoint.x,
-                    centerY - deltaPoint.y - originOffsetY,
-                    linePaint);
-        }
-        else
-        {
-            canvas.drawLine(
-                    centerX,
-                    centerY,
-                    centerX + deltaPoint.x,
-                    centerY - deltaPoint.y,
-                    linePaint);
-        }
-    }
-
-    protected void drawOrangeLineToNextWeek(Canvas canvas)
-    {
-        int lineThickness = lineThicknessToNextWeek;
-
-        Paint linePaint = new Paint();
-        linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(lineThickness);
-        int deltaActivities = numNextWeekActivities - numActivities;
-        int deltaX = drawBoundsWidth;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
-
-        Point originPoint = new Point(0, 0);
-        Point deltaPoint = new Point(deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
-
-        // so the line doesn't overlap with the daterow
-        final int originOffsetY = (int)(lineThickness /2);
-        if (numNextWeekActivities == 0)
-        {
-            canvas.drawLine(
-                    centerX,
-                    centerY - originOffsetY,
-                    centerX + deltaPoint.x,
-                    centerY + deltaPoint.y - originOffsetY,
-                    linePaint);
-        }
-        else
-        {
-            canvas.drawLine(
-                    centerX,
-                    centerY,
-                    centerX + deltaPoint.x,
-                    centerY + deltaPoint.y,
-                    linePaint);
-        }
     }
 
     @Override
@@ -133,5 +54,43 @@ public class CalendarHalfRowView extends CalendarRowView
             return lineThickness / 2;
         }
         return lineThickness;
+    }
+
+    @Override
+    protected void drawOrangeLine(int direction, Canvas canvas)
+    {
+        int lineThickness = getLineThickness(direction);
+
+        Paint linePaint = new Paint();
+        linePaint.setColor(getResources().getColor(R.color.calendar_item));
+        linePaint.setStrokeWidth(lineThickness);
+
+        int numDestinationWeekActivities = (direction == CalendarRowView.TO_PREVIOUS_WEEK) ?
+                numPreviousWeekActivities : numNextWeekActivities;
+        int deltaActivities = numActivities - numDestinationWeekActivities;
+        int deltaX = drawBoundsWidth * direction;
+        int deltaY = drawBoundsHeight * deltaActivities;
+
+        Point originPoint = new Point(0, 0);
+        Point deltaPoint = new Point(deltaX, deltaY);
+
+        final int shortenBy = getResources().getDimensionPixelSize(R.dimen
+                .calendar_line_shorten_by);
+        PixelUtil.shortenLine(originPoint, deltaPoint, shortenBy);
+
+        int originX = centerX;
+        int originY = centerY;
+        int destinationX = originX + deltaPoint.x;
+        int destinationY = originY + deltaPoint.y;
+
+        // Move the line up, so it doesn't overlap with the date row
+        if (numDestinationWeekActivities == 0)
+        {
+            final int offsetY = (int) (lineThickness / 2);
+            originY -= offsetY;
+            destinationY -= offsetY;
+        }
+
+        canvas.drawLine(originX, originY, destinationX, destinationY, linePaint);
     }
 }

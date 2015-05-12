@@ -28,11 +28,12 @@ public class CalendarFullRowView extends CalendarRowView
         return height;
     }
 
+    @Override
     protected int getLineThicknessToPreviousWeek()
     {
         return getResources().getDimensionPixelSize(R.dimen.calendar_line_thickness);
     }
-
+    @Override
     protected int getLineThicknessToNextWeek()
     {
         return getResources().getDimensionPixelSize(R.dimen.calendar_line_thickness);
@@ -41,38 +42,29 @@ public class CalendarFullRowView extends CalendarRowView
     @Override
     protected void drawOrangeLine(int direction, Canvas canvas)
     {
-        Paint linePaint = new Paint();
+        int lineThickness = getLineThickness(direction);
+
+                Paint linePaint = new Paint();
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(lineThicknessToPreviousWeek);
-        int deltaActivities = numActivities - numPreviousWeekActivities;
+        linePaint.setStrokeWidth(lineThickness);
+
+        int numDestinationWeekActivities = (direction == CalendarRowView.TO_PREVIOUS_WEEK) ?
+                numPreviousWeekActivities : numNextWeekActivities;
+        int deltaActivities = numActivities - numDestinationWeekActivities;
         int deltaX = drawBoundsWidth * direction;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
+        int deltaY = drawBoundsHeight * deltaActivities;
 
         Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
 
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
-                linePaint);
-    }
+        final int shortenBy = getResources().getDimensionPixelSize(R.dimen
+                .calendar_line_shorten_by);
+        PixelUtil.shortenLine(originPoint, deltaPoint, shortenBy);
 
-    @Override
-    protected void drawOrangeLineToNextWeek(Canvas canvas)
-    {
-        Paint linePaint = new Paint();
-        linePaint.setColor(getResources().getColor(R.color.calendar_item));
-        linePaint.setStrokeWidth(lineThicknessToNextWeek);
-        int deltaActivities = numNextWeekActivities - numActivities;
-        int deltaX = drawBoundsWidth;
-        int deltaY = (-drawBoundsHeight * deltaActivities);
-
-        Point originPoint = new Point(0, 0);
-        Point deltaPoint = new Point(deltaX, deltaY);
-        int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
-
-        canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
-                linePaint);
+        final int originX = centerX;
+        final int originY = centerY;
+        final int destinationX = originX + deltaPoint.x;
+        final int destinationY = originY + deltaPoint.y;
+        canvas.drawLine(originX, originY, destinationX, destinationY, linePaint);
     }
 }
