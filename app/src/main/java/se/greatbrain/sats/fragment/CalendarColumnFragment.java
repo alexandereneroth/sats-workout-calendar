@@ -1,7 +1,6 @@
 package se.greatbrain.sats.fragment;
 
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -86,7 +85,7 @@ public class CalendarColumnFragment extends Fragment
 
         if (pointInTime == THIS_WEEK)
         {
-            topRow.setBackground(addMarkerBackgound());
+            topRow.setBackground(addMarkerBackground());
         }
         else
         {
@@ -99,7 +98,7 @@ public class CalendarColumnFragment extends Fragment
         rootView.addView(topRow, params);
     }
 
-    private LayerDrawable addMarkerBackgound() {
+    private LayerDrawable addMarkerBackground() {
         LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(R.drawable.calendar_marker_layer_list);
         int topPadding = (int) (getHeightOfOneRow() / 2.7);
         layerList.setLayerInset(1, 70, topPadding, 70, 0);
