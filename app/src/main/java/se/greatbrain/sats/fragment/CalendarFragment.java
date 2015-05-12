@@ -1,12 +1,17 @@
 package se.greatbrain.sats.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.Scroller;
+
+import java.lang.reflect.Field;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
@@ -14,7 +19,6 @@ import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
 import se.greatbrain.sats.event.RefreshEvent;
 import se.greatbrain.sats.event.ScrollEvent;
-import se.greatbrain.sats.model.CalendarDate;
 
 public class CalendarFragment extends Fragment
 {
@@ -39,7 +43,9 @@ public class CalendarFragment extends Fragment
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, false);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
+                false);
+        setCustomScroller();
 
         return view;
     }
@@ -64,6 +70,22 @@ public class CalendarFragment extends Fragment
         pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, true);
     }
 
+    private void setCustomScroller()
+    {
+        try
+        {
+            Field mScroller;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            CalendarScroller scroller = new CalendarScroller(pager.getContext(), new DecelerateInterpolator());
+            mScroller.set(pager, scroller);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private final class CalendarOnScrollListener extends ViewPager.SimpleOnPageChangeListener
     {
         private int position;
@@ -80,6 +102,38 @@ public class CalendarFragment extends Fragment
             position += NUM_SIMULTANEOUS_PAGES / 2;
             int weekHash = pagerAdapter.getWeekHashForPosition(position);
             EventBus.getDefault().post(new ScrollEvent(weekHash));
+        }
+    }
+
+    private final class CalendarScroller extends Scroller
+    {
+        private int mDuration = 250;
+
+        public CalendarScroller(Context context)
+        {
+            super(context);
+        }
+
+        public CalendarScroller(Context context, Interpolator interpolator)
+        {
+            super(context, interpolator);
+        }
+
+        public CalendarScroller(Context context, Interpolator interpolator, boolean flywheel)
+        {
+            super(context, interpolator, flywheel);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy)
+        {
+            super.startScroll(startX, startY, dx, dy, mDuration);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration)
+        {
+            super.startScroll(startX, startY, dx, dy, mDuration);
         }
     }
 }

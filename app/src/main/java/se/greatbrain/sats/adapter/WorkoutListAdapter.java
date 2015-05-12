@@ -442,7 +442,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         if (weekHashToItemPosition.containsKey(weekHash))
         {
-            Log.d(TAG, weekHashToItemPosition.get(weekHash) + "");
             return weekHashToItemPosition.get(weekHash);
         }
         else
@@ -459,8 +458,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         TreeMap<Integer, Integer> sortedWeekhash = new TreeMap<>();
         sortedWeekhash.putAll(weekHashToItemPosition);
-
-        Log.d(TAG, "In closest position");
 
         for (int i : sortedWeekhash.keySet())
         {
