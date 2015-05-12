@@ -39,6 +39,7 @@ public class CalendarFragment extends Fragment
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, false);
 
         return view;
     }
