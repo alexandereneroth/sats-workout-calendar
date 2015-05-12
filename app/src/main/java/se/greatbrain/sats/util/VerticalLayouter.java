@@ -10,7 +10,7 @@ public class VerticalLayouter
 
     private int lastViewId = 0;
     private int viewHeight;
-    private boolean useWrapContent = true;
+    private boolean useWrapContent = false;
 
     public VerticalLayouter(RelativeLayout viewGroup)
     {
@@ -20,12 +20,15 @@ public class VerticalLayouter
     public VerticalLayouter addView(View view)
     {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                useWrapContent ? ViewGroup.LayoutParams.WRAP_CONTENT : viewHeight);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                viewHeight);
         if(lastViewId > 0)
         {
             params.addRule(RelativeLayout.BELOW, lastViewId);
         }
+
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+
         view.setId(++lastViewId);
 
         viewGroup.addView(view, params);

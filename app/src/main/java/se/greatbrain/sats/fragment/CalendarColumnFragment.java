@@ -147,6 +147,7 @@ public class CalendarColumnFragment extends Fragment
         row.setText(
                 (hasMoreActivitiesThanAvailibleRows ? "+" : "") + String.valueOf(numActivities));
         row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        row.setBackground(getResources().getDrawable(R.drawable.line));
 
         return row;
     }

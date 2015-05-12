@@ -64,7 +64,7 @@ public class CalendarRowView extends TextView
     @Override
     protected void onDraw(Canvas canvas)
     {
-        horizontalLine.draw(canvas);
+        //horizontalLine.draw(canvas);
 
         if (shouldDrawCircle)
         {
@@ -89,7 +89,11 @@ public class CalendarRowView extends TextView
                 setTextColor(getResources().getColor(R.color.black));
             }
             canvas.restore();
-            if (!isZeroRow) {super.onDraw(canvas);}
+            if (!isZeroRow)
+            {
+                bringToFront();
+                super.onDraw(canvas);
+            }
         }
     }
 
