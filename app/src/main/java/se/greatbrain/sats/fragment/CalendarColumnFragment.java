@@ -1,6 +1,5 @@
 package se.greatbrain.sats.fragment;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,14 +36,14 @@ public class CalendarColumnFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
-        Resources resources = getResources();
+        final Resources resources = getResources();
 
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
 
         final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
@@ -84,7 +83,8 @@ public class CalendarColumnFragment extends Fragment
         View topRow = new View(rootView.getContext());
         topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
+                .LayoutParams
                 .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
         rootView.addView(topRow, params);
     }
@@ -102,13 +102,13 @@ public class CalendarColumnFragment extends Fragment
         // of the number of rows
         for (int rowIndex = CalendarPagerAdapter.NUM_ROWS; rowIndex > -1; --rowIndex)
         {
-            boolean isZeroRow = (rowIndex == 0);
+            final boolean isZeroRow = (rowIndex == 0);
 
             CalendarRowView.Builder rowBuilder = new CalendarRowView
                     .Builder(rootView.getContext(), numActivities);
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
-                int circleType = hasPastActivity() ?
+                final int circleType = columnShowsAPastActivity() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
@@ -128,10 +128,10 @@ public class CalendarColumnFragment extends Fragment
             row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
-            int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS);
-            int rowHeight = isZeroRow ? rowFullHeight / 2 : rowFullHeight;
+            final int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS);
+            final int rowHeight = isZeroRow ? rowFullHeight / 2 : rowFullHeight;
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, rowHeight);
 
             rootView.addView(row, params);
@@ -147,7 +147,8 @@ public class CalendarColumnFragment extends Fragment
         row.setPadding(0, 7, 0, 0);
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
+                .LayoutParams
                 .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
 
         rootView.addView(row, params);
@@ -155,7 +156,7 @@ public class CalendarColumnFragment extends Fragment
 
     private int getHeightOfOneRow(int rows)
     {
-        return (int) (calendarHeight / (rows + 2.5));
+        return (int)Math.round(calendarHeight / (rows + 2.5));
     }
 
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
@@ -164,7 +165,7 @@ public class CalendarColumnFragment extends Fragment
                 CalendarPagerAdapter.NUM_ROWS);
     }
 
-    private boolean hasPastActivity()
+    private boolean columnShowsAPastActivity()
     {
         return pointInTime == PAST_WEEK;
     }

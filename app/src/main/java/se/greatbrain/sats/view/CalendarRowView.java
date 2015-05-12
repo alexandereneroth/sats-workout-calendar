@@ -12,13 +12,13 @@ import se.greatbrain.sats.R;
 
 public abstract class CalendarRowView extends TextView
 {
-    protected boolean shouldDrawTextView = true;
+
+    private static final String TAG = "CalendarRowView";
 
     public static final int PAST_ACTIVITY = 1;
     public static final int FUTURE_OR_CURRENT_ACTIVITY = 2;
 
-    private static final String TAG = "CalendarRowView";
-    private static final int TO_NEXT_WEEK = 1;
+    protected static final int TO_NEXT_WEEK = 1;
     protected static final int TO_PREVIOUS_WEEK = -1;
 
     protected final int numActivities;
@@ -32,10 +32,10 @@ public abstract class CalendarRowView extends TextView
     protected final Drawable circle;
     protected final Drawable hollowCircle;
 
+    protected boolean shouldDrawTextView = true;
+
     protected int drawBoundsWidth;
     protected int drawBoundsHeight;
-    private int width;
-    private int height;
     protected int centerX;
     protected int centerY;
 
@@ -64,13 +64,10 @@ public abstract class CalendarRowView extends TextView
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        setIncludeFontPadding(false);
-
         super.onLayout(changed, left, top, right, bottom);
+
         drawBoundsWidth = getWidth();
         drawBoundsHeight = convertToDrawBoundsHeight(getHeight());
-        width = getWidth();
-        height = getHeight();
         centerX = drawBoundsWidth / 2;
         centerY = drawBoundsHeight / 2;
         lineThicknessToPreviousWeek = getLineThicknessToPreviousWeek();
@@ -78,16 +75,20 @@ public abstract class CalendarRowView extends TextView
 
         horizontalLine.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
 
-        int circleDiameter = getResources().getDimensionPixelSize(R.dimen.calendar_circle_diameter);
+        final int circleDiameter = getResources().getDimensionPixelSize(R.dimen
+                .calendar_circle_diameter);
 
-        int circleLeftOffsetPx = centerX - (circleDiameter / 2);
-        int circleTopOffsetPx = centerY - (circleDiameter / 2);
+        final int circleLeftOffsetPx = centerX - (circleDiameter / 2);
+        final int circleTopOffsetPx = centerY - (circleDiameter / 2);
 
         circle.setBounds(circleLeftOffsetPx, circleTopOffsetPx, circleLeftOffsetPx + circleDiameter,
                 circleTopOffsetPx + circleDiameter);
         hollowCircle.setBounds(circleLeftOffsetPx, circleTopOffsetPx,
                 circleLeftOffsetPx + circleDiameter,
                 circleTopOffsetPx + circleDiameter);
+
+        //So the text are centered in the circle properly
+        setIncludeFontPadding(false);
     }
 
     @Override
