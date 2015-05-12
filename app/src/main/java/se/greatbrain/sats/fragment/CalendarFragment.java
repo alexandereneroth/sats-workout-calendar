@@ -18,7 +18,7 @@ import se.greatbrain.sats.model.CalendarDate;
 
 public class CalendarFragment extends Fragment
 {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
     public ViewPager pager;
@@ -39,7 +39,6 @@ public class CalendarFragment extends Fragment
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, false);
 
         return view;
     }
@@ -59,6 +58,7 @@ public class CalendarFragment extends Fragment
     public void onEvent(RefreshEvent event)
     {
         CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, true);
     }
@@ -74,20 +74,11 @@ public class CalendarFragment extends Fragment
         }
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        public void onPageSelected(int position)
         {
-            this.position = position + NUM_SIMULTANEOUS_PAGES / 2;
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state)
-        {
-            if(state == ViewPager.SCROLL_STATE_IDLE)
-            {
-                int weekHash = pagerAdapter.getWeekHashForPosition(position);
-                Log.d(TAG, position + "");
-                EventBus.getDefault().post(new ScrollEvent(position, weekHash));
-            }
+            position += NUM_SIMULTANEOUS_PAGES / 2;
+            int weekHash = pagerAdapter.getWeekHashForPosition(position);
+            EventBus.getDefault().post(new ScrollEvent(weekHash));
         }
     }
 }
