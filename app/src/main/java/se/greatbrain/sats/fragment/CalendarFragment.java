@@ -3,6 +3,7 @@ package se.greatbrain.sats.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,7 @@ public class CalendarFragment extends Fragment
             if(state == ViewPager.SCROLL_STATE_IDLE)
             {
                 int weekHash = pagerAdapter.getWeekHashForPosition(position);
+                Log.d(TAG, position + "");
                 EventBus.getDefault().post(new ScrollEvent(position, weekHash));
             }
         }

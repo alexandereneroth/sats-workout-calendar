@@ -2,6 +2,7 @@ package se.greatbrain.sats.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -49,9 +51,13 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
         for (int i = 0; i < listItems.size(); i++)
         {
             ActivityWrapper activityWrapper = listItems.get(i);
-            final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
+            int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
-            weekHashToItemPosition.put(weekHash, i);
+
+            if (weekHashToItemPosition.get(weekHash) == null)
+            {
+                weekHashToItemPosition.put(weekHash, i);
+            }
 
             // Counts number of past list items so we know what position today is
             if (DateUtil.dateHasPassed(activityWrapper.trainingActivity.getDate()))
@@ -434,12 +440,38 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     public int getPositionFromWeekHash(int weekHash)
     {
-        return weekHashToItemPosition.get(weekHash);
+        if (weekHashToItemPosition.containsKey(weekHash))
+        {
+            Log.d(TAG, weekHashToItemPosition.get(weekHash) + "");
+            return weekHashToItemPosition.get(weekHash);
+        }
+        else
+        {
+            return getClosestPositionToWeekHash(weekHash);
+        }
     }
 
     /**
      * Private helper methods
      */
+
+    private int getClosestPositionToWeekHash(int weekHash)
+    {
+        TreeMap<Integer, Integer> sortedWeekhash = new TreeMap<>();
+        sortedWeekhash.putAll(weekHashToItemPosition);
+
+        Log.d(TAG, "In closest position");
+
+        for (int i : sortedWeekhash.keySet())
+        {
+            if (i > weekHash)
+            {
+                return weekHashToItemPosition.get(i);
+            }
+        }
+
+        return listItems.size() - 1;
+    }
 
     private int getTrainingTypePictureDrawable(TrainingActivity trainingActivity)
     {
