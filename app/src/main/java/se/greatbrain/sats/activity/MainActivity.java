@@ -24,7 +24,7 @@ import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.DrawerMenuAdapter;
 import se.greatbrain.sats.adapter.DrawerMenuListener;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
-import se.greatbrain.sats.event.WorkoutListRefreshEvent;
+import se.greatbrain.sats.event.MyTrainingRefreshEvent;
 import se.greatbrain.sats.fragment.TopViewPagerFragment;
 import se.greatbrain.sats.fragment.WorkoutListFragment;
 import se.greatbrain.sats.ion.IonClient;
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity
         if (reloadButton != null)
         {
             reloadButton.setActionView(null);
-            EventBus.getDefault().post(new WorkoutListRefreshEvent());
+            EventBus.getDefault().post(new MyTrainingRefreshEvent());
         }
     }
 

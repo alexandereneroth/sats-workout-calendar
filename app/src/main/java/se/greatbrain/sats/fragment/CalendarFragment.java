@@ -11,7 +11,7 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
-import se.greatbrain.sats.event.WorkoutListRefreshEvent;
+import se.greatbrain.sats.event.MyTrainingRefreshEvent;
 import se.greatbrain.sats.event.WorkoutListScrollEvent;
 
 public class CalendarFragment extends Fragment
@@ -54,7 +54,7 @@ public class CalendarFragment extends Fragment
         pager.setCurrentItem(event.position - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
     }
 
-    public void onEvent(WorkoutListRefreshEvent event)
+    public void onEvent(MyTrainingRefreshEvent event)
     {
         CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
