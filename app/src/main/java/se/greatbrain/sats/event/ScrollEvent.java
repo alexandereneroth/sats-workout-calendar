@@ -2,15 +2,12 @@ package se.greatbrain.sats.event;
 
 public final class ScrollEvent
 {
-    private final int position;
+    public final int mPosition;
+    public final int mWeekHash;
 
-    public ScrollEvent(int position)
+    public ScrollEvent(int position, int weekHash)
     {
-        this.position = position;
-    }
-
-    public int getPosition()
-    {
-        return position;
+        this.mPosition = position;
+        this.mWeekHash = weekHash;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
+import se.greatbrain.sats.event.CalendarColumnClickedEvent;
 import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
@@ -21,8 +22,6 @@ import se.greatbrain.sats.R;
 public class CalendarColumnFragment extends Fragment
 {
     public static final int PAST_WEEK = -1;
-    public static final int THIS_WEEK = 0;
-    public static final int UPCOMING_WEEK = 1;
 
     private static final String TAG = "ScreenSlidePageFragment";
 
@@ -64,11 +63,10 @@ public class CalendarColumnFragment extends Fragment
 
         rootView.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
-                EventBus.getDefault().post(new ScrollEvent(indexInAdapter));
+                EventBus.getDefault().post(new CalendarColumnClickedEvent(indexInAdapter));
             }
         });
 

@@ -33,6 +33,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private final int numberOfListItems;
     private int numberOfPastListItems;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
+    private final Map<Integer, Integer> weekHashToItemPosition = new HashMap<>();
     private final Activity activity;
 
     private final LayoutInflater inflater;
@@ -50,6 +51,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             ActivityWrapper activityWrapper = listItems.get(i);
             final int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
+            weekHashToItemPosition.put(weekHash, i);
 
             // Counts number of past list items so we know what position today is
             if (DateUtil.dateHasPassed(activityWrapper.trainingActivity.getDate()))
@@ -428,6 +430,11 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     public int positionOfTodaysFirstItem()
     {
         return numberOfPastListItems;
+    }
+
+    public int getPositionFromWeekHash(int weekHash)
+    {
+        return weekHashToItemPosition.get(weekHash);
     }
 
     /**

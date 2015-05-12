@@ -41,6 +41,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     {
         super(fm);
         activities = RealmClient.getInstance(context).getAllActivitiesWithWeek();
+
         if(activities.size() > 0)
         {
             String fromDate = activities.get(0).trainingActivity.getDate();
@@ -50,6 +51,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         NUM_PAGES = dates.size();
         mapPositionToNumberOfActivities();
         NUM_ROWS = getHighestActivityCount();
+        CURRENT_WEEK = getThisWeeksPosition();
     }
 
     @Override
@@ -98,6 +100,12 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         }
 
         return CURRENT_WEEK;
+    }
+
+    public int getWeekHashForPosition(int position)
+    {
+        CalendarDate date = dates.get(position);
+        return (date.mYear * 100) + date.mWeek;
     }
 
     private int getNumberOfActivities(int position)

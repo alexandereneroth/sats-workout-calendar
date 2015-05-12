@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
+import se.greatbrain.sats.event.CalendarColumnClickedEvent;
 import se.greatbrain.sats.event.RefreshEvent;
+import se.greatbrain.sats.event.ScrollEvent;
+import se.greatbrain.sats.model.CalendarDate;
 
 public class CalendarFragment extends Fragment
 {
@@ -28,16 +31,14 @@ public class CalendarFragment extends Fragment
 
         EventBus.getDefault().register(this);
 
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
-                getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
-
+        pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
-                false);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, false);
 
         return view;
     }
@@ -49,12 +50,42 @@ public class CalendarFragment extends Fragment
         super.onDestroy();
     }
 
+    public void onEvent(CalendarColumnClickedEvent event)
+    {
+        pager.setCurrentItem(event.mPosition - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
+    }
+
     public void onEvent(RefreshEvent event)
     {
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
-                getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
-                true);
+        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, true);
+    }
+
+    private final class CalendarOnScrollListener extends ViewPager.SimpleOnPageChangeListener
+    {
+        private int position;
+        private final CalendarPagerAdapter pagerAdapter;
+
+        public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
+        {
+            this.pagerAdapter = pagerAdapter;
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            this.position = position + NUM_SIMULTANEOUS_PAGES / 2;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state)
+        {
+            if(state == ViewPager.SCROLL_STATE_IDLE)
+            {
+                int weekHash = pagerAdapter.getWeekHashForPosition(position);
+                EventBus.getDefault().post(new ScrollEvent(position, weekHash));
+            }
+        }
     }
 }

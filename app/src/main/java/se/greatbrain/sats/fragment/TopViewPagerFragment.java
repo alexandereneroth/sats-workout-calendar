@@ -40,22 +40,7 @@ public class TopViewPagerFragment extends Fragment
         tabs.setDistributeEvenly(true);
         tabs.setViewPager(viewPager);
 
-        EventBus.getDefault().register(this);
-
         return view;
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
-
-    public void onEvent(ScrollEvent event)
-    {
-        graphFragment.pager.setCurrentItem(
-                event.getPosition() - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
     }
 
     private final class PagerAdapter extends FragmentPagerAdapter

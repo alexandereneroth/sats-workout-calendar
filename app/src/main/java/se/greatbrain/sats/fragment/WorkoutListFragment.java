@@ -36,8 +36,7 @@ public class WorkoutListFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        listView = (StickyListHeadersListView) view.findViewById(
-                R.id.expandable_list_view);
+        listView = (StickyListHeadersListView) view.findViewById(R.id.expandable_list_view);
         EventBus.getDefault().register(this);
 
         refreshList();
@@ -64,8 +63,7 @@ public class WorkoutListFragment extends Fragment
             public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
                     View view, int itemPosition, long headerId)
             {
-                TextView trainingHeader = (TextView) getActivity().findViewById(R.id
-                        .training_list_headline);
+                TextView trainingHeader = (TextView) getActivity().findViewById(R.id.training_list_headline);
 
                 if (adapter.positionOfTodaysFirstItem() <= itemPosition)
                 {
@@ -89,6 +87,7 @@ public class WorkoutListFragment extends Fragment
 
     public void onEvent(ScrollEvent event)
     {
-        listView.setSelectionFromTop(0, 0);
+        int position = adapter.getPositionFromWeekHash(event.mWeekHash);
+        listView.setSelectionFromTop(position, 0);
     }
 }
