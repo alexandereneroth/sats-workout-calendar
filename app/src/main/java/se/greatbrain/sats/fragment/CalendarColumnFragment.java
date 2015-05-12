@@ -1,5 +1,6 @@
 package se.greatbrain.sats.fragment;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.ScrollEvent;
+import se.greatbrain.sats.util.PixelUtil;
 import se.greatbrain.sats.view.CalendarRowView;
 
 public class CalendarColumnFragment extends Fragment
@@ -33,6 +35,8 @@ public class CalendarColumnFragment extends Fragment
     private int nextWeeksActivities;
     private boolean shouldDrawLineToNextWeek;
 
+    private int screenWidth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
@@ -40,6 +44,7 @@ public class CalendarColumnFragment extends Fragment
         final Resources resources = getResources();
 
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
+        screenWidth = PixelUtil.getScreenDimensions(container.getContext()).x;
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
                 container, false);
@@ -85,7 +90,7 @@ public class CalendarColumnFragment extends Fragment
 
         if (pointInTime == THIS_WEEK)
         {
-            topRow.setBackground(addMarkerBackground());
+            topRow.setBackground(getTopRowBackground());
         }
         else
         {
@@ -96,14 +101,6 @@ public class CalendarColumnFragment extends Fragment
                 .LayoutParams
                 .MATCH_PARENT, getHeightOfOneRow());
         rootView.addView(topRow, params);
-    }
-
-    private LayerDrawable addMarkerBackground() {
-        LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(R.drawable.calendar_marker_layer_list);
-        int topPadding = (int) (getHeightOfOneRow() / 2.7);
-        layerList.setLayerInset(1, 70, topPadding, 70, 0);
-
-        return layerList;
     }
 
     private void addRows(LinearLayout rootView)
@@ -130,7 +127,7 @@ public class CalendarColumnFragment extends Fragment
 
                 rowBuilder.drawCircle(circleType);
                 rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
-                if(shouldDrawLineToNextWeek)
+                if (shouldDrawLineToNextWeek)
                 {
                     rowBuilder.drawLineToNextWeek(nextWeeksActivities);
                 }
@@ -171,9 +168,25 @@ public class CalendarColumnFragment extends Fragment
         rootView.addView(row, params);
     }
 
+    private LayerDrawable getTopRowBackground()
+    {
+        LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(
+                R.drawable.calendar_marker_layer_list);
+        final int topInset = (int) Math.round(getHeightOfOneRow() / 2.7);
+        final int sideInset = (int) Math.round(getWidth() / 2.6);
+        layerList.setLayerInset(1, sideInset, topInset, sideInset, 0);
+
+        return layerList;
+    }
+
     private int getHeightOfOneRow()
     {
-        return (int)Math.round(calendarHeight / (CalendarPagerAdapter.NUM_ROWS + 2.5));
+        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.NUM_ROWS + 2.5));
+    }
+
+    private int getWidth()
+    {
+        return screenWidth / CalendarFragment.NUM_SIMULTANEOUS_PAGES;
     }
 
     private boolean shouldDrawCircleOnThisRow(int rowIndex)

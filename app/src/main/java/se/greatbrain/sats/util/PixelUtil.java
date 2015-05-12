@@ -3,9 +3,20 @@ package se.greatbrain.sats.util;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class PixelUtil
 {
+    public static Point getScreenDimensions(Context context)
+    {
+        final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        final Display display = wm.getDefaultDisplay();
+        Point dimensions = new Point();
+        display.getSize(dimensions);
+
+        return dimensions;
+    }
 
     public static void shortenLine(Point startPoint, Point endPoint, float pixelCount)
     {
