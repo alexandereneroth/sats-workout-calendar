@@ -1,5 +1,6 @@
 package se.greatbrain.sats.util;
 
+import android.app.ActionBar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -10,7 +11,7 @@ public class VerticalLayouter
 
     private int lastViewId = 0;
     private int viewHeight;
-    private boolean useWrapContent = false;
+    private boolean useWrapContent = true;
 
     public VerticalLayouter(RelativeLayout viewGroup)
     {
@@ -20,7 +21,8 @@ public class VerticalLayouter
     public VerticalLayouter addView(View view)
     {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT, useWrapContent ? ViewGroup.LayoutParams
+                .WRAP_CONTENT :
                 viewHeight);
         if(lastViewId > 0)
         {
