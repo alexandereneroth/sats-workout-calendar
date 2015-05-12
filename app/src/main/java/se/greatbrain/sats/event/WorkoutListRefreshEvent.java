@@ -1,6 +1,6 @@
 package se.greatbrain.sats.event;
 
-public class RefreshEvent
+public class WorkoutListRefreshEvent
 {
 
 }

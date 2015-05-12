@@ -14,7 +14,6 @@ import android.widget.TextView;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
-import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.view.CalendarRowView;
 import se.greatbrain.sats.R;
 
@@ -83,7 +82,7 @@ public class CalendarColumnFragment extends Fragment
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
                 .LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.numRows));
         rootView.addView(topRow, params);
     }
 
@@ -91,14 +90,14 @@ public class CalendarColumnFragment extends Fragment
     {
         boolean weekHasMoreActivitiesThanRows = false;
 
-        if (numActivities > CalendarPagerAdapter.NUM_ROWS)
+        if (numActivities > CalendarPagerAdapter.numRows)
         {
             weekHasMoreActivitiesThanRows = true;
         }
 
-        // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
+        // Start at row 'numRows' and add all rows through 0, the zero row is extra and is not part
         // of the number of rows
-        for (int rowIndex = CalendarPagerAdapter.NUM_ROWS; rowIndex > -1; --rowIndex)
+        for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > -1; --rowIndex)
         {
             final boolean isZeroRow = (rowIndex == 0);
 
@@ -126,7 +125,7 @@ public class CalendarColumnFragment extends Fragment
             row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
             row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
-            final int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS);
+            final int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.numRows);
             final int rowHeight = isZeroRow ? rowFullHeight / 2 : rowFullHeight;
 
             final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -147,7 +146,7 @@ public class CalendarColumnFragment extends Fragment
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
                 .LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS));
+                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.numRows));
 
         rootView.addView(row, params);
     }
@@ -160,7 +159,7 @@ public class CalendarColumnFragment extends Fragment
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
     {
         return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex ==
-                CalendarPagerAdapter.NUM_ROWS);
+                CalendarPagerAdapter.numRows);
     }
 
     private boolean columnIsForAPastWeek()

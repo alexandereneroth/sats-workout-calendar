@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +28,9 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     public static final String PREVIOUS_NUMBER_OF_ACTIVITIES = "previous activity num";
     public static final String HAS_NEXT_WEEK_PASSED = "has next week passed";
 
-    public static int NUM_PAGES;
-    public static int NUM_ROWS;
-    public static int CURRENT_WEEK;
+    public static int numPages;
+    public static int numRows;
+    public static int positionOfCurrentWeekInDates;
 
     private List<ActivityWrapper> activities;
     private List<CalendarDate> dates = new ArrayList<>();
@@ -48,10 +47,10 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
             dates = DateUtil.getDatesInWeekFrom(fromDate);
         }
 
-        NUM_PAGES = dates.size();
+        numPages = dates.size();
         mapPositionToNumberOfActivities();
-        setThisWeeksPosition();
-        NUM_ROWS = getHighestActivityCount();
+        positionOfCurrentWeekInDates = getPositionOfCurrentWeek_inDates();
+        numRows = getHighestActivityCount();
     }
 
     @Override
@@ -63,7 +62,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
         bundle.putBoolean(HAS_NEXT_WEEK_PASSED, hasNextWeekPassed(position));
         bundle.putInt(NUMBER_OF_ACTIVITIES, getNumberOfActivities(position));
-        bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointOfTime(dates.get(position)));
+        bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointInTime(dates.get(position)));
         bundle.putInt(ADAPTER_POSITION, position);
         bundle.putString(DATE_STRING, dates.get(position).mDate);
         bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, getNextWeeksActivityCount(position));
@@ -77,7 +76,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount()
     {
-        return NUM_PAGES;
+        return numPages;
     }
 
     /* For multiple pages */
@@ -88,21 +87,21 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         return 1f / CalendarFragment.NUM_SIMULTANEOUS_PAGES;
     }
 
-    public int getThisWeeksPosition()
+    public int getPositionOfCurrentWeek_inCalendar()
     {
-        return CURRENT_WEEK;
+        return positionOfCurrentWeekInDates - CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2;
     }
 
-    private void setThisWeeksPosition()
+    private int getPositionOfCurrentWeek_inDates()
     {
         for (int i = 0; i < dates.size(); i++)
         {
-            if (DateUtil.getWeekPointOfTime(dates.get(i)) == 0)
+            if (DateUtil.getWeekPointInTime(dates.get(i)) == DateUtil.CURRENT_WEEK)
             {
-                CURRENT_WEEK = i;
-                break;
+                return i;
             }
         }
+        throw new IllegalStateException("Current week is not in dates");
     }
 
     public int getWeekHashForPosition(int position)
@@ -125,7 +124,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
     private boolean hasNextWeekPassed(int position)
     {
-        return position < CURRENT_WEEK - 1;
+        return position < positionOfCurrentWeekInDates - 1;
     }
 
     private int getNextWeeksActivityCount(int position)

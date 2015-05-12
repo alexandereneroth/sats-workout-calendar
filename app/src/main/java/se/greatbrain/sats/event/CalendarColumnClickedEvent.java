@@ -2,10 +2,10 @@ package se.greatbrain.sats.event;
 
 public class CalendarColumnClickedEvent
 {
-    public int mPosition;
+    public int position;
 
-    public CalendarColumnClickedEvent(int mPosition)
+    public CalendarColumnClickedEvent(int position)
     {
-        this.mPosition = mPosition;
+        this.position = position;
     }
 }

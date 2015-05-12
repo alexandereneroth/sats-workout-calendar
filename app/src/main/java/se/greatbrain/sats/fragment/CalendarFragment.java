@@ -3,7 +3,6 @@ package se.greatbrain.sats.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,8 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
-import se.greatbrain.sats.event.RefreshEvent;
-import se.greatbrain.sats.event.ScrollEvent;
-import se.greatbrain.sats.model.CalendarDate;
+import se.greatbrain.sats.event.WorkoutListRefreshEvent;
+import se.greatbrain.sats.event.WorkoutListScrollEvent;
 
 public class CalendarFragment extends Fragment
 {
@@ -39,7 +37,7 @@ public class CalendarFragment extends Fragment
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, false);
+        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), false);
 
         return view;
     }
@@ -53,20 +51,19 @@ public class CalendarFragment extends Fragment
 
     public void onEvent(CalendarColumnClickedEvent event)
     {
-        pager.setCurrentItem(event.mPosition - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
+        pager.setCurrentItem(event.position - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
     }
 
-    public void onEvent(RefreshEvent event)
+    public void onEvent(WorkoutListRefreshEvent event)
     {
         CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2, true);
+        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
     }
 
     private final class CalendarOnScrollListener extends ViewPager.SimpleOnPageChangeListener
     {
-        private int position;
         private final CalendarPagerAdapter pagerAdapter;
 
         public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
@@ -79,7 +76,7 @@ public class CalendarFragment extends Fragment
         {
             position += NUM_SIMULTANEOUS_PAGES / 2;
             int weekHash = pagerAdapter.getWeekHashForPosition(position);
-            EventBus.getDefault().post(new ScrollEvent(weekHash));
+            EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
         }
     }
 }

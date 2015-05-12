@@ -14,8 +14,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
-import se.greatbrain.sats.event.RefreshEvent;
-import se.greatbrain.sats.event.ScrollEvent;
+import se.greatbrain.sats.event.WorkoutListRefreshEvent;
+import se.greatbrain.sats.event.WorkoutListScrollEvent;
 import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
@@ -80,14 +80,14 @@ public class WorkoutListFragment extends Fragment
         listView.setSelectionFromTop(adapter.positionOfTodaysFirstItem(), 0);
     }
 
-    public void onEvent(RefreshEvent event)
+    public void onEvent(WorkoutListRefreshEvent event)
     {
         refreshList();
     }
 
-    public void onEvent(ScrollEvent event)
+    public void onEvent(WorkoutListScrollEvent event)
     {
-        int position = adapter.getPositionFromWeekHash(event.mWeekHash);
+        int position = adapter.getPositionFromWeekHash(event.weekHash);
         listView.setSelectionFromTop(position, 0);
     }
 }

@@ -54,6 +54,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             int weekHash = (activityWrapper.year * 100) + activityWrapper.week;
             listItemPositionToWeek.put(i, weekHash);
 
+            //So week hash is mapped with the FIRST item under that week
             if (weekHashToItemPosition.get(weekHash) == null)
             {
                 weekHashToItemPosition.put(weekHash, i);
@@ -234,8 +235,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
                 Intent intent = new Intent(activity, ClassDetailActivity.class);
                 activity.startActivity(intent);
-
-
             }
         });
         groupActivityViewHolder.title.setText(title);
@@ -442,7 +441,6 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     {
         if (weekHashToItemPosition.containsKey(weekHash))
         {
-            Log.d(TAG, weekHashToItemPosition.get(weekHash) + "");
             return weekHashToItemPosition.get(weekHash);
         }
         else
@@ -457,12 +455,10 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     private int getClosestPositionToWeekHash(int weekHash)
     {
-        TreeMap<Integer, Integer> sortedWeekhash = new TreeMap<>();
-        sortedWeekhash.putAll(weekHashToItemPosition);
+        TreeMap<Integer, Integer> sortedWeekHashToItemPosition = new TreeMap<>();
+        sortedWeekHashToItemPosition.putAll(weekHashToItemPosition);
 
-        Log.d(TAG, "In closest position");
-
-        for (int i : sortedWeekhash.keySet())
+        for (int i : sortedWeekHashToItemPosition.keySet())
         {
             if (i > weekHash)
             {

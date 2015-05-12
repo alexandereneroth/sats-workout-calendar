@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.tabs.SlidingTabLayout;
 
 public class TopViewPagerFragment extends Fragment
