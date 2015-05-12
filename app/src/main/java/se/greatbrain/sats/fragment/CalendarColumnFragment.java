@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -146,7 +145,7 @@ public class CalendarColumnFragment extends Fragment
                 .Builder(rootView.getContext(), numActivities);
         if (shouldDrawCircleOnThisRow(rowIndex))
         {
-            int circleType = hasPastActivity() ?
+            int circleType = columnIsForAPastWeek() ?
                     CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
             rowBuilder.drawCircle(circleType);
@@ -182,7 +181,7 @@ public class CalendarColumnFragment extends Fragment
                 CalendarPagerAdapter.NUM_ROWS);
     }
 
-    private boolean hasPastActivity()
+    private boolean columnIsForAPastWeek()
     {
         return pointInTime == PAST_WEEK;
     }
