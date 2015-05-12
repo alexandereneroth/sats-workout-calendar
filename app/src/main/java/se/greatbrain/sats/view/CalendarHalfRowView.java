@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.Region;
 
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.util.PixelUtil;
@@ -52,7 +50,7 @@ public class CalendarHalfRowView extends CalendarRowView
         Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.lengthenLine(originPoint, deltaPoint, -cutoff);
+        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
 
         // so the line doesn't overlap with the daterow
         final int originOffsetY = (int)(lineThickness /2);
@@ -91,7 +89,7 @@ public class CalendarHalfRowView extends CalendarRowView
         Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.lengthenLine(originPoint, deltaPoint, -cutoff);
+        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
 
         // so the line doesn't overlap with the daterow
         final int originOffsetY = (int)(lineThickness /2);

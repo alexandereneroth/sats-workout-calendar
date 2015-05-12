@@ -108,7 +108,7 @@ public class CalendarColumnFragment extends Fragment
                     .Builder(rootView.getContext(), numActivities);
             if (shouldDrawCircleOnThisRow(rowIndex))
             {
-                final int circleType = columnShowsAPastActivity() ?
+                final int circleType = columnIsForAPastWeek() ?
                         CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
                 rowBuilder.drawCircle(circleType);
@@ -165,7 +165,7 @@ public class CalendarColumnFragment extends Fragment
                 CalendarPagerAdapter.NUM_ROWS);
     }
 
-    private boolean columnShowsAPastActivity()
+    private boolean columnIsForAPastWeek()
     {
         return pointInTime == PAST_WEEK;
     }

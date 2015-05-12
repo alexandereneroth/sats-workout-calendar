@@ -51,7 +51,7 @@ public class CalendarFullRowView extends CalendarRowView
         Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.lengthenLine(originPoint, deltaPoint, -cutoff);
+        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
 
         canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY - deltaPoint.y,
                 linePaint);
@@ -70,7 +70,7 @@ public class CalendarFullRowView extends CalendarRowView
         Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
         int cutoff = getResources().getDimensionPixelSize(R.dimen.calendar_line_cutoff);
-        PixelUtil.lengthenLine(originPoint, deltaPoint, -cutoff);
+        PixelUtil.shortenLine(originPoint, deltaPoint, cutoff);
 
         canvas.drawLine(centerX, centerY, centerX + deltaPoint.x, centerY + deltaPoint.y,
                 linePaint);

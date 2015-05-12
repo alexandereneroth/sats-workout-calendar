@@ -7,8 +7,9 @@ import android.util.TypedValue;
 public class PixelUtil
 {
 
-    public static void lengthenLine(Point startPoint, Point endPoint, float pixelCount)
+    public static void shortenLine(Point startPoint, Point endPoint, float pixelCount)
     {
+        final float pixelsToShortenBy = pixelCount * -1;
         if (startPoint == endPoint)
         {
             return; // not a line
@@ -19,23 +20,23 @@ public class PixelUtil
         {
             // vertical line:
             if (endPoint.y < startPoint.y)
-            { endPoint.y -= pixelCount; }
+            { endPoint.y -= pixelsToShortenBy; }
             else
-            { endPoint.y += pixelCount; }
+            { endPoint.y += pixelsToShortenBy; }
         }
         else if (dy == 0)
         {
             // horizontal line:
             if (endPoint.x < startPoint.x)
-            { endPoint.x -= pixelCount; }
+            { endPoint.x -= pixelsToShortenBy; }
             else
-            { endPoint.x += pixelCount; }
+            { endPoint.x += pixelsToShortenBy; }
         }
         else
         {
             // non-horizontal, non-vertical line:
             double length = Math.sqrt(dx * dx + dy * dy);
-            double scale = (length + pixelCount) / length;
+            double scale = (length + pixelsToShortenBy) / length;
             dx *= scale;
             dy *= scale;
             endPoint.x = startPoint.x + (int) dx;
