@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.tabs.SlidingTabLayout;
+import se.greatbrain.sats.tab.SlidingTabLayout;
 
 public class TopViewPagerFragment extends Fragment
 {

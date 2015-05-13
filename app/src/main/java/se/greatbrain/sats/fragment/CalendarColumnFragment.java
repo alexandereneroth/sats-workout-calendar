@@ -1,6 +1,7 @@
 package se.greatbrain.sats.fragment;
 
 import android.content.res.Resources;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -8,14 +9,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
+import se.greatbrain.sats.util.DateUtil;
+import se.greatbrain.sats.util.VerticalLayouter;
+import se.greatbrain.sats.util.PixelUtil;
 import se.greatbrain.sats.view.CalendarRowView;
-import se.greatbrain.sats.R;
 
 public class CalendarColumnFragment extends Fragment
 {
@@ -29,6 +33,9 @@ public class CalendarColumnFragment extends Fragment
     private int previousWeeksActivities;
     private int nextWeeksActivities;
     private boolean shouldDrawLineToNextWeek;
+    private boolean hasMoreActivitiesThanAvailibleRows = false;
+
+    private int screenWidth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +44,15 @@ public class CalendarColumnFragment extends Fragment
         final Resources resources = getResources();
 
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
+        screenWidth = PixelUtil.getScreenDimensions(container.getContext()).x;
 
-        LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.fragment_calendar_column,
+        if (numActivities > CalendarPagerAdapter.numRows)
+        {
+            hasMoreActivitiesThanAvailibleRows = true;
+        }
+
+        RelativeLayout rootView = (RelativeLayout) inflater.inflate(
+                R.layout.fragment_calendar_column,
                 container, false);
 
         final Bundle args = getArguments();
@@ -68,74 +82,94 @@ public class CalendarColumnFragment extends Fragment
             }
         });
 
-        addTopRow(rootView);
-        addRows(rootView);
-        addDateRow(rootView, args.getString(CalendarPagerAdapter.DATE_STRING));
+        int rowHeight = getHeightOfOneRow();
+
+        new VerticalLayouter(rootView)
+                .setViewHeight(rowHeight)
+                .addView(getTopRow(rootView))
+                .addViews(getRows(rootView))
+                .setViewHeight(rowHeight/2)
+                .addView(getZeroRow(rootView))
+                .setViewHeight(rowHeight)
+                .addView(getDateRow(rootView, args.getString(CalendarPagerAdapter.DATE_STRING)));
 
         return rootView;
     }
 
-    private void addTopRow(LinearLayout rootView)
+    private View getTopRow(RelativeLayout rootView)
     {
         View topRow = new View(rootView.getContext());
-        topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
 
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                .LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.numRows));
-        rootView.addView(topRow, params);
+        if (pointInTime == DateUtil.CURRENT_WEEK)
+        {
+            topRow.setBackground(getTopRowBackground());
+        }
+        else
+        {
+            topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
+        }
+
+        return topRow;
     }
 
-    private void addRows(LinearLayout rootView)
+    private View[] getRows(RelativeLayout rootView)
     {
-        boolean weekHasMoreActivitiesThanRows = false;
-
-        if (numActivities > CalendarPagerAdapter.numRows)
-        {
-            weekHasMoreActivitiesThanRows = true;
-        }
-
-        // Start at row 'numRows' and add all rows through 0, the zero row is extra and is not part
+        View[] rows = new View[CalendarPagerAdapter.numRows];
+        // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
         // of the number of rows
-        for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > -1; --rowIndex)
+        int i = 0;
+        for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > 0; --rowIndex, ++i)
         {
-            final boolean isZeroRow = (rowIndex == 0);
-
-            CalendarRowView.Builder rowBuilder = new CalendarRowView
-                    .Builder(rootView.getContext(), numActivities);
-            if (shouldDrawCircleOnThisRow(rowIndex))
-            {
-                final int circleType = columnIsForAPastWeek() ?
-                        CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
-
-                rowBuilder.drawCircle(circleType);
-                rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
-                if(shouldDrawLineToNextWeek)
-                {
-                    rowBuilder.drawLineToNextWeek(nextWeeksActivities);
-                }
-            }
-            if (isZeroRow)
-            {
-                rowBuilder.setIsZeroRow();
-            }
-
-            CalendarRowView row = rowBuilder.build();
-
-            row.setText((weekHasMoreActivitiesThanRows ? "+" : "") + String.valueOf(numActivities));
-            row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-
-            final int rowFullHeight = getHeightOfOneRow(CalendarPagerAdapter.numRows);
-            final int rowHeight = isZeroRow ? rowFullHeight / 2 : rowFullHeight;
-
-            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, rowHeight);
-
-            rootView.addView(row, params);
+            rows[i] = getRow(rootView, rowIndex);
         }
+        return rows;
     }
 
-    private void addDateRow(LinearLayout rootView, String date)
+    private View getRow(RelativeLayout rootView,int rowIndex)
+    {
+        CalendarRowView.Builder rowBuilder = startBuildingRow(rootView, rowIndex);
+        CalendarRowView row = rowBuilder.build();
+
+        row.setText(
+                (hasMoreActivitiesThanAvailibleRows ? "+" : "") + String.valueOf(numActivities));
+        row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        row.setBackground(getResources().getDrawable(R.drawable.line));
+
+        return row;
+    }
+
+    private View getZeroRow(ViewGroup rootView)
+    {
+        CalendarRowView.Builder rowBuilder = startBuildingRow(rootView, 0);
+        rowBuilder.setIsZeroRow();
+
+        CalendarRowView row = rowBuilder.build();
+
+        row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+        return row;
+    }
+
+    private CalendarRowView.Builder startBuildingRow(ViewGroup rootView, int rowIndex)
+    {
+        CalendarRowView.Builder rowBuilder = new CalendarRowView
+                .Builder(rootView.getContext(), numActivities);
+        if (shouldDrawCircleOnThisRow(rowIndex))
+        {
+            int circleType = columnIsForAPastWeek() ?
+                    CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
+
+            rowBuilder.drawCircle(circleType);
+            rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
+            if (shouldDrawLineToNextWeek)
+            {
+                rowBuilder.drawLineToNextWeek(nextWeeksActivities);
+            }
+        }
+        return rowBuilder;
+    }
+
+    private View getDateRow(RelativeLayout rootView, String date)
     {
         TextView row = new TextView(rootView.getContext());
         row.setText(date);
@@ -144,16 +178,28 @@ public class CalendarColumnFragment extends Fragment
         row.setPadding(0, 7, 0, 0);
         row.setGravity(Gravity.CENTER | Gravity.TOP);
 
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                .LayoutParams
-                .MATCH_PARENT, getHeightOfOneRow(CalendarPagerAdapter.numRows));
-
-        rootView.addView(row, params);
+        return row;
     }
 
-    private int getHeightOfOneRow(int rows)
+    private LayerDrawable getTopRowBackground()
     {
-        return (int)Math.round(calendarHeight / (rows + 2.5));
+        LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(
+                R.drawable.calendar_marker_layer_list);
+        final int topInset = (int) Math.round(getHeightOfOneRow() / 2.7);
+        final int sideInset = (int) Math.round(getWidth() / 2.6);
+        layerList.setLayerInset(1, sideInset, topInset, sideInset, 0);
+
+        return layerList;
+    }
+
+    private int getHeightOfOneRow()
+    {
+        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.numRows + 2.5));
+    }
+
+    private int getWidth()
+    {
+        return screenWidth / CalendarFragment.NUM_SIMULTANEOUS_PAGES;
     }
 
     private boolean shouldDrawCircleOnThisRow(int rowIndex)

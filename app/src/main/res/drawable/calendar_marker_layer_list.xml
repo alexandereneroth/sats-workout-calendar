@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/calendar_toprow_background" />
+    <item android:drawable="@drawable/now_marker"
+        android:id="@+id/now_marker_drawable_id"
+        android:top="10dp"
+        android:right="25dp"
+        android:left="25dp"/>
+</layer-list>

@@ -57,7 +57,6 @@ public abstract class CalendarRowView extends TextView
         hollowCircle = getResources().getDrawable(R.drawable.calendar_hollow_circle);
     }
 
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
@@ -120,6 +119,7 @@ public abstract class CalendarRowView extends TextView
             if (shouldDrawTextView)
             {
                 super.onDraw(canvas);
+                bringToFront();
             }
         }
     }

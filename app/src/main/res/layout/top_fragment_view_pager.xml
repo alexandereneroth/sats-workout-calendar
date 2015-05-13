@@ -6,7 +6,7 @@
     android:id="@+id/fragment_graph"
     android:background="@color/white">
 
-    <se.greatbrain.sats.tabs.SlidingTabLayout
+    <se.greatbrain.sats.tab.SlidingTabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sliding_tabs"
