@@ -1,6 +1,5 @@
 package se.greatbrain.sats.fragment;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -16,16 +15,15 @@ import android.widget.TextView;
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
+import se.greatbrain.sats.event.CalendarColumnClickedEvent;
+import se.greatbrain.sats.util.DateUtil;
 import se.greatbrain.sats.util.VerticalLayouter;
-import se.greatbrain.sats.event.ScrollEvent;
 import se.greatbrain.sats.util.PixelUtil;
 import se.greatbrain.sats.view.CalendarRowView;
 
 public class CalendarColumnFragment extends Fragment
 {
     public static final int PAST_WEEK = -1;
-    public static final int THIS_WEEK = 0;
-    public static final int UPCOMING_WEEK = 1;
 
     private static final String TAG = "ScreenSlidePageFragment";
 
@@ -48,7 +46,7 @@ public class CalendarColumnFragment extends Fragment
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
         screenWidth = PixelUtil.getScreenDimensions(container.getContext()).x;
 
-        if (numActivities > CalendarPagerAdapter.NUM_ROWS)
+        if (numActivities > CalendarPagerAdapter.numRows)
         {
             hasMoreActivitiesThanAvailibleRows = true;
         }
@@ -77,11 +75,10 @@ public class CalendarColumnFragment extends Fragment
 
         rootView.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
-                EventBus.getDefault().post(new ScrollEvent(indexInAdapter));
+                EventBus.getDefault().post(new CalendarColumnClickedEvent(indexInAdapter));
             }
         });
 
@@ -103,7 +100,7 @@ public class CalendarColumnFragment extends Fragment
     {
         View topRow = new View(rootView.getContext());
 
-        if (pointInTime == THIS_WEEK)
+        if (pointInTime == DateUtil.CURRENT_WEEK)
         {
             topRow.setBackground(getTopRowBackground());
         }
@@ -117,11 +114,11 @@ public class CalendarColumnFragment extends Fragment
 
     private View[] getRows(RelativeLayout rootView)
     {
-        View[] rows = new View[CalendarPagerAdapter.NUM_ROWS];
+        View[] rows = new View[CalendarPagerAdapter.numRows];
         // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
         // of the number of rows
         int i = 0;
-        for (int rowIndex = CalendarPagerAdapter.NUM_ROWS; rowIndex > 0; --rowIndex, ++i)
+        for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > 0; --rowIndex, ++i)
         {
             rows[i] = getRow(rootView, rowIndex);
         }
@@ -197,7 +194,7 @@ public class CalendarColumnFragment extends Fragment
 
     private int getHeightOfOneRow()
     {
-        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.NUM_ROWS + 2.5));
+        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.numRows + 2.5));
     }
 
     private int getWidth()
@@ -208,7 +205,7 @@ public class CalendarColumnFragment extends Fragment
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
     {
         return (rowIndex == numActivities) || (rowIndex < numActivities && rowIndex ==
-                CalendarPagerAdapter.NUM_ROWS);
+                CalendarPagerAdapter.numRows);
     }
 
     private boolean columnIsForAPastWeek()

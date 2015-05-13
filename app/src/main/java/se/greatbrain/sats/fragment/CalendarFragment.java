@@ -1,20 +1,28 @@
 package se.greatbrain.sats.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.Scroller;
+
+import java.lang.reflect.Field;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
-import se.greatbrain.sats.event.RefreshEvent;
+import se.greatbrain.sats.event.CalendarColumnClickedEvent;
+import se.greatbrain.sats.event.MyTrainingRefreshEvent;
+import se.greatbrain.sats.event.WorkoutListScrollEvent;
 
 public class CalendarFragment extends Fragment
 {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
     public ViewPager pager;
@@ -28,16 +36,15 @@ public class CalendarFragment extends Fragment
 
         EventBus.getDefault().register(this);
 
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
-                getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
-
+        pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
-                false);
+        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), false);
+        setCustomScroller();
 
         return view;
     }
@@ -49,12 +56,82 @@ public class CalendarFragment extends Fragment
         super.onDestroy();
     }
 
-    public void onEvent(RefreshEvent event)
+    public void onEvent(CalendarColumnClickedEvent event)
     {
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
-                getActivity());
+        pager.setCurrentItem(event.position - (CalendarFragment.NUM_SIMULTANEOUS_PAGES / 2), true);
+    }
+
+    public void onEvent(MyTrainingRefreshEvent event)
+    {
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getThisWeeksPosition() - NUM_SIMULTANEOUS_PAGES / 2,
-                true);
+        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
+    }
+
+    private void setCustomScroller()
+    {
+        try
+        {
+            Field scrollerInViewPager;
+            scrollerInViewPager = ViewPager.class.getDeclaredField("mScroller");
+            scrollerInViewPager.setAccessible(true);
+            CalendarScroller scroller = new CalendarScroller(pager.getContext(), new DecelerateInterpolator());
+            scrollerInViewPager.set(pager, scroller);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private final class CalendarOnScrollListener extends ViewPager.SimpleOnPageChangeListener
+    {
+        private final CalendarPagerAdapter pagerAdapter;
+
+        public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
+        {
+            this.pagerAdapter = pagerAdapter;
+        }
+
+        @Override
+        public void onPageSelected(int position)
+        {
+            position += NUM_SIMULTANEOUS_PAGES / 2;
+            int weekHash = pagerAdapter.getWeekHashForPosition(position);
+            EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
+        }
+    }
+
+    private final class CalendarScroller extends Scroller
+    {
+        private int scrollDuration = 250;
+
+        public CalendarScroller(Context context)
+        {
+            super(context);
+        }
+
+        public CalendarScroller(Context context, Interpolator interpolator)
+        {
+            super(context, interpolator);
+        }
+
+        public CalendarScroller(Context context, Interpolator interpolator, boolean flywheel)
+        {
+            super(context, interpolator, flywheel);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy)
+        {
+            super.startScroll(startX, startY, dx, dy, scrollDuration);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration)
+        {
+            super.startScroll(startX, startY, dx, dy, scrollDuration);
+        }
     }
 }
