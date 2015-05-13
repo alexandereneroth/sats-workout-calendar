@@ -1,4 +1,4 @@
-package se.greatbrain.sats.tabs;
+package se.greatbrain.sats.tab;
 
 import android.content.Context;
 import android.graphics.Typeface;

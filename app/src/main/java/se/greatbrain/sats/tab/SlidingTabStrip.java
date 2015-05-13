@@ -1,4 +1,4 @@
-package se.greatbrain.sats.tabs;
+package se.greatbrain.sats.tab;
 
 /**
  * Created by svennesson on 2015-05-05.

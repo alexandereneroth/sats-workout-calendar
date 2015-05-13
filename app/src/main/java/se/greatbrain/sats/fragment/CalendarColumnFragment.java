@@ -1,6 +1,8 @@
 package se.greatbrain.sats.fragment;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -12,11 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.greenrobot.event.EventBus;
+import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.CalendarPagerAdapter;
 import se.greatbrain.sats.util.VerticalLayouter;
 import se.greatbrain.sats.event.ScrollEvent;
+import se.greatbrain.sats.util.PixelUtil;
 import se.greatbrain.sats.view.CalendarRowView;
-import se.greatbrain.sats.R;
 
 public class CalendarColumnFragment extends Fragment
 {
@@ -34,6 +37,8 @@ public class CalendarColumnFragment extends Fragment
     private boolean shouldDrawLineToNextWeek;
     private boolean hasMoreActivitiesThanAvailibleRows = false;
 
+    private int screenWidth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
@@ -41,6 +46,7 @@ public class CalendarColumnFragment extends Fragment
         final Resources resources = getResources();
 
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
+        screenWidth = PixelUtil.getScreenDimensions(container.getContext()).x;
 
         if (numActivities > CalendarPagerAdapter.NUM_ROWS)
         {
@@ -79,7 +85,7 @@ public class CalendarColumnFragment extends Fragment
             }
         });
 
-        int rowHeight = getHeightOfOneRow(CalendarPagerAdapter.NUM_ROWS);
+        int rowHeight = getHeightOfOneRow();
 
         new VerticalLayouter(rootView)
                 .setViewHeight(rowHeight)
@@ -96,7 +102,15 @@ public class CalendarColumnFragment extends Fragment
     private View getTopRow(RelativeLayout rootView)
     {
         View topRow = new View(rootView.getContext());
-        topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
+
+        if (pointInTime == THIS_WEEK)
+        {
+            topRow.setBackground(getTopRowBackground());
+        }
+        else
+        {
+            topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
+        }
 
         return topRow;
     }
@@ -170,9 +184,25 @@ public class CalendarColumnFragment extends Fragment
         return row;
     }
 
-    private int getHeightOfOneRow(int rows)
+    private LayerDrawable getTopRowBackground()
     {
-        return (int)Math.round(calendarHeight / (rows + 2.5));
+        LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(
+                R.drawable.calendar_marker_layer_list);
+        final int topInset = (int) Math.round(getHeightOfOneRow() / 2.7);
+        final int sideInset = (int) Math.round(getWidth() / 2.6);
+        layerList.setLayerInset(1, sideInset, topInset, sideInset, 0);
+
+        return layerList;
+    }
+
+    private int getHeightOfOneRow()
+    {
+        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.NUM_ROWS + 2.5));
+    }
+
+    private int getWidth()
+    {
+        return screenWidth / CalendarFragment.NUM_SIMULTANEOUS_PAGES;
     }
 
     private boolean shouldDrawCircleOnThisRow(int rowIndex)
