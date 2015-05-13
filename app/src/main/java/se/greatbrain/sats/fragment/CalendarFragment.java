@@ -26,10 +26,12 @@ public class CalendarFragment extends Fragment
     private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
-    private ImageView left_marker;
-    private ImageView right_marker;
+    private ImageView leftMarker;
+    private ImageView rightMarker;
 
     public ViewPager pager;
+
+    private boolean showMarker = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,19 +40,38 @@ public class CalendarFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
 
-        left_marker = (ImageView) view.findViewById(R.id.back_to_now_left);
-        right_marker = (ImageView) view.findViewById(R.id.back_to_now_right);
+        leftMarker = (ImageView) view.findViewById(R.id.back_to_now_left);
+        rightMarker = (ImageView) view.findViewById(R.id.back_to_now_right);
 
         EventBus.getDefault().register(this);
 
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        final CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
+                getActivity());
+
+        leftMarker.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
+            }
+        });
+
+        rightMarker.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
+            }
+        });
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
         pager.setOffscreenPageLimit(NUM_SIMULTANEOUS_PAGES * 2);
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), false);
+        pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
         setCustomScroller();
 
         return view;
@@ -70,7 +91,8 @@ public class CalendarFragment extends Fragment
 
     public void onEvent(MyTrainingRefreshEvent event)
     {
-        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(), getActivity());
+        CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
+                getActivity());
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
@@ -83,7 +105,8 @@ public class CalendarFragment extends Fragment
             Field scrollerInViewPager;
             scrollerInViewPager = ViewPager.class.getDeclaredField("mScroller");
             scrollerInViewPager.setAccessible(true);
-            CalendarScroller scroller = new CalendarScroller(pager.getContext(), new DecelerateInterpolator());
+            CalendarScroller scroller = new CalendarScroller(pager.getContext(),
+                    new DecelerateInterpolator());
             scrollerInViewPager.set(pager, scroller);
         }
         catch (Exception e)
@@ -104,7 +127,7 @@ public class CalendarFragment extends Fragment
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
-            setMarkerVisibility(position, pagerAdapter);
+            setMarkerVisibility(position, positionOffset, pagerAdapter);
         }
 
         @Override
@@ -116,24 +139,36 @@ public class CalendarFragment extends Fragment
         }
     }
 
-    private void setMarkerVisibility(int position, CalendarPagerAdapter pagerAdapter)
+    private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
+            pagerAdapter)
     {
-        if (position > pagerAdapter.getPositionOfCurrentWeek_inCalendar() + 1)
+        final int topPadding = (int) Math.round(CalendarColumnFragment.getHeightOfOneRow() / 2.7);
+        boolean rightMarkerShouldBeVisible = position > pagerAdapter
+                .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
+                0.5 || showMarker);
+        boolean leftMarkerShouldBeVisible = position < pagerAdapter
+                .getPositionOfCurrentWeek_inCalendar() - 2 &&
+                (positionOffset < 0.5 || showMarker);
+
+        if (rightMarkerShouldBeVisible)
         {
-            right_marker.setVisibility(View.INVISIBLE);
-            left_marker.setVisibility(View.VISIBLE);
-            left_marker.setPaddingRelative(0, 25, 0, 0);
+            rightMarker.setVisibility(View.INVISIBLE);
+            leftMarker.setVisibility(View.VISIBLE);
+            leftMarker.setPaddingRelative(0, topPadding, 0, 0);
+            showMarker = true;
         }
-        else if (position < pagerAdapter.getPositionOfCurrentWeek_inCalendar() -2)
+        else if (leftMarkerShouldBeVisible)
         {
-            right_marker.setVisibility(View.VISIBLE);
-            left_marker.setVisibility(View.INVISIBLE);
-            right_marker.setPaddingRelative(0, 25, 0, 0);
+            rightMarker.setVisibility(View.VISIBLE);
+            leftMarker.setVisibility(View.INVISIBLE);
+            rightMarker.setPaddingRelative(0, topPadding, 0, 0);
+            showMarker = true;
         }
         else
         {
-            right_marker.setVisibility(View.INVISIBLE);
-            left_marker.setVisibility(View.INVISIBLE);
+            rightMarker.setVisibility(View.INVISIBLE);
+            leftMarker.setVisibility(View.INVISIBLE);
+            showMarker = false;
         }
     }
 

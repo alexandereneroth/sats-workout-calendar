@@ -27,7 +27,7 @@ public class CalendarColumnFragment extends Fragment
 
     private static final String TAG = "ScreenSlidePageFragment";
 
-    private float calendarHeight;
+    private static float calendarHeight;
     private int numActivities;
     private int pointInTime;
     private int previousWeeksActivities;
@@ -192,7 +192,7 @@ public class CalendarColumnFragment extends Fragment
         return layerList;
     }
 
-    private int getHeightOfOneRow()
+    public static int getHeightOfOneRow()
     {
         return (int) Math.round(calendarHeight / (CalendarPagerAdapter.numRows + 2.5));
     }
