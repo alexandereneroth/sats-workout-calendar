@@ -39,9 +39,6 @@ public abstract class CalendarRowView extends TextView
     protected int centerX;
     protected int centerY;
 
-    protected int lineThicknessToNextWeek;
-    protected int lineThicknessToPreviousWeek;
-
     protected CalendarRowView(Context context, int numActivities, boolean shouldDrawCircle,
             boolean isPastActivity, boolean drawLineToPreviousWeek,
             int numPreviousWeekActivities, boolean drawLineToNextWeek, int numNextWeekActivities)
@@ -60,7 +57,6 @@ public abstract class CalendarRowView extends TextView
         hollowCircle = getResources().getDrawable(R.drawable.calendar_hollow_circle);
     }
 
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
@@ -70,8 +66,6 @@ public abstract class CalendarRowView extends TextView
         drawBoundsHeight = convertToDrawBoundsHeight(getHeight());
         centerX = drawBoundsWidth / 2;
         centerY = drawBoundsHeight / 2;
-        lineThicknessToPreviousWeek = getLineThicknessToPreviousWeek();
-        lineThicknessToNextWeek = getLineThicknessToNextWeek();
 
         horizontalLine.setBounds(0, 0, drawBoundsWidth, drawBoundsHeight);
 
@@ -99,6 +93,7 @@ public abstract class CalendarRowView extends TextView
         if (shouldDrawCircle)
         {
             canvas.save();
+
             //draw outside bounds
             Rect clipBounds = canvas.getClipBounds();
             clipBounds.inset(-200, -200);
@@ -111,28 +106,38 @@ public abstract class CalendarRowView extends TextView
                 drawOrangeLine(TO_PREVIOUS_WEEK, canvas);
                 if (shouldDrawLineToNextWeek)
                 {
-                    drawOrangeLineToNextWeek(canvas);
+                    drawOrangeLine(TO_NEXT_WEEK, canvas);
                 }
             }
-            else
+            else //future activity
             {
                 hollowCircle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.black));
             }
             canvas.restore();
 
-            if(shouldDrawTextView)
+            if (shouldDrawTextView)
             {
                 super.onDraw(canvas);
+                bringToFront();
             }
         }
+    }
+
+    protected int getLineThickness(int direction)
+    {
+        if (direction != TO_PREVIOUS_WEEK && direction != TO_NEXT_WEEK)
+        {
+            throw new IllegalArgumentException("Invalid direction");
+        }
+
+        return (direction == TO_PREVIOUS_WEEK)
+                ? getLineThicknessToPreviousWeek() : getLineThicknessToNextWeek();
     }
 
     protected abstract int convertToDrawBoundsHeight(int height);
 
     protected abstract void drawOrangeLine(int direction, Canvas canvas);
-
-    protected abstract void drawOrangeLineToNextWeek(Canvas canvas);
 
     protected abstract int getLineThicknessToPreviousWeek();
 

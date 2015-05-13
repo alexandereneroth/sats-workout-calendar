@@ -14,8 +14,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.adapter.WorkoutListAdapter;
-import se.greatbrain.sats.event.RefreshEvent;
-import se.greatbrain.sats.event.ScrollEvent;
+import se.greatbrain.sats.event.MyTrainingRefreshEvent;
+import se.greatbrain.sats.event.WorkoutListScrollEvent;
 import se.greatbrain.sats.realm.RealmClient;
 
 public class WorkoutListFragment extends Fragment
@@ -36,8 +36,7 @@ public class WorkoutListFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
-        listView = (StickyListHeadersListView) view.findViewById(
-                R.id.expandable_list_view);
+        listView = (StickyListHeadersListView) view.findViewById(R.id.expandable_list_view);
         EventBus.getDefault().register(this);
 
         refreshList();
@@ -64,8 +63,7 @@ public class WorkoutListFragment extends Fragment
             public void onStickyHeaderChanged(StickyListHeadersListView stickyListHeadersListView,
                     View view, int itemPosition, long headerId)
             {
-                TextView trainingHeader = (TextView) getActivity().findViewById(R.id
-                        .training_list_headline);
+                TextView trainingHeader = (TextView) getActivity().findViewById(R.id.training_list_headline);
 
                 if (adapter.positionOfTodaysFirstItem() <= itemPosition)
                 {
@@ -82,13 +80,14 @@ public class WorkoutListFragment extends Fragment
         listView.setSelectionFromTop(adapter.positionOfTodaysFirstItem(), 0);
     }
 
-    public void onEvent(RefreshEvent event)
+    public void onEvent(MyTrainingRefreshEvent event)
     {
         refreshList();
     }
 
-    public void onEvent(ScrollEvent event)
+    public void onEvent(WorkoutListScrollEvent event)
     {
-        listView.setSelectionFromTop(0, 0);
+        int position = adapter.getPositionFromWeekHash(event.weekHash);
+        listView.setSelectionFromTop(position, 0);
     }
 }

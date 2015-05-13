@@ -15,6 +15,10 @@ import se.greatbrain.sats.model.TimeOfDay;
 
 public final class DateUtil
 {
+    public static final int PAST_WEEK = -1;
+    public static final int CURRENT_WEEK = 0;
+    public static final int FUTURE_WEEK = 1;
+
     private static final String TAG = "DateUtil";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yy-MM-dd HH:mm:ss",
             Locale.getDefault());
@@ -146,7 +150,7 @@ public final class DateUtil
         return todaysCalendar.after(activityCalendar);
     }
 
-    public static int getWeekPointOfTime(CalendarDate date)
+    public static int getWeekPointInTime(CalendarDate date)
     {
         Calendar todaysCalendar = Calendar.getInstance();
         nullifyTimeAndDayInCalendar(todaysCalendar);
