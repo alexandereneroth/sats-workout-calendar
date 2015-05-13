@@ -11,15 +11,9 @@ import se.greatbrain.sats.util.PixelUtil;
 
 public class CalendarFullRowView extends CalendarRowView
 {
-    public CalendarFullRowView(Context context, int numActivities,
-            boolean shouldDrawCircle, boolean isPastActivity,
-            boolean drawLineToPreviousWeek, int numPreviousWeekActivities,
-            boolean drawLineToNextWeek,
-            int numNextWeekActivities)
+    public CalendarFullRowView(Context context, int numActivities)
     {
-        super(context, numActivities, shouldDrawCircle, isPastActivity,
-                drawLineToPreviousWeek, numPreviousWeekActivities, drawLineToNextWeek,
-                numNextWeekActivities);
+        super(context, numActivities);
     }
 
     @Override
