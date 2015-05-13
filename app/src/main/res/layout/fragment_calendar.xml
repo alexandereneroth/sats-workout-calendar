@@ -12,11 +12,12 @@
 
     <View
         android:layout_alignParentTop="true"
-        android:layout_width="83dp"
-        android:layout_height="126dp"
+        android:layout_width="82dp"
+        android:layout_height="127dp"
         android:layout_marginTop="13dp"
         android:background="@drawable/shadow"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <ImageView
         android:id="@+id/back_to_now_left"
