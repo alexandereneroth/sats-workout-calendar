@@ -17,4 +17,22 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/shadow"
         android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/back_to_now_left"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/back_to_now_left"
+        android:contentDescription="@string/rosa_plupp"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/back_to_now_right"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/back_to_now_right"
+        android:contentDescription="@string/rosa_plupp"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible"/>
 </RelativeLayout>
