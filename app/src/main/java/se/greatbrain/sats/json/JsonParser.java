@@ -14,6 +14,12 @@ public final class JsonParser
         for (JsonElement element : instructorsArray)
         {
             JsonElement instructorId = element.getAsJsonObject().get("id");
+            
+            if(instructorId == null)
+            {
+                continue;
+            }
+
             JsonObject instructor = new JsonObject();
             instructor.add("id", instructorId);
             refactoredInstructors.add(instructor);

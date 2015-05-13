@@ -48,10 +48,12 @@ public class RealmClient
 
         if (type == ClassType.class)
         {
-            realm.beginTransaction();
-            realm.clear(Profile.class);
-            realm.clear(ClassCategoryIds.class);
-            realm.commitTransaction();
+            Realm realm1 = Realm.getInstance(context);
+            realm1.beginTransaction();
+            realm1.clear(Profile.class);
+            realm1.clear(ClassCategoryIds.class);
+            realm1.commitTransaction();
+            realm1.close();
         }
 
         realm.executeTransaction(new Realm.Transaction()
