@@ -12,7 +12,7 @@
 
     <View
         android:layout_alignParentTop="true"
-        android:layout_width="82dp"
+        android:layout_width="100dp"
         android:layout_height="127dp"
         android:layout_marginTop="13dp"
         android:background="@drawable/shadow"
