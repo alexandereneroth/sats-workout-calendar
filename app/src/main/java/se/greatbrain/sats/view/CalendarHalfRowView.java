@@ -61,7 +61,7 @@ public class CalendarHalfRowView extends CalendarRowView
     {
         int lineThickness = getLineThickness(direction);
 
-        Paint linePaint = new Paint();
+        Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
         linePaint.setStrokeWidth(lineThickness);
 
