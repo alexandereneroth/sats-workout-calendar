@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/back_to_now_left"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/back_to_now_left"
         android:contentDescription="Pink plupp"
         android:layout_alignParentStart="true"
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/back_to_now_right"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/back_to_now_right"
         android:contentDescription="Pink plupp"
         android:layout_alignParentEnd="true"

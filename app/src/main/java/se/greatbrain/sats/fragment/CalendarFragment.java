@@ -104,21 +104,7 @@ public class CalendarFragment extends Fragment
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
-            if (position > pagerAdapter.getPositionOfCurrentWeek_inCalendar() + 1)
-            {
-                right_marker.setVisibility(View.INVISIBLE);
-                left_marker.setVisibility(View.VISIBLE);
-            }
-            else if (position < pagerAdapter.getPositionOfCurrentWeek_inCalendar() -2)
-            {
-                right_marker.setVisibility(View.VISIBLE);
-                left_marker.setVisibility(View.INVISIBLE);
-            }
-            else
-            {
-                right_marker.setVisibility(View.INVISIBLE);
-                left_marker.setVisibility(View.INVISIBLE);
-            }
+            setMarkerVisibility(position, pagerAdapter);
         }
 
         @Override
@@ -127,6 +113,27 @@ public class CalendarFragment extends Fragment
             position += NUM_SIMULTANEOUS_PAGES / 2;
             int weekHash = pagerAdapter.getWeekHashForPosition(position);
             EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
+        }
+    }
+
+    private void setMarkerVisibility(int position, CalendarPagerAdapter pagerAdapter)
+    {
+        if (position > pagerAdapter.getPositionOfCurrentWeek_inCalendar() + 1)
+        {
+            right_marker.setVisibility(View.INVISIBLE);
+            left_marker.setVisibility(View.VISIBLE);
+            left_marker.setPaddingRelative(0, 25, 0, 0);
+        }
+        else if (position < pagerAdapter.getPositionOfCurrentWeek_inCalendar() -2)
+        {
+            right_marker.setVisibility(View.VISIBLE);
+            left_marker.setVisibility(View.INVISIBLE);
+            right_marker.setPaddingRelative(0, 25, 0, 0);
+        }
+        else
+        {
+            right_marker.setVisibility(View.INVISIBLE);
+            left_marker.setVisibility(View.INVISIBLE);
         }
     }
 
