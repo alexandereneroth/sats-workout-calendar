@@ -88,6 +88,6 @@ public class WorkoutListFragment extends Fragment
     public void onEvent(WorkoutListScrollEvent event)
     {
         int position = adapter.getPositionFromWeekHash(event.weekHash);
-        listView.setSelectionFromTop(position, 0);
+        listView.smoothScrollToPositionFromTop(position, 0, 300);
     }
 }
