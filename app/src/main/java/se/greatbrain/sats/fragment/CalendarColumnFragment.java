@@ -87,8 +87,8 @@ public class CalendarColumnFragment extends Fragment
         new VerticalLayouter(rootView)
                 .setViewHeight(rowHeight)
                 .addView(getTopRow(rootView))
-                .addViews(getRows(rootView))
-                .setViewHeight(rowHeight/2)
+                .addViews(getNormalRows(rootView))
+                .setViewHeight(rowHeight / 2)
                 .addView(getZeroRow(rootView))
                 .setViewHeight(rowHeight)
                 .addView(getDateRow(rootView, args.getString(CalendarPagerAdapter.DATE_STRING)));
@@ -108,11 +108,10 @@ public class CalendarColumnFragment extends Fragment
         {
             topRow.setBackground(getResources().getDrawable(R.drawable.calendar_toprow_background));
         }
-
         return topRow;
     }
 
-    private View[] getRows(RelativeLayout rootView)
+    private View[] getNormalRows(RelativeLayout rootView)
     {
         View[] rows = new View[CalendarPagerAdapter.numRows];
         // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
@@ -120,53 +119,47 @@ public class CalendarColumnFragment extends Fragment
         int i = 0;
         for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > 0; --rowIndex, ++i)
         {
-            rows[i] = getRow(rootView, rowIndex);
+            rows[i] = getNormalRow(rootView, rowIndex);
         }
         return rows;
     }
 
-    private View getRow(RelativeLayout rootView,int rowIndex)
+    private View getNormalRow(RelativeLayout rootView, int rowIndex)
     {
-        CalendarRowView.Builder rowBuilder = startBuildingRow(rootView, rowIndex);
-        CalendarRowView row = rowBuilder.build();
+        CalendarRowView row = CalendarRowView.newNormalRowInstance(rootView.getContext(), rowIndex);
+        row = setUpRowBase(row, rowIndex);
 
         row.setText(
                 (hasMoreActivitiesThanAvailibleRows ? "+" : "") + String.valueOf(numActivities));
-        row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
         row.setBackground(getResources().getDrawable(R.drawable.line));
-
         return row;
     }
 
     private View getZeroRow(ViewGroup rootView)
     {
-        CalendarRowView.Builder rowBuilder = startBuildingRow(rootView, 0);
-        rowBuilder.setIsZeroRow();
-
-        CalendarRowView row = rowBuilder.build();
-
-        row.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        CalendarRowView row = CalendarRowView.newZeroRowInstance(rootView.getContext());
+        row = setUpRowBase(row, 0);
 
         return row;
     }
 
-    private CalendarRowView.Builder startBuildingRow(ViewGroup rootView, int rowIndex)
+    private CalendarRowView setUpRowBase(CalendarRowView rowView, int rowIndex)
     {
-        CalendarRowView.Builder rowBuilder = new CalendarRowView
-                .Builder(rootView.getContext(), numActivities);
         if (shouldDrawCircleOnThisRow(rowIndex))
         {
-            int circleType = columnIsForAPastWeek() ?
+            final int circleType = columnIsForAPastWeek() ?
                     CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
-            rowBuilder.drawCircle(circleType);
-            rowBuilder.drawLineToPreviousWeek(previousWeeksActivities);
+            rowView.setCircle(circleType);
+            rowView.setDrawLineToPreviousWeek(previousWeeksActivities);
+            rowView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
             if (shouldDrawLineToNextWeek)
             {
-                rowBuilder.drawLineToNextWeek(nextWeeksActivities);
+                rowView.setDrawLineToNextWeek(nextWeeksActivities);
             }
         }
-        return rowBuilder;
+        return rowView;
     }
 
     private View getDateRow(RelativeLayout rootView, String date)

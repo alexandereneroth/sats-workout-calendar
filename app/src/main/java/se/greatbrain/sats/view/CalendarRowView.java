@@ -8,11 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import se.greatbrain.sats.R;
 
 public abstract class CalendarRowView extends TextView
 {
-
     private static final String TAG = "CalendarRowView";
 
     public static final int PAST_ACTIVITY = 1;
@@ -21,36 +22,38 @@ public abstract class CalendarRowView extends TextView
     protected static final int TO_NEXT_WEEK = 1;
     protected static final int TO_PREVIOUS_WEEK = -1;
 
-    protected final int numActivities;
-    protected final boolean shouldDrawCircle;
-    protected final boolean isPastActivity;
-    protected final int numPreviousWeekActivities;
-    protected final int numNextWeekActivities;
-    private final boolean shouldDrawLineToPreviousWeek;
-    protected final boolean shouldDrawLineToNextWeek;
+    protected int numActivities;
+    protected boolean shouldDrawCircle;
+    protected boolean isPastActivity;
+    protected int numPreviousWeekActivities;
+    protected int numNextWeekActivities;
+    protected boolean shouldDrawLineToPreviousWeek;
+    protected boolean shouldDrawLineToNextWeek;
+    protected boolean shouldDrawTextView = true;
+
     protected final Drawable horizontalLine;
     protected final Drawable circle;
     protected final Drawable hollowCircle;
-
-    protected boolean shouldDrawTextView = true;
 
     protected int drawBoundsWidth;
     protected int drawBoundsHeight;
     protected int centerX;
     protected int centerY;
 
-    protected CalendarRowView(Context context, int numActivities, boolean shouldDrawCircle,
-            boolean isPastActivity, boolean drawLineToPreviousWeek,
-            int numPreviousWeekActivities, boolean drawLineToNextWeek, int numNextWeekActivities)
+    public static CalendarRowView newZeroRowInstance(Context context)
+    {
+        return new CalendarHalfRowView(context, 0);
+    }
+
+    public static CalendarRowView newNormalRowInstance(Context context, int numActivities)
+    {
+        return new CalendarFullRowView(context, numActivities);
+    }
+
+    protected CalendarRowView(Context context, int numActivities)
     {
         super(context);
         this.numActivities = numActivities;
-        this.shouldDrawCircle = shouldDrawCircle;
-        this.isPastActivity = isPastActivity;
-        this.shouldDrawLineToPreviousWeek = drawLineToPreviousWeek;
-        this.shouldDrawLineToNextWeek = drawLineToNextWeek;
-        this.numPreviousWeekActivities = numPreviousWeekActivities;
-        this.numNextWeekActivities = numNextWeekActivities;
 
         horizontalLine = getResources().getDrawable(R.drawable.line);
         circle = getResources().getDrawable(R.drawable.calendar_circle);
@@ -109,7 +112,7 @@ public abstract class CalendarRowView extends TextView
                     drawOrangeLine(TO_NEXT_WEEK, canvas);
                 }
             }
-            else //future activity
+            else //future or this weeks activity
             {
                 hollowCircle.draw(canvas);
                 setTextColor(getResources().getColor(R.color.black));
@@ -123,6 +126,42 @@ public abstract class CalendarRowView extends TextView
             }
         }
     }
+
+    /* Setters */
+
+    public CalendarRowView setCircle(final int activityType)
+    {
+        if (activityType == PAST_ACTIVITY)
+        {
+            this.isPastActivity = true;
+        }
+        else if (activityType == FUTURE_OR_CURRENT_ACTIVITY)
+        {
+            this.isPastActivity = false;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid activity type");
+        }
+        shouldDrawCircle = true;
+        return this;
+    }
+
+    public CalendarRowView setDrawLineToPreviousWeek(int numPreviousWeekActivities)
+    {
+        shouldDrawLineToPreviousWeek = true;
+        this.numPreviousWeekActivities = numPreviousWeekActivities;
+        return this;
+    }
+
+    public CalendarRowView setDrawLineToNextWeek(int numNextWeekActivities)
+    {
+        shouldDrawLineToNextWeek = true;
+        this.numNextWeekActivities = numNextWeekActivities;
+        return this;
+    }
+
+    /* Class helper methods */
 
     protected int getLineThickness(int direction)
     {
@@ -142,78 +181,4 @@ public abstract class CalendarRowView extends TextView
     protected abstract int getLineThicknessToPreviousWeek();
 
     protected abstract int getLineThicknessToNextWeek();
-
-    public static class Builder
-    {
-        private Context context;
-        private int numActivities = 0;
-        private boolean drawCircle = false;
-        private boolean isPastActivity;
-        private boolean drawLineToPreviousWeek = false;
-        private boolean drawLineToNextWeek = false;
-        private boolean isZeroRow = false;
-        private int numNextWeekActivities;
-        private int numPreviousWeekActivities;
-
-        private Builder() {}
-
-        public Builder(Context context, int numActivities)
-        {
-            this.context = context;
-            this.numActivities = numActivities;
-        }
-
-        public Builder drawCircle(int activityType)
-        {
-            if (activityType == PAST_ACTIVITY)
-            {
-                this.isPastActivity = true;
-            }
-            else if (activityType == FUTURE_OR_CURRENT_ACTIVITY)
-            {
-                this.isPastActivity = false;
-            }
-            else
-            {
-                throw new IllegalArgumentException("Invalid activity type");
-            }
-            this.drawCircle = true;
-            return this;
-        }
-
-        public Builder setIsZeroRow()
-        {
-            isZeroRow = true;
-            return this;
-        }
-
-        public Builder drawLineToPreviousWeek(int numPreviousWeekActivities)
-        {
-            this.drawLineToPreviousWeek = true;
-            this.numPreviousWeekActivities = numPreviousWeekActivities;
-            return this;
-        }
-
-        public Builder drawLineToNextWeek(int numNextWeekActivities)
-        {
-            this.drawLineToNextWeek = true;
-            this.numNextWeekActivities = numNextWeekActivities;
-            return this;
-        }
-
-
-        public CalendarRowView build()
-        {
-            if (isZeroRow)
-            {
-                return new CalendarHalfRowView(context, numActivities, drawCircle, isPastActivity,
-                        drawLineToPreviousWeek, numPreviousWeekActivities,
-                        drawLineToNextWeek, numNextWeekActivities);
-            }
-            return new CalendarFullRowView(context, numActivities, drawCircle, isPastActivity,
-                    drawLineToPreviousWeek, numPreviousWeekActivities,
-                    drawLineToNextWeek, numNextWeekActivities);
-        }
-
-    }
 }

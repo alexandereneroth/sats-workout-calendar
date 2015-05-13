@@ -10,15 +10,9 @@ import se.greatbrain.sats.util.PixelUtil;
 
 public class CalendarHalfRowView extends CalendarRowView
 {
-    protected CalendarHalfRowView(Context context, int numActivities,
-            boolean shouldDrawCircle, boolean isPastActivity,
-            boolean drawLineToPreviousWeek, int numPreviousWeekActivities,
-            boolean drawLineToNextWeek,
-            int numNextWeekActivities)
+    protected CalendarHalfRowView(Context context, int numActivities)
     {
-        super(context, numActivities, shouldDrawCircle, isPastActivity,
-                drawLineToPreviousWeek, numPreviousWeekActivities, drawLineToNextWeek,
-                numNextWeekActivities);
+        super(context, numActivities);
     }
 
     @Override
@@ -86,7 +80,7 @@ public class CalendarHalfRowView extends CalendarRowView
         // Move the line up, so it doesn't overlap with the date row
         if (numDestinationWeekActivities == 0)
         {
-            final int offsetY = (int) (lineThickness / 2);
+            final int offsetY = lineThickness / 2;
             originY -= offsetY;
             destinationY -= offsetY;
         }
