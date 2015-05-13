@@ -101,7 +101,9 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
                 return i;
             }
         }
-        throw new IllegalStateException("Current week is not in dates");
+        //throw new IllegalStateException("Current week is not in dates");
+
+        return 0;
     }
 
     public int getWeekHashForPosition(int position)
