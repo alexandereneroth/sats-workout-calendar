@@ -15,7 +15,7 @@ public final class JsonParser
         {
             JsonElement instructorId = element.getAsJsonObject().get("id");
             
-            if(instructorId == null)
+            if(instructorId.isJsonNull())
             {
                 continue;
             }
