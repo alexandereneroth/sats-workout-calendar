@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
@@ -25,6 +26,9 @@ public class CalendarFragment extends Fragment
     private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
+    private ImageView left_marker;
+    private ImageView right_marker;
+
     public ViewPager pager;
 
     @Override
@@ -33,6 +37,9 @@ public class CalendarFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
+
+        left_marker = (ImageView) view.findViewById(R.id.back_to_now_left);
+        right_marker = (ImageView) view.findViewById(R.id.back_to_now_right);
 
         EventBus.getDefault().register(this);
 
@@ -92,6 +99,26 @@ public class CalendarFragment extends Fragment
         public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
         {
             this.pagerAdapter = pagerAdapter;
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            if (position > pagerAdapter.getPositionOfCurrentWeek_inCalendar() + 1)
+            {
+                right_marker.setVisibility(View.INVISIBLE);
+                left_marker.setVisibility(View.VISIBLE);
+            }
+            else if (position < pagerAdapter.getPositionOfCurrentWeek_inCalendar() -2)
+            {
+                right_marker.setVisibility(View.VISIBLE);
+                left_marker.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                right_marker.setVisibility(View.INVISIBLE);
+                left_marker.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
