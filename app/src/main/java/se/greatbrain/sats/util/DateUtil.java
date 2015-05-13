@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import se.greatbrain.sats.model.CalendarDate;
+import se.greatbrain.sats.model.CalendarWeek;
 import se.greatbrain.sats.model.TimeOfDay;
 
 public final class DateUtil
@@ -150,7 +150,7 @@ public final class DateUtil
         return todaysCalendar.after(activityCalendar);
     }
 
-    public static int getWeekPointInTime(CalendarDate date)
+    public static int getWeekPointInTime(CalendarWeek date)
     {
         Calendar todaysCalendar = Calendar.getInstance();
         nullifyTimeAndDayInCalendar(todaysCalendar);
@@ -176,11 +176,14 @@ public final class DateUtil
         return new TimeOfDay(hourOfDay, minuteOfHour);
     }
 
-    public static List<CalendarDate> getDatesInWeekFrom(String fromDate)
+    public static List<CalendarWeek> getWeeksInRangeFromToday(int range)
     {
-        int fromYear = getYearFromDate(parseString(fromDate));
-        int toYear = getYearFromDate(new Date());
-        List<CalendarDate> dates = new ArrayList<>();
+        Date date = new Date();
+        int yearToday = getYearFromDate(date);
+        int fromYear = yearToday - range;
+        int toYear = yearToday + range;
+
+        List<CalendarWeek> dates = new ArrayList<>();
         for(int i = fromYear; i <= toYear; i++)
         {
             getWeeksWithDatesForYear(i, dates);
@@ -189,7 +192,7 @@ public final class DateUtil
         return dates;
     }
 
-    private static void getWeeksWithDatesForYear(int year, List<CalendarDate> dates)
+    private static void getWeeksWithDatesForYear(int year, List<CalendarWeek> dates)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
@@ -211,13 +214,13 @@ public final class DateUtil
             if(startMonth == endMonth)
             {
                 String date = monday + "-" + sunday + "/" + startMonth;
-                dates.add(new CalendarDate(date, week, year));
+                dates.add(new CalendarWeek(date, week, year));
             }
             else
             {
                 String date = monday + "/" + startMonth + "-" + sunday + "/" +
                         endMonth;
-                dates.add(new CalendarDate(date, week, year));
+                dates.add(new CalendarWeek(date, week, year));
             }
         }
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 import se.greatbrain.sats.ActivityWrapper;
 import se.greatbrain.sats.fragment.CalendarColumnFragment;
 import se.greatbrain.sats.fragment.CalendarFragment;
-import se.greatbrain.sats.model.CalendarDate;
+import se.greatbrain.sats.model.CalendarWeek;
 import se.greatbrain.sats.realm.RealmClient;
 import se.greatbrain.sats.util.DateUtil;
 
@@ -32,8 +32,10 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     public static int numRows;
     public static int positionOfCurrentWeekInDates;
 
+    private static final int MAX_ROWS = 7;
+    private static final int MIN_ROWS = 4;
     private List<ActivityWrapper> activities;
-    private List<CalendarDate> dates = new ArrayList<>();
+    private List<CalendarWeek> weeks = new ArrayList<>();
     private Map<Integer, Integer> numberOfActivitiesInWeek = new HashMap<>();
 
     public CalendarPagerAdapter(FragmentManager fm, Context context)
@@ -41,13 +43,9 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
         super(fm);
         activities = RealmClient.getInstance(context).getAllActivitiesWithWeek();
 
-        if(activities.size() > 0)
-        {
-            String fromDate = activities.get(0).trainingActivity.getDate();
-            dates = DateUtil.getDatesInWeekFrom(fromDate);
-        }
+        weeks = DateUtil.getWeeksInRangeFromToday(10);
 
-        numPages = dates.size();
+        numPages = weeks.size();
         mapPositionToNumberOfActivities();
         positionOfCurrentWeekInDates = getPositionOfCurrentWeek_inDates();
         numRows = getHighestActivityCount();
@@ -62,9 +60,9 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
         bundle.putBoolean(HAS_NEXT_WEEK_PASSED, hasNextWeekPassed(position));
         bundle.putInt(NUMBER_OF_ACTIVITIES, getNumberOfActivities(position));
-        bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointInTime(dates.get(position)));
+        bundle.putInt(POINT_IN_TIME, DateUtil.getWeekPointInTime(weeks.get(position)));
         bundle.putInt(ADAPTER_POSITION, position);
-        bundle.putString(DATE_STRING, dates.get(position).mDate);
+        bundle.putString(DATE_STRING, weeks.get(position).mDate);
         bundle.putInt(NEXT_NUMBER_OF_ACTIVITIES, getNextWeeksActivityCount(position));
         bundle.putInt(PREVIOUS_NUMBER_OF_ACTIVITIES, getPreviousWeeksActivityCount(position));
 
@@ -94,9 +92,9 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
     private int getPositionOfCurrentWeek_inDates()
     {
-        for (int i = 0; i < dates.size(); i++)
+        for (int i = 0; i < weeks.size(); i++)
         {
-            if (DateUtil.getWeekPointInTime(dates.get(i)) == DateUtil.CURRENT_WEEK)
+            if (DateUtil.getWeekPointInTime(weeks.get(i)) == DateUtil.CURRENT_WEEK)
             {
                 return i;
             }
@@ -107,7 +105,7 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
 
     public int getWeekHashForPosition(int position)
     {
-        CalendarDate date = dates.get(position);
+        CalendarWeek date = weeks.get(position);
         return (date.mYear * 100) + date.mWeek;
     }
 
@@ -157,16 +155,16 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
             {
                 highestCount = count;
 
-                if (highestCount >= 7)
+                if (highestCount >= MAX_ROWS)
                 {
-                    return 7;
+                    return MAX_ROWS;
                 }
             }
         }
 
-        if(highestCount < 4)
+        if(highestCount < MIN_ROWS)
         {
-            return 4;
+            return MIN_ROWS;
         }
 
         return highestCount;
@@ -176,11 +174,11 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
     {
         for (int i = 0; i < activities.size(); i++)
         {
-            for (int j = 0; j < dates.size(); j++)
+            for (int j = 0; j < weeks.size(); j++)
             {
-                if (activities.get(i).year == dates.get(j).mYear)
+                if (activities.get(i).year == weeks.get(j).mYear)
                 {
-                    if (activities.get(i).week == dates.get(j).mWeek)
+                    if (activities.get(i).week == weeks.get(j).mWeek)
                     {
                         if (numberOfActivitiesInWeek.get(j) != null)
                         {
