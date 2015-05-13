@@ -74,11 +74,11 @@ public class CalendarFragment extends Fragment
     {
         try
         {
-            Field mScroller;
-            mScroller = ViewPager.class.getDeclaredField("mScroller");
-            mScroller.setAccessible(true);
+            Field scrollerInViewPager;
+            scrollerInViewPager = ViewPager.class.getDeclaredField("mScroller");
+            scrollerInViewPager.setAccessible(true);
             CalendarScroller scroller = new CalendarScroller(pager.getContext(), new DecelerateInterpolator());
-            mScroller.set(pager, scroller);
+            scrollerInViewPager.set(pager, scroller);
         }
         catch (Exception e)
         {
@@ -107,7 +107,7 @@ public class CalendarFragment extends Fragment
 
     private final class CalendarScroller extends Scroller
     {
-        private int mDuration = 250;
+        private int scrollDuration = 250;
 
         public CalendarScroller(Context context)
         {
@@ -127,13 +127,13 @@ public class CalendarFragment extends Fragment
         @Override
         public void startScroll(int startX, int startY, int dx, int dy)
         {
-            super.startScroll(startX, startY, dx, dy, mDuration);
+            super.startScroll(startX, startY, dx, dy, scrollDuration);
         }
 
         @Override
         public void startScroll(int startX, int startY, int dx, int dy, int duration)
         {
-            super.startScroll(startX, startY, dx, dy, mDuration);
+            super.startScroll(startX, startY, dx, dy, scrollDuration);
         }
     }
 }
