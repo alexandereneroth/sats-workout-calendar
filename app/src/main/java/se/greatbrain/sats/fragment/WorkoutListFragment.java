@@ -90,11 +90,12 @@ public class WorkoutListFragment extends Fragment
     public void onEvent(WorkoutListScrollEvent event)
     {
         int position = adapter.getPositionFromWeekHash(event.weekHash);
-        smoothScrollToPostitionWithBugWorkAround(position, 0, 200);
+        smoothScrollToPositionWithBugWorkAround(position, 0, 200);
     }
 
-    private void smoothScrollToPostitionWithBugWorkAround(final int position, final int offset, final int
-            duration)
+    private void smoothScrollToPositionWithBugWorkAround(final int position, final int offset,
+            final int
+                    duration)
     {
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
