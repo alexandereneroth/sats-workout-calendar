@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -30,21 +30,21 @@
         </activity>
 
         <activity
-            android:name=".activity.GoogleMapActivity"
+            android:name=".ui.center.CenterMapActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.FindCenterDetailActivity"
+        <activity android:name=".ui.center.CenterWebViewActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activity.GoogleMapActivity"/>
+            android:parentActivityName=".ui.center.CenterMapActivity"/>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBdCJsb57ergsYg6-xZhG4OX4lpqXTxmY0"/>
 
         <activity
-            android:name=".activity.ClassDetailActivity"
+            android:name=".ui.ClassDetailActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>
