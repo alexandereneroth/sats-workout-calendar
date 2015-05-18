@@ -37,10 +37,12 @@ public class CalendarFragment extends Fragment
             Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        pager = (ViewPager) view.findViewById(R.id.pager);
+        pager = (ViewPager) view.findViewById(R.id.fragment_calendar_view_pager);
 
-        backToCurrentWeekFloatingMarker_left = (ImageView) view.findViewById(R.id.back_to_now_left);
-        backToCurrentWeekFloatingMarker_right = (ImageView) view.findViewById(R.id.back_to_now_right);
+        backToCurrentWeekFloatingMarker_left = (ImageView) view.findViewById(
+                R.id.fragment_calendar_back_to_current_week_left_button);
+        backToCurrentWeekFloatingMarker_right = (ImageView) view.findViewById(
+                R.id.fragment_calendar_back_to_current_week_right_button);
 
         EventBus.getDefault().register(this);
 

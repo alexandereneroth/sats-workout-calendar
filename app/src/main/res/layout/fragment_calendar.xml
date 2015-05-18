@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="wrap_content"
-    android:id="@+id/fragment_graph">
+    android:id="@+id/fragment_calendar">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/fragment_calendar_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <View
+        android:id="@+id/fragment_calendar_center_focus_shadow"
         android:layout_alignParentTop="true"
         android:layout_width="100dp"
         android:layout_height="127dp"
@@ -20,20 +21,20 @@
         android:layout_centerVertical="true"/>
 
     <ImageView
-        android:id="@+id/back_to_now_left"
+        android:id="@+id/fragment_calendar_back_to_current_week_left_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/back_to_now_left"
-        android:contentDescription="@string/rosa_plupp"
+        android:src="@drawable/calendar_back_to_now_left"
+        android:contentDescription="@string/calendar_back_to_current_week_button_description"
         android:layout_alignParentStart="true"
         android:visibility="invisible"/>
 
     <ImageView
-        android:id="@+id/back_to_now_right"
+        android:id="@+id/fragment_calendar_back_to_current_week_right_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/back_to_now_right"
-        android:contentDescription="@string/rosa_plupp"
+        android:src="@drawable/calendar_back_to_now_right"
+        android:contentDescription="@string/calendar_back_to_current_week_button_description"
         android:layout_alignParentEnd="true"
         android:visibility="invisible"/>
 </RelativeLayout>

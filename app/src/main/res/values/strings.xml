@@ -35,6 +35,7 @@
     <string name="class_detail_balance_question">Balans</string>
     <string name="class_detail_flexibility_question">Spänst</string>
     <string name="placeholder_graph_week">v.14</string>
-    <string name="drawer_menu_content_description">Menu drawer icon</string>
-    <string name="rosa_plupp">Back to this week button</string>
+    <string name="drawer_menu_icon_description">En ikon</string>
+    <string name="calendar_back_to_current_week_button_description">Tillbaka till dagens
+        vecka -knapp</string>
 </resources>
