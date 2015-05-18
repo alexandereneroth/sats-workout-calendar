@@ -13,8 +13,8 @@
     <View
         android:layout_alignParentTop="true"
         android:layout_width="100dp"
-        android:layout_height="127dp"
-        android:layout_marginTop="13dp"
+        android:layout_height="146dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shadow"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
