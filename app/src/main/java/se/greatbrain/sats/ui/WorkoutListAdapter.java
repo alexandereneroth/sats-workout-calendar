@@ -18,6 +18,7 @@ import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.data.ActivityWrapper;
+import se.greatbrain.sats.data.TimeOfDay;
 import se.greatbrain.sats.data.model.TrainingActivity;
 import se.greatbrain.sats.event.ClassDetailEvent;
 import se.greatbrain.sats.util.DateUtil;

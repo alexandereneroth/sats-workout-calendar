@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import se.greatbrain.sats.ui.pager.calendar.CalendarWeek;
-import se.greatbrain.sats.ui.TimeOfDay;
+import se.greatbrain.sats.data.TimeOfDay;
 
 public final class DateUtil
 {

@@ -1,4 +1,4 @@
-package se.greatbrain.sats.ui;
+package se.greatbrain.sats.data;
 
 public class TimeOfDay
 {
