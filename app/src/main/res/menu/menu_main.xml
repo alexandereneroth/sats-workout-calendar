@@ -3,40 +3,9 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
 
-    <!--<item-->
-        <!--android:id="@+id/action_bar_menu_button"-->
-        <!--android:icon="@drawable/sats_logo_menu"-->
-        <!--android:title="@string/menu_btn_title"-->
-        <!--app:showAsAction="always"-->
-        <!--/>-->
-
-    <!--<item-->
-        <!--android:id="@+id/btn_logo_sats"-->
-        <!--android:title="@string/menu_btn_sats_logo"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:background="@null"-->
-        <!--android:scaleType="centerInside"-->
-        <!--android:icon="@drawable/sats_logo"-->
-        <!--android:paddingTop="4dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--app:showAsAction="always"/>-->
-
-    <!--<item-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:textColor="@color/actionbar_title"-->
-        <!--android:title="@string/my_training_actionbar_text"-->
-        <!--android:background="@null"-->
-        <!--android:paddingTop="4dp"-->
-        <!--app:showAsAction="always"/>-->
-
     <item
         android:id="@+id/action_bar_refresh_button"
         android:icon="@drawable/refresh_icon"
         android:title="@string/refresh_btn_title"
         app:showAsAction="always"/>
-
-
 </menu>

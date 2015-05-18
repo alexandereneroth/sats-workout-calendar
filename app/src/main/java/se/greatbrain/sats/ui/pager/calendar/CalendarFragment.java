@@ -25,8 +25,8 @@ public class CalendarFragment extends Fragment
     private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
 
-    private ImageView leftMarker;
-    private ImageView rightMarker;
+    private ImageView backToCurrentWeekFloatingMarker_left;
+    private ImageView backToCurrentWeekFloatingMarker_right;
 
     public ViewPager pager;
 
@@ -39,15 +39,15 @@ public class CalendarFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
 
-        leftMarker = (ImageView) view.findViewById(R.id.back_to_now_left);
-        rightMarker = (ImageView) view.findViewById(R.id.back_to_now_right);
+        backToCurrentWeekFloatingMarker_left = (ImageView) view.findViewById(R.id.back_to_now_left);
+        backToCurrentWeekFloatingMarker_right = (ImageView) view.findViewById(R.id.back_to_now_right);
 
         EventBus.getDefault().register(this);
 
         final CalendarPagerAdapter pagerAdapter = new CalendarPagerAdapter(getFragmentManager(),
                 getActivity());
 
-        leftMarker.setOnClickListener(new View.OnClickListener()
+        backToCurrentWeekFloatingMarker_left.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -56,7 +56,7 @@ public class CalendarFragment extends Fragment
             }
         });
 
-        rightMarker.setOnClickListener(new View.OnClickListener()
+        backToCurrentWeekFloatingMarker_right.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -151,22 +151,22 @@ public class CalendarFragment extends Fragment
 
         if (rightMarkerShouldBeVisible)
         {
-            rightMarker.setVisibility(View.INVISIBLE);
-            leftMarker.setVisibility(View.VISIBLE);
-            leftMarker.setPaddingRelative(0, topPadding, 0, 0);
+            backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+            backToCurrentWeekFloatingMarker_left.setVisibility(View.VISIBLE);
+            backToCurrentWeekFloatingMarker_left.setPaddingRelative(0, topPadding, 0, 0);
             showMarker = true;
         }
         else if (leftMarkerShouldBeVisible)
         {
-            rightMarker.setVisibility(View.VISIBLE);
-            leftMarker.setVisibility(View.INVISIBLE);
-            rightMarker.setPaddingRelative(0, topPadding, 0, 0);
+            backToCurrentWeekFloatingMarker_right.setVisibility(View.VISIBLE);
+            backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+            backToCurrentWeekFloatingMarker_right.setPaddingRelative(0, topPadding, 0, 0);
             showMarker = true;
         }
         else
         {
-            rightMarker.setVisibility(View.INVISIBLE);
-            leftMarker.setVisibility(View.INVISIBLE);
+            backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+            backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
             showMarker = false;
         }
     }
