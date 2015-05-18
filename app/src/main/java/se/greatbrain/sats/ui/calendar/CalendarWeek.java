@@ -1,4 +1,4 @@
-package se.greatbrain.sats.ui.pager.calendar;
+package se.greatbrain.sats.ui.calendar;
 
 public class CalendarWeek
 {
