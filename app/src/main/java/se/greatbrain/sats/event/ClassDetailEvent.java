@@ -1,6 +1,6 @@
 package se.greatbrain.sats.event;
 
-import se.greatbrain.sats.ActivityWrapper;
+import se.greatbrain.sats.data.ActivityWrapper;
 
 public class ClassDetailEvent
 {
