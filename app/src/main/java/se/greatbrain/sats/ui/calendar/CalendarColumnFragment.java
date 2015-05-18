@@ -1,4 +1,4 @@
-package se.greatbrain.sats.ui.pager.calendar;
+package se.greatbrain.sats.ui.calendar;
 
 import android.content.res.Resources;
 import android.graphics.drawable.LayerDrawable;

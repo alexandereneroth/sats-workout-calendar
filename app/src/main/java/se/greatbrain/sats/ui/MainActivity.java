@@ -27,7 +27,7 @@ import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.event.MyTrainingRefreshEvent;
 import se.greatbrain.sats.data.IonClient;
 import se.greatbrain.sats.ui.menu.MenuDrawerItem;
-import se.greatbrain.sats.ui.pager.TopViewPagerFragment;
+import se.greatbrain.sats.ui.calendar.CalendarFragment;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
-        TopViewPagerFragment topViewPagerFragment = new TopViewPagerFragment();
+        CalendarFragment calendarFragment = new CalendarFragment();
         supportManager.beginTransaction()
-                .add(R.id.top_fragment_container, topViewPagerFragment)
+                .add(R.id.top_fragment_container, calendarFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
                 .commit();
     }
