@@ -22,7 +22,11 @@ import se.greatbrain.sats.util.VerticalLayouter;
 public class CalendarColumnFragment extends Fragment
 {
     public static final int PAST_WEEK = -1;
-
+    /**
+     * Static rows are: the top row, the date row, and the zero row(it is half the size of other
+     * rows, hence the .5 decimal).
+     */
+    private static final float NUM_STATIC_ROWS = 2.5F;
     private static final String TAG = "ScreenSlidePageFragment";
 
     private static float calendarHeight;
@@ -103,7 +107,7 @@ public class CalendarColumnFragment extends Fragment
 
         if (pointInTime == DateUtil.CURRENT_WEEK)
         {
-            topRow.setBackground(getTopRowBackground());
+            topRow.setBackground(getTopRowBackgroundWithCurrentWeekMarker());
         }
         else
         {
@@ -115,8 +119,8 @@ public class CalendarColumnFragment extends Fragment
     private View[] getNormalRows(RelativeLayout rootView)
     {
         View[] rows = new View[CalendarPagerAdapter.numRows];
-        // Start at row 'NUM_ROWS' and add all rows through 0, the zero row is extra and is not part
-        // of the number of rows
+        // Loops backwards so rowIndex can be used as the CalendarRowView's text (the number in the
+        // circle)
         int i = 0;
         for (int rowIndex = CalendarPagerAdapter.numRows; rowIndex > 0; --rowIndex, ++i)
         {
@@ -128,7 +132,7 @@ public class CalendarColumnFragment extends Fragment
     private View getNormalRow(RelativeLayout rootView, int rowIndex)
     {
         CalendarRowView row = CalendarRowView.newNormalRowInstance(rootView.getContext(), rowIndex);
-        row = setUpRowBase(row, rowIndex);
+        row = setUpCalendarRowViewBase(row, rowIndex);
 
         row.setText(
                 (weekHasMoreActivitiesThanRowsAvailable ? "+" : "") + String.valueOf(numActivities));
@@ -139,12 +143,12 @@ public class CalendarColumnFragment extends Fragment
     private View getZeroRow(ViewGroup rootView)
     {
         CalendarRowView row = CalendarRowView.newZeroRowInstance(rootView.getContext());
-        row = setUpRowBase(row, 0);
+        row = setUpCalendarRowViewBase(row, 0);
 
         return row;
     }
 
-    private CalendarRowView setUpRowBase(CalendarRowView rowView, int rowIndex)
+    private CalendarRowView setUpCalendarRowViewBase(CalendarRowView rowView, int rowIndex)
     {
         if (shouldDrawCircleOnThisRow(rowIndex))
         {
@@ -175,7 +179,7 @@ public class CalendarColumnFragment extends Fragment
         return row;
     }
 
-    private LayerDrawable getTopRowBackground()
+    private LayerDrawable getTopRowBackgroundWithCurrentWeekMarker()
     {
         LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(
                 R.drawable.calendar_marker_layer_list);
@@ -188,7 +192,7 @@ public class CalendarColumnFragment extends Fragment
 
     public static int getHeightOfOneRow()
     {
-        return (int) Math.round(calendarHeight / (CalendarPagerAdapter.numRows + 2.5));
+        return Math.round(calendarHeight / (CalendarPagerAdapter.numRows + NUM_STATIC_ROWS));
     }
 
     private int getWidth()
