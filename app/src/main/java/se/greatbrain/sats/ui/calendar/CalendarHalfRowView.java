@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.util.PixelUtil;
+import se.greatbrain.sats.util.DimensionUtil;
 
 public class CalendarHalfRowView extends CalendarRowView
 {
@@ -70,7 +70,7 @@ public class CalendarHalfRowView extends CalendarRowView
 
         final int shortenBy = getResources().getDimensionPixelSize(R.dimen
                 .calendar_line_shorten_by);
-        PixelUtil.shortenLine(originPoint, deltaPoint, shortenBy);
+        DimensionUtil.shortenLine(originPoint, deltaPoint, shortenBy);
 
         int originX = centerX;
         int originY = centerY;

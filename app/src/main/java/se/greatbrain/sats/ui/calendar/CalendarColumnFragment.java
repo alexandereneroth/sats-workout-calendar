@@ -16,8 +16,8 @@ import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.event.CalendarColumnClickedEvent;
 import se.greatbrain.sats.util.DateUtil;
+import se.greatbrain.sats.util.DimensionUtil;
 import se.greatbrain.sats.util.VerticalLayouter;
-import se.greatbrain.sats.util.PixelUtil;
 
 public class CalendarColumnFragment extends Fragment
 {
@@ -27,11 +27,14 @@ public class CalendarColumnFragment extends Fragment
 
     private static float calendarHeight;
     private int numActivities;
+    private int numActivities_previousWeek;
+    private int numActivities_nextWeek;
+    //negative is before this week, 0 is this week, positive is after this week
     private int pointInTime;
-    private int previousWeeksActivities;
-    private int nextWeeksActivities;
+    // last week shouldn't draw a line to this week (because this week is a non-past week)
     private boolean shouldDrawLineToNextWeek;
-    private boolean hasMoreActivitiesThanAvailibleRows = false;
+    private String bottomRowDateString;
+    private boolean weekHasMoreActivitiesThanRowsAvailable = false;
 
     private int screenWidth;
 
@@ -42,25 +45,24 @@ public class CalendarColumnFragment extends Fragment
         final Resources resources = getResources();
 
         calendarHeight = resources.getDimension(R.dimen.calendar_height);
-        screenWidth = PixelUtil.getScreenDimensions(container.getContext()).x;
+        screenWidth = DimensionUtil.getScreenDimensions(container.getContext()).x;
 
         if (numActivities > CalendarPagerAdapter.numRows)
         {
-            hasMoreActivitiesThanAvailibleRows = true;
+            weekHasMoreActivitiesThanRowsAvailable = true;
         }
 
-        RelativeLayout rootView = (RelativeLayout) inflater.inflate(
-                R.layout.fragment_calendar_column,
-                container, false);
-
         final Bundle args = getArguments();
-
-        final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
         pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
-        nextWeeksActivities = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
-        previousWeeksActivities = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
+        numActivities_nextWeek = args.getInt(CalendarPagerAdapter.NEXT_NUMBER_OF_ACTIVITIES);
+        numActivities_previousWeek = args.getInt(CalendarPagerAdapter.PREVIOUS_NUMBER_OF_ACTIVITIES);
         shouldDrawLineToNextWeek = args.getBoolean(CalendarPagerAdapter.HAS_NEXT_WEEK_PASSED);
+        bottomRowDateString = args.getString(CalendarPagerAdapter.DATE_STRING);
+        final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
+
+        RelativeLayout rootView = (RelativeLayout) inflater.inflate(
+                R.layout.fragment_calendar_column, container, false);
 
         if (indexInAdapter % 2 == 0)
         {
@@ -80,8 +82,9 @@ public class CalendarColumnFragment extends Fragment
             }
         });
 
-        int rowHeight = getHeightOfOneRow();
+        final int rowHeight = getHeightOfOneRow();
 
+        //Adds all rows (views) to the calendar column(the RelativeLayout named rootView)
         new VerticalLayouter(rootView)
                 .setViewHeight(rowHeight)
                 .addView(getTopRow(rootView))
@@ -89,7 +92,7 @@ public class CalendarColumnFragment extends Fragment
                 .setViewHeight(rowHeight / 2)
                 .addView(getZeroRow(rootView))
                 .setViewHeight(rowHeight)
-                .addView(getDateRow(rootView, args.getString(CalendarPagerAdapter.DATE_STRING)));
+                .addView(getDateRow(rootView));
 
         return rootView;
     }
@@ -128,7 +131,7 @@ public class CalendarColumnFragment extends Fragment
         row = setUpRowBase(row, rowIndex);
 
         row.setText(
-                (hasMoreActivitiesThanAvailibleRows ? "+" : "") + String.valueOf(numActivities));
+                (weekHasMoreActivitiesThanRowsAvailable ? "+" : "") + String.valueOf(numActivities));
         row.setBackground(getResources().getDrawable(R.drawable.line));
         return row;
     }
@@ -149,21 +152,21 @@ public class CalendarColumnFragment extends Fragment
                     CalendarRowView.PAST_ACTIVITY : CalendarRowView.FUTURE_OR_CURRENT_ACTIVITY;
 
             rowView.setCircle(circleType);
-            rowView.setDrawLineToPreviousWeek(previousWeeksActivities);
+            rowView.setDrawLineToPreviousWeek(numActivities_previousWeek);
             rowView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
             if (shouldDrawLineToNextWeek)
             {
-                rowView.setDrawLineToNextWeek(nextWeeksActivities);
+                rowView.setDrawLineToNextWeek(numActivities_nextWeek);
             }
         }
         return rowView;
     }
 
-    private View getDateRow(RelativeLayout rootView, String date)
+    private View getDateRow(RelativeLayout rootView)
     {
         TextView row = new TextView(rootView.getContext());
-        row.setText(date);
+        row.setText(bottomRowDateString);
         row.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         row.setBackground(getResources().getDrawable(R.drawable.calendar_column_row_date_bg));
         row.setPadding(0, 7, 0, 0);
