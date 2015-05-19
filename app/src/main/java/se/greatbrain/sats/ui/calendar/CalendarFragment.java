@@ -132,6 +132,25 @@ public class CalendarFragment extends Fragment
         }
     }
 
+    private void setShadowOverlayHeightAndTopInset()
+    {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shadowOverlay
+                .getLayoutParams();
+        int calendarHeight = getResources().getDimensionPixelSize(R.dimen.calendar_height);
+        int rowHeight = getHeightOfOneRow();
+        int shadowHeight = calendarHeight - Math.round(rowHeight * 1.5f);
+        int shadowTopInset = rowHeight / 2;
+
+        params.height = shadowHeight;
+        params.topMargin = shadowTopInset;
+        shadowOverlay.setLayoutParams(params);
+    }
+
+    public static int getHeightOfOneRow()
+    {
+        return Math.round(calendarHeight / (CalendarPagerAdapter.numRows + NUM_STATIC_ROWS));
+    }
+
     private final class CalendarOnScrollListener extends ViewPager.SimpleOnPageChangeListener
     {
         private final CalendarPagerAdapter pagerAdapter;
@@ -154,52 +173,38 @@ public class CalendarFragment extends Fragment
             int weekHash = pagerAdapter.getWeekHashForPosition(position);
             EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
         }
-    }
 
-    private void setShadowOverlayHeightAndTopInset()
-    {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shadowOverlay
-                .getLayoutParams();
-        int calendarHeight = getResources().getDimensionPixelSize(R.dimen.calendar_height);
-        int rowHeight = getHeightOfOneRow();
-        int shadowHeight = calendarHeight - Math.round(rowHeight * 1.5f);
-        int shadowTopInset = rowHeight / 2;
-
-        params.height = shadowHeight;
-        params.topMargin = shadowTopInset;
-        shadowOverlay.setLayoutParams(params);
-    }
-
-    private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
-            pagerAdapter)
-    {
-        final int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
-        boolean rightMarkerShouldBeVisible = position > pagerAdapter
-                .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
-                0.5 || showMarker);
-        boolean leftMarkerShouldBeVisible = position < pagerAdapter
-                .getPositionOfCurrentWeek_inCalendar() - 2 &&
-                (positionOffset < 0.5 || showMarker);
-
-        if (rightMarkerShouldBeVisible)
+        private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
+                pagerAdapter)
         {
-            backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
-            backToCurrentWeekFloatingMarker_left.setVisibility(View.VISIBLE);
-            backToCurrentWeekFloatingMarker_left.setPaddingRelative(0, topPadding, 0, 0);
-            showMarker = true;
-        }
-        else if (leftMarkerShouldBeVisible)
-        {
-            backToCurrentWeekFloatingMarker_right.setVisibility(View.VISIBLE);
-            backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
-            backToCurrentWeekFloatingMarker_right.setPaddingRelative(0, topPadding, 0, 0);
-            showMarker = true;
-        }
-        else
-        {
-            backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
-            backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
-            showMarker = false;
+            final int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
+            boolean rightMarkerShouldBeVisible = position > pagerAdapter
+                    .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
+                    0.5 || showMarker);
+            boolean leftMarkerShouldBeVisible = position < pagerAdapter
+                    .getPositionOfCurrentWeek_inCalendar() - 2 &&
+                    (positionOffset < 0.5 || showMarker);
+
+            if (rightMarkerShouldBeVisible)
+            {
+                backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+                backToCurrentWeekFloatingMarker_left.setVisibility(View.VISIBLE);
+                backToCurrentWeekFloatingMarker_left.setPaddingRelative(0, topPadding, 0, 0);
+                showMarker = true;
+            }
+            else if (leftMarkerShouldBeVisible)
+            {
+                backToCurrentWeekFloatingMarker_right.setVisibility(View.VISIBLE);
+                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+                backToCurrentWeekFloatingMarker_right.setPaddingRelative(0, topPadding, 0, 0);
+                showMarker = true;
+            }
+            else
+            {
+                backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+                showMarker = false;
+            }
         }
     }
 
@@ -233,10 +238,5 @@ public class CalendarFragment extends Fragment
         {
             super.startScroll(startX, startY, dx, dy, scrollDuration);
         }
-    }
-
-    public static int getHeightOfOneRow()
-    {
-        return Math.round(calendarHeight / (CalendarPagerAdapter.numRows + NUM_STATIC_ROWS));
     }
 }
