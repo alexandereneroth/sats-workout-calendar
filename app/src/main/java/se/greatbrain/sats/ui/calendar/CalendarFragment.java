@@ -114,6 +114,8 @@ public class CalendarFragment extends Fragment
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
+        backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+        backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
 
         setShadowOverlayHeightAndTopInset();
     }
