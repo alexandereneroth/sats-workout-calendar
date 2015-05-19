@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
@@ -29,8 +31,6 @@ public class CalendarFragment extends Fragment
     private ImageView rightMarker;
 
     public ViewPager pager;
-
-    private boolean showMarker = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,6 +118,13 @@ public class CalendarFragment extends Fragment
     {
         private final CalendarPagerAdapter pagerAdapter;
 
+        private static final float thresholdOffset = 0.5f;
+        public static final int TO_THE_LEFT = 0;
+        public static final int TO_THE_RIGHT = 1;
+        private int direction;
+        private int previousScrollState;
+        private boolean scrollStarted, checkDirection;
+
         public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
         {
             this.pagerAdapter = pagerAdapter;
@@ -126,7 +133,22 @@ public class CalendarFragment extends Fragment
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
-            setMarkerVisibility(position, positionOffset, pagerAdapter);
+            if (checkDirection)
+            {
+                if (thresholdOffset > positionOffset)
+                {
+                    Log.d("scroll", "going left");
+                    direction = TO_THE_LEFT;
+                }
+                else
+                {
+                    Log.d("scroll", "going right");
+                    direction = TO_THE_RIGHT;
+                }
+                checkDirection = false;
+            }
+            Log.d("scroll", String.valueOf(direction));
+            setMarkerVisibility(position, positionOffset, pagerAdapter, direction);
         }
 
         @Override
@@ -136,38 +158,74 @@ public class CalendarFragment extends Fragment
             int weekHash = pagerAdapter.getWeekHashForPosition(position);
             EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
         }
+
+        @Override
+        public void onPageScrollStateChanged(int state)
+        {
+            if (!scrollStarted && previousScrollState == ViewPager.SCROLL_STATE_DRAGGING
+                    && state == ViewPager.SCROLL_STATE_SETTLING)
+            {
+                scrollStarted = true;
+                checkDirection = true;
+            }
+            else if(previousScrollState == ViewPager.SCROLL_STATE_SETTLING
+                    && state == ViewPager.SCROLL_STATE_IDLE)
+            {
+                scrollStarted = false;
+            }
+            previousScrollState = state;
+        }
     }
 
     private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
-            pagerAdapter)
+            pagerAdapter, int direction)
     {
         final int topPadding = (int) Math.round(CalendarColumnFragment.getHeightOfOneRow() / 2.7);
-        boolean rightMarkerShouldBeVisible = position > pagerAdapter
-                .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
-                0.5 || showMarker);
-        boolean leftMarkerShouldBeVisible = position < pagerAdapter
-                .getPositionOfCurrentWeek_inCalendar() - 2 &&
-                (positionOffset < 0.5 || showMarker);
+        final int currentWeek = pagerAdapter.getPositionOfCurrentWeek_inCalendar();
 
-        if (rightMarkerShouldBeVisible)
+        if (position >= currentWeek + 2)
         {
-            rightMarker.setVisibility(View.INVISIBLE);
-            leftMarker.setVisibility(View.VISIBLE);
-            leftMarker.setPaddingRelative(0, topPadding, 0, 0);
-            showMarker = true;
+            if (direction == CalendarOnScrollListener.TO_THE_LEFT)
+            {
+                if ((positionOffset > 0.8 && position == currentWeek + 2) || (position >currentWeek + 2))
+                {
+                    leftMarker.setVisibility(View.VISIBLE);
+                    leftMarker.setPaddingRelative(0, topPadding, 0, 0);
+                }
+            }
+            else
+            {
+                if ((positionOffset < 0.6 && position == currentWeek + 2) || (position <
+                        currentWeek+2))
+                {
+                    leftMarker.setVisibility(View.INVISIBLE);
+                }
+            }
         }
-        else if (leftMarkerShouldBeVisible)
+        else if (position <= currentWeek - 3)
         {
-            rightMarker.setVisibility(View.VISIBLE);
-            leftMarker.setVisibility(View.INVISIBLE);
-            rightMarker.setPaddingRelative(0, topPadding, 0, 0);
-            showMarker = true;
+            if (direction == CalendarOnScrollListener.TO_THE_RIGHT)
+            {
+                if ((positionOffset < 0.2 && position == currentWeek -3) || (position <
+                        currentWeek -3))
+                {
+                    rightMarker.setVisibility(View.VISIBLE);
+                    rightMarker.setPaddingRelative(0, topPadding, 0, 0);
+                }
+            }
+            else
+            {
+                if ((positionOffset > 0.6 && position == currentWeek -3) ||
+                        (position>currentWeek-3) )
+                {
+                    rightMarker.setVisibility(View.INVISIBLE);
+                }
+            }
         }
         else
         {
             rightMarker.setVisibility(View.INVISIBLE);
             leftMarker.setVisibility(View.INVISIBLE);
-            showMarker = false;
         }
     }
 
