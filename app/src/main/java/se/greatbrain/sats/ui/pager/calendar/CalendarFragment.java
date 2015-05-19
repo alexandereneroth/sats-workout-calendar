@@ -118,13 +118,6 @@ public class CalendarFragment extends Fragment
     {
         private final CalendarPagerAdapter pagerAdapter;
 
-        private static final float thresholdOffset = 0.5f;
-        public static final int TO_THE_LEFT = 0;
-        public static final int TO_THE_RIGHT = 1;
-        private int direction;
-        private int previousScrollState;
-        private boolean scrollStarted, checkDirection;
-
         public CalendarOnScrollListener(CalendarPagerAdapter pagerAdapter)
         {
             this.pagerAdapter = pagerAdapter;
@@ -133,22 +126,7 @@ public class CalendarFragment extends Fragment
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
-            if (checkDirection)
-            {
-                if (thresholdOffset > positionOffset)
-                {
-                    Log.d("scroll", "going left");
-                    direction = TO_THE_LEFT;
-                }
-                else
-                {
-                    Log.d("scroll", "going right");
-                    direction = TO_THE_RIGHT;
-                }
-                checkDirection = false;
-            }
-            Log.d("scroll", String.valueOf(direction));
-            setMarkerVisibility(position, positionOffset, pagerAdapter, direction);
+            setMarkerVisibility(position, positionOffset, pagerAdapter);
         }
 
         @Override
@@ -159,73 +137,30 @@ public class CalendarFragment extends Fragment
             EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
         }
 
-        @Override
-        public void onPageScrollStateChanged(int state)
+        private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter pagerAdapter)
         {
-            if (!scrollStarted && previousScrollState == ViewPager.SCROLL_STATE_DRAGGING
-                    && state == ViewPager.SCROLL_STATE_SETTLING)
-            {
-                scrollStarted = true;
-                checkDirection = true;
-            }
-            else if(previousScrollState == ViewPager.SCROLL_STATE_SETTLING
-                    && state == ViewPager.SCROLL_STATE_IDLE)
-            {
-                scrollStarted = false;
-            }
-            previousScrollState = state;
-        }
-    }
+            int currentWeek = pagerAdapter.getPositionOfCurrentWeek_inCalendar();
+            int topPadding = (int) Math.round(CalendarColumnFragment.getHeightOfOneRow() / 2.7);
 
-    private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
-            pagerAdapter, int direction)
-    {
-        final int topPadding = (int) Math.round(CalendarColumnFragment.getHeightOfOneRow() / 2.7);
-        final int currentWeek = pagerAdapter.getPositionOfCurrentWeek_inCalendar();
+            if (position > currentWeek + 1 && positionOffset > 0.65)
+            {
+                leftMarker.setVisibility(View.VISIBLE);
+                leftMarker.setPadding(0, topPadding, 0, 0);
+            }
+            else if(position < currentWeek + 3 && positionOffset < 0.65)
+            {
+                leftMarker.setVisibility(View.INVISIBLE);
+            }
 
-        if (position >= currentWeek + 2)
-        {
-            if (direction == CalendarOnScrollListener.TO_THE_LEFT)
+            if(position < currentWeek - 2 && positionOffset < 0.35)
             {
-                if ((positionOffset > 0.8 && position == currentWeek + 2) || (position >currentWeek + 2))
-                {
-                    leftMarker.setVisibility(View.VISIBLE);
-                    leftMarker.setPaddingRelative(0, topPadding, 0, 0);
-                }
+                rightMarker.setVisibility(View.VISIBLE);
+                rightMarker.setPadding(0, topPadding, 0, 0);
             }
-            else
+            else if(position > currentWeek - 4 && positionOffset > 0.35)
             {
-                if ((positionOffset < 0.6 && position == currentWeek + 2) || (position <
-                        currentWeek+2))
-                {
-                    leftMarker.setVisibility(View.INVISIBLE);
-                }
+                rightMarker.setVisibility(View.INVISIBLE);
             }
-        }
-        else if (position <= currentWeek - 3)
-        {
-            if (direction == CalendarOnScrollListener.TO_THE_RIGHT)
-            {
-                if ((positionOffset < 0.2 && position == currentWeek -3) || (position <
-                        currentWeek -3))
-                {
-                    rightMarker.setVisibility(View.VISIBLE);
-                    rightMarker.setPaddingRelative(0, topPadding, 0, 0);
-                }
-            }
-            else
-            {
-                if ((positionOffset > 0.6 && position == currentWeek -3) ||
-                        (position>currentWeek-3) )
-                {
-                    rightMarker.setVisibility(View.INVISIBLE);
-                }
-            }
-        }
-        else
-        {
-            rightMarker.setVisibility(View.INVISIBLE);
-            leftMarker.setVisibility(View.INVISIBLE);
         }
     }
 
