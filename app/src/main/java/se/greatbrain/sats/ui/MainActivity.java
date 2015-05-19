@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem reloadButton;
     private HashSet<String> finishedIonCalls = new HashSet<>();
     private boolean errorMessageNotShown = true;
-    private int numberOfErrors = 0;
+    private int numberOfIonErrors = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -113,17 +113,17 @@ public class MainActivity extends AppCompatActivity
     {
         Animation reloadAnimation = AnimationUtils.loadAnimation(this, R.anim.reload_rotate);
 
-        if(finishedIonCalls.size() == 0 && numberOfErrors < 6)
+        if(finishedIonCalls.size() == 0 && numberOfIonErrors < 6)
         {
             reloadButton.setActionView(R.layout.action_bar_reloading);
             ImageView imageView = (ImageView) reloadButton.getActionView()
                     .findViewById(R.id.action_bar_refresh_button_reloading);
             imageView.startAnimation(reloadAnimation);
-            numberOfErrors = 0;
+            numberOfIonErrors = 0;
         }
         else
         {
-            numberOfErrors = 0;
+            numberOfIonErrors = 0;
         }
     }
 
@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity
     {
         if (event.getSourceEvent().contains("error"))
         {
+            numberOfIonErrors++;
+
             if(errorMessageNotShown)
             {
                 Toast.makeText(this, "Server connection failed, please refresh", Toast.LENGTH_LONG).show();
