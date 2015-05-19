@@ -1,10 +1,12 @@
 package se.greatbrain.sats.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -87,6 +89,39 @@ public class WorkoutListFragment extends Fragment
     public void onEvent(WorkoutListScrollEvent event)
     {
         int position = adapter.getPositionFromWeekHash(event.weekHash);
-        listView.smoothScrollToPositionFromTop(position, 0, 300);
+        smoothScrollToPositionWithBugWorkAround(position, 0, 200);
+    }
+
+    private void smoothScrollToPositionWithBugWorkAround(final int position, final int offset,
+            final int
+                    duration)
+    {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(final AbsListView view, final int scrollState) {
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    listView.setOnScrollListener(null);
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.setSelection(position);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount,
+                    final int totalItemCount) { }
+        });
+
+        // Perform scrolling to position
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                listView.smoothScrollToPositionFromTop(position, offset, duration);
+            }
+        });
     }
 }

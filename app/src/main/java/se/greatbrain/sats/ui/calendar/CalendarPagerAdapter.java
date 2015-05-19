@@ -1,4 +1,4 @@
-package se.greatbrain.sats.ui.pager.calendar;
+package se.greatbrain.sats.ui.calendar;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -130,7 +130,14 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
             return 0;
         }
 
-        return numberOfActivitiesInWeek.get(position + 1);
+        int numberOfActivitiesInNextWeek = numberOfActivitiesInWeek.get(position + 1);
+
+        if(numberOfActivitiesInNextWeek > MAX_ROWS)
+        {
+            return MAX_ROWS;
+        }
+
+        return numberOfActivitiesInNextWeek;
     }
 
     private int getPreviousWeeksActivityCount(int position)
@@ -140,7 +147,14 @@ public class CalendarPagerAdapter extends FragmentStatePagerAdapter
             return 0;
         }
 
-        return numberOfActivitiesInWeek.get(position - 1);
+        int numberOfActivitiesInPreviousWeek = numberOfActivitiesInWeek.get(position - 1);
+
+        if(numberOfActivitiesInPreviousWeek > MAX_ROWS)
+        {
+            return MAX_ROWS;
+        }
+
+        return numberOfActivitiesInPreviousWeek;
     }
 
     private int getHighestActivityCount()

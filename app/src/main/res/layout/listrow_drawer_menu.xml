@@ -9,7 +9,7 @@
         android:id="@+id/drawer_menu_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:contentDescription="@string/drawer_menu_content_description"
+        android:contentDescription="@string/drawer_menu_icon_description"
         android:padding="10dp"
         android:layout_centerVertical="true"/>
 

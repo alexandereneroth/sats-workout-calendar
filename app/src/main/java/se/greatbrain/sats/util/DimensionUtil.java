@@ -6,7 +6,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class PixelUtil
+public class DimensionUtil
 {
     public static Point getScreenDimensions(Context context)
     {
