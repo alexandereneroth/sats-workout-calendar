@@ -44,11 +44,6 @@ public class CalendarColumnFragment extends Fragment
 
         screenWidth = DimensionUtil.getScreenDimensions(container.getContext()).x;
 
-        if (numActivities > CalendarPagerAdapter.numRows)
-        {
-            weekHasMoreActivitiesThanRowsAvailable = true;
-        }
-
         final Bundle args = getArguments();
         numActivities = args.getInt(CalendarPagerAdapter.NUMBER_OF_ACTIVITIES);
         pointInTime = args.getInt(CalendarPagerAdapter.POINT_IN_TIME);
@@ -57,6 +52,11 @@ public class CalendarColumnFragment extends Fragment
         shouldDrawLineToNextWeek = args.getBoolean(CalendarPagerAdapter.HAS_NEXT_WEEK_PASSED);
         bottomRowDateString = args.getString(CalendarPagerAdapter.DATE_STRING);
         final int indexInAdapter = args.getInt(CalendarPagerAdapter.ADAPTER_POSITION);
+
+        if (numActivities > CalendarPagerAdapter.numRows)
+        {
+            weekHasMoreActivitiesThanRowsAvailable = true;
+        }
 
         RelativeLayout rootView = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_calendar_column, container, false);

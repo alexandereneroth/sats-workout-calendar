@@ -105,7 +105,7 @@ public class WorkoutListFragment extends Fragment
                     new Handler().post(new Runnable() {
                         @Override
                         public void run() {
-                            view.setSelection(position);
+                            listView.setSelection(position);
                         }
                     });
                 }
