@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
@@ -24,18 +26,28 @@ public class CalendarFragment extends Fragment
 {
     private static final String TAG = "CalendarFragment";
     public static final int NUM_SIMULTANEOUS_PAGES = 5;
+    /**
+     * Static rows are: the top row, the date row, and the zero row(it is half the size of other
+     * rows, hence the .5 decimal).
+     */
+    public static final float NUM_STATIC_ROWS = 2.5F;
 
     private ImageView backToCurrentWeekFloatingMarker_left;
     private ImageView backToCurrentWeekFloatingMarker_right;
+    private View shadowOverlay;
 
     public ViewPager pager;
 
     private boolean showMarker = false;
+    private static float calendarHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
+
+        calendarHeight = getResources().getDimension(R.dimen.calendar_height);
+
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         pager = (ViewPager) view.findViewById(R.id.fragment_calendar_view_pager);
 
@@ -43,6 +55,8 @@ public class CalendarFragment extends Fragment
                 R.id.fragment_calendar_back_to_current_week_left_button);
         backToCurrentWeekFloatingMarker_right = (ImageView) view.findViewById(
                 R.id.fragment_calendar_back_to_current_week_right_button);
+        shadowOverlay = (View) view.findViewById(
+                R.id.fragment_calendar_center_focus_shadow);
 
         EventBus.getDefault().register(this);
 
@@ -66,6 +80,8 @@ public class CalendarFragment extends Fragment
                 pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
             }
         });
+
+        setShadowOverlayHeightAndTopInset();
 
         // It is recommended to preload two times, or three times the number of simultaneous pages
         // shown
@@ -140,10 +156,24 @@ public class CalendarFragment extends Fragment
         }
     }
 
+    private void setShadowOverlayHeightAndTopInset()
+    {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shadowOverlay
+                .getLayoutParams();
+        int calendarHeight = getResources().getDimensionPixelSize(R.dimen.calendar_height);
+        int rowHeight = getHeightOfOneRow();
+        int shadowHeight = calendarHeight - Math.round(rowHeight * 1.5f);
+        int shadowTopInset = rowHeight / 2;
+
+        params.height = shadowHeight;
+        params.topMargin = shadowTopInset;
+        shadowOverlay.setLayoutParams(params);
+    }
+
     private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
             pagerAdapter)
     {
-        final int topPadding = (int) Math.round(CalendarColumnFragment.getHeightOfOneRow() / 2.7);
+        final int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
         boolean rightMarkerShouldBeVisible = position > pagerAdapter
                 .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
                 0.5 || showMarker);
@@ -203,5 +233,10 @@ public class CalendarFragment extends Fragment
         {
             super.startScroll(startX, startY, dx, dy, scrollDuration);
         }
+    }
+
+    public static int getHeightOfOneRow()
+    {
+        return Math.round(calendarHeight / (CalendarPagerAdapter.numRows + NUM_STATIC_ROWS));
     }
 }

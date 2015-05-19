@@ -22,14 +22,8 @@ import se.greatbrain.sats.util.VerticalLayouter;
 public class CalendarColumnFragment extends Fragment
 {
     public static final int PAST_WEEK = -1;
-    /**
-     * Static rows are: the top row, the date row, and the zero row(it is half the size of other
-     * rows, hence the .5 decimal).
-     */
-    private static final float NUM_STATIC_ROWS = 2.5F;
     private static final String TAG = "ScreenSlidePageFragment";
 
-    private static float calendarHeight;
     private int numActivities;
     private int numActivities_previousWeek;
     private int numActivities_nextWeek;
@@ -48,7 +42,6 @@ public class CalendarColumnFragment extends Fragment
     {
         final Resources resources = getResources();
 
-        calendarHeight = resources.getDimension(R.dimen.calendar_height);
         screenWidth = DimensionUtil.getScreenDimensions(container.getContext()).x;
 
         if (numActivities > CalendarPagerAdapter.numRows)
@@ -86,7 +79,7 @@ public class CalendarColumnFragment extends Fragment
             }
         });
 
-        final int rowHeight = getHeightOfOneRow();
+        final int rowHeight = CalendarFragment.getHeightOfOneRow();
 
         //Adds all rows (views) to the calendar column(the RelativeLayout named rootView)
         new VerticalLayouter(rootView)
@@ -183,16 +176,11 @@ public class CalendarColumnFragment extends Fragment
     {
         LayerDrawable layerList = (LayerDrawable) getResources().getDrawable(
                 R.drawable.calendar_marker_layer_list);
-        final int topInset = (int) Math.round(getHeightOfOneRow() / 2.7);
+        final int topInset = (int) Math.round(CalendarFragment.getHeightOfOneRow() / 2.7);
         final int sideInset = (int) Math.round(getWidth() / 2.6);
         layerList.setLayerInset(1, sideInset, topInset, sideInset, 0);
 
         return layerList;
-    }
-
-    public static int getHeightOfOneRow()
-    {
-        return Math.round(calendarHeight / (CalendarPagerAdapter.numRows + NUM_STATIC_ROWS));
     }
 
     private int getWidth()
@@ -210,5 +198,4 @@ public class CalendarColumnFragment extends Fragment
     {
         return pointInTime == PAST_WEEK;
     }
-
 }
