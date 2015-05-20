@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
@@ -113,6 +114,10 @@ public class CalendarFragment extends Fragment
         pager.setOnPageChangeListener(new CalendarOnScrollListener(pagerAdapter));
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(pagerAdapter.getPositionOfCurrentWeek_inCalendar(), true);
+        backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+        backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+
+        setShadowOverlayHeightAndTopInset();
     }
 
     private void setCustomScroller()
@@ -174,36 +179,30 @@ public class CalendarFragment extends Fragment
             EventBus.getDefault().post(new WorkoutListScrollEvent(weekHash));
         }
 
-        private void setMarkerVisibility(int position, float positionOffset, CalendarPagerAdapter
-                pagerAdapter)
+        private void setMarkerVisibility(int position, float positionOffset,
+                CalendarPagerAdapter pagerAdapter)
         {
-            final int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
-            boolean rightMarkerShouldBeVisible = position > pagerAdapter
-                    .getPositionOfCurrentWeek_inCalendar() + 1 && (positionOffset >
-                    0.5 || showMarker);
-            boolean leftMarkerShouldBeVisible = position < pagerAdapter
-                    .getPositionOfCurrentWeek_inCalendar() - 2 &&
-                    (positionOffset < 0.5 || showMarker);
+            int currentWeek = pagerAdapter.getPositionOfCurrentWeek_inCalendar();
+            int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
 
-            if (rightMarkerShouldBeVisible)
+            if (position > currentWeek + 1 && positionOffset > 0.65)
             {
-                backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
                 backToCurrentWeekFloatingMarker_left.setVisibility(View.VISIBLE);
-                backToCurrentWeekFloatingMarker_left.setPaddingRelative(0, topPadding, 0, 0);
-                showMarker = true;
+                backToCurrentWeekFloatingMarker_left.setPadding(0, topPadding, 0, 0);
             }
-            else if (leftMarkerShouldBeVisible)
+            else if (position < currentWeek + 3 && positionOffset < 0.65)
+            {
+                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+            }
+
+            if (position < currentWeek - 2 && positionOffset < 0.35)
             {
                 backToCurrentWeekFloatingMarker_right.setVisibility(View.VISIBLE);
-                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
-                backToCurrentWeekFloatingMarker_right.setPaddingRelative(0, topPadding, 0, 0);
-                showMarker = true;
+                backToCurrentWeekFloatingMarker_right.setPadding(0, topPadding, 0, 0);
             }
-            else
+            else if (position > currentWeek - 4 && positionOffset > 0.35)
             {
                 backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
-                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
-                showMarker = false;
             }
         }
     }

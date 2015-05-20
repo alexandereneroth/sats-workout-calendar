@@ -8,7 +8,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/fragment_calendar_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <View
         android:id="@+id/fragment_calendar_center_focus_shadow"
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/fragment_calendar_back_to_current_week_left_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/calendar_back_to_now_left"
         android:contentDescription="@string/calendar_back_to_current_week_button_description"
         android:layout_alignParentStart="true"
@@ -31,8 +31,8 @@
 
     <ImageView
         android:id="@+id/fragment_calendar_back_to_current_week_right_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/calendar_back_to_now_right"
         android:contentDescription="@string/calendar_back_to_current_week_button_description"
         android:layout_alignParentEnd="true"
