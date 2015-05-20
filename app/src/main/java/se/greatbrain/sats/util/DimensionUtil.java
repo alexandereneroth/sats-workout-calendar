@@ -18,6 +18,12 @@ public class DimensionUtil
         return dimensions;
     }
 
+    /**
+     * Shorten a line between two points, at its end
+     * @param startPoint The lines starting point
+     * @param endPoint The lines ending point
+     * @param pixelCount The number of pixels which to shorten the line by
+     */
     public static void shortenLine(Point startPoint, Point endPoint, float pixelCount)
     {
         final float pixelsToShortenBy = pixelCount * -1;

@@ -163,20 +163,20 @@ public abstract class CalendarRowView extends TextView
 
     /* Class helper methods */
 
-    protected int getLineThickness(int direction)
+    protected int getLineThickness(int lineHorizontalDirection)
     {
-        if (direction != TO_PREVIOUS_WEEK && direction != TO_NEXT_WEEK)
+        if (lineHorizontalDirection != TO_PREVIOUS_WEEK && lineHorizontalDirection != TO_NEXT_WEEK)
         {
             throw new IllegalArgumentException("Invalid direction");
         }
 
-        return (direction == TO_PREVIOUS_WEEK)
+        return (lineHorizontalDirection == TO_PREVIOUS_WEEK)
                 ? getLineThicknessToPreviousWeek() : getLineThicknessToNextWeek();
     }
 
     protected abstract int convertToDrawBoundsHeight(int height);
 
-    protected abstract void drawOrangeLine(int direction, Canvas canvas);
+    protected abstract void drawOrangeLine(int lineHorizontalDirection, Canvas canvas);
 
     protected abstract int getLineThicknessToPreviousWeek();
 

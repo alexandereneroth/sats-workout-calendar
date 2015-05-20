@@ -51,21 +51,22 @@ public class CalendarHalfRowView extends CalendarRowView
     }
 
     @Override
-    protected void drawOrangeLine(int direction, Canvas canvas)
+    protected void drawOrangeLine(int lineHorizontalDirection, Canvas canvas)
     {
-        int lineThickness = getLineThickness(direction);
+        final int lineThickness = getLineThickness(lineHorizontalDirection);
 
         Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         linePaint.setColor(getResources().getColor(R.color.calendar_item));
         linePaint.setStrokeWidth(lineThickness);
 
-        int numDestinationWeekActivities = (direction == CalendarRowView.TO_PREVIOUS_WEEK) ?
+        final int numDestinationWeekActivities = (lineHorizontalDirection == CalendarRowView
+                .TO_PREVIOUS_WEEK) ?
                 numPreviousWeekActivities : numNextWeekActivities;
-        int deltaActivities = numActivities - numDestinationWeekActivities;
-        int deltaX = drawBoundsWidth * direction;
-        int deltaY = drawBoundsHeight * deltaActivities;
+        final int deltaActivities = numActivities - numDestinationWeekActivities;
+        final int deltaX = drawBoundsWidth * lineHorizontalDirection;
+        final int deltaY = drawBoundsHeight * deltaActivities;
 
-        Point originPoint = new Point(0, 0);
+        final Point originPoint = new Point(0, 0);
         Point deltaPoint = new Point(deltaX, deltaY);
 
         final int shortenBy = getResources().getDimensionPixelSize(R.dimen
