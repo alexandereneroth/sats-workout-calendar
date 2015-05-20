@@ -11,4 +11,5 @@
     <dimen name="calendar_line_shorten_by">10dp</dimen>
     <dimen name="calendar_line_thickness">5dp</dimen>
     <dimen name="calendar_shadow_inset_top">15dp</dimen>
+    <dimen name="calendar_row_view_draw_outside_bounds_amount">@dimen/calendar_height</dimen>
 </resources>

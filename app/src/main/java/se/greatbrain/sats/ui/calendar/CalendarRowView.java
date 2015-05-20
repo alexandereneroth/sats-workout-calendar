@@ -97,7 +97,9 @@ public abstract class CalendarRowView extends TextView
 
             //draw outside bounds
             Rect clipBounds = canvas.getClipBounds();
-            clipBounds.inset(-200, -200);
+            int drawOutsideBoundsAmount = getResources().getDimensionPixelSize(R.dimen
+                    .calendar_row_view_draw_outside_bounds_amount);
+            clipBounds.inset(-drawOutsideBoundsAmount, -drawOutsideBoundsAmount);
             canvas.clipRect(clipBounds, Region.Op.REPLACE);
             if (isPastActivity)
             {
