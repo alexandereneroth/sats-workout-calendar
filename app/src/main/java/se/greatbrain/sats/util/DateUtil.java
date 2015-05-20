@@ -129,12 +129,17 @@ public final class DateUtil
         Calendar calendarToday = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int yearToday = calendarToday.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int monthToday = calendarToday.get(Calendar.MONTH);
 
         if (year == yearToday)
         {
-            if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+            if(month == monthToday)
             {
-                return true;
+                if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+                {
+                    return true;
+                }
             }
         }
 
