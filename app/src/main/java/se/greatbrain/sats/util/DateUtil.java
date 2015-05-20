@@ -127,23 +127,10 @@ public final class DateUtil
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         Calendar calendarToday = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int yearToday = calendarToday.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int monthToday = calendarToday.get(Calendar.MONTH);
+        nullifyTimeInCalendar(calendar);
+        nullifyTimeInCalendar(calendarToday);
 
-        if (year == yearToday)
-        {
-            if(month == monthToday)
-            {
-                if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return calendar.equals(calendarToday);
     }
 
     public static boolean dateHasPassed(String dateString)
@@ -228,6 +215,18 @@ public final class DateUtil
                 dates.add(new CalendarWeek(date, week, year));
             }
         }
+    }
+
+    private static void nullifyTimeInCalendar(Calendar calendar)
+    {
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.get(Calendar.HOUR);
+        calendar.get(Calendar.MINUTE);
+        calendar.get(Calendar.SECOND);
+        calendar.get(Calendar.MILLISECOND);
     }
 
     private static void nullifyTimeAndDayInCalendar(Calendar calendar)
