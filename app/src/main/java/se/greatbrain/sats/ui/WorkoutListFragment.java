@@ -89,7 +89,7 @@ public class WorkoutListFragment extends Fragment
     public void onEvent(WorkoutListScrollEvent event)
     {
         int position = adapter.getPositionFromWeekHash(event.weekHash);
-        smoothScrollToPositionWithBugWorkAround(position, -3, 200);
+        smoothScrollToPositionWithBugWorkAround(position, -2, 200);
     }
 
     private void smoothScrollToPositionWithBugWorkAround(final int position, final int offset,
