@@ -13,9 +13,14 @@ public class VerticalLayouter
     private int viewHeight;
     private boolean useWrapContent = true;
 
-    public VerticalLayouter(RelativeLayout viewGroup)
+    private VerticalLayouter(RelativeLayout viewGroup)
     {
         this.viewGroup = viewGroup;
+    }
+
+    public static VerticalLayouter layoutIn(RelativeLayout viewGroup)
+    {
+        return new VerticalLayouter(viewGroup);
     }
 
     public VerticalLayouter addView(View view)
@@ -47,7 +52,7 @@ public class VerticalLayouter
         return this;
     }
 
-    public VerticalLayouter setViewHeight(int viewHeight)
+    public VerticalLayouter useViewHeight(int viewHeight)
     {
         this.viewHeight = viewHeight;
         useWrapContent = false;

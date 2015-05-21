@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity
         loadJsonDataFromWeb();
         EventBus.getDefault().register(this);
 
-        android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
-
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
+        android.support.v4.app.FragmentManager supportManager = getSupportFragmentManager();
+
         supportManager.beginTransaction()
                 .add(R.id.top_fragment_container, calendarFragment)
                 .add(R.id.bottom_fragment_container, workoutListFragment)
