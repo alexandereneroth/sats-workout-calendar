@@ -58,9 +58,9 @@
                 android:layout_width="24dp"
                 android:layout_height="22dp"
                 android:src="@drawable/people_icon"
-                android:layout_marginTop="5dp"
                 android:paddingTop="3dp"
-                android:layout_toStartOf="@id/class_detail_queue_position"/>
+                android:layout_toStartOf="@id/class_detail_queue_position"
+                android:layout_marginTop="2dp"/>
 
         </RelativeLayout>
 
@@ -103,23 +103,36 @@
             android:background="@drawable/class_detail_shape"
             android:layout_below="@id/class_detail_video_container">
 
+            <ImageView
+                android:id="@+id/class_detail_empty_star"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/stars"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="-5dp"/>
             <TextView
                 android:id="@+id/class_detail_deltagare_max_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bokade/max: "
-                android:textSize="22sp"
-                android:textColor="@color/black"/>
+                android:text="Bokade: "
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="false"
+                android:layout_toStartOf="@+id/class_detail_deltagare_max_answer"
+                android:layout_alignTop="@+id/class_detail_deltagare_max_answer"/>
 
             <TextView
                 android:id="@+id/class_detail_deltagare_max_answer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20/22"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textColor="@color/pink"
                 android:textStyle="bold"
-                android:layout_toEndOf="@id/class_detail_deltagare_max_question"/>
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:id="@+id/class_detail_center_question"
