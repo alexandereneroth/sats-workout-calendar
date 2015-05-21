@@ -58,9 +58,9 @@
                 android:layout_width="24dp"
                 android:layout_height="22dp"
                 android:src="@drawable/people_icon"
+                android:layout_marginTop="5dp"
                 android:paddingTop="3dp"
-                android:layout_toStartOf="@id/class_detail_queue_position"
-                android:layout_marginTop="2dp"/>
+                android:layout_toStartOf="@id/class_detail_queue_position"/>
 
         </RelativeLayout>
 
