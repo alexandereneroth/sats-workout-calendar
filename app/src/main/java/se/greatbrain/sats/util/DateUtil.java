@@ -127,10 +127,22 @@ public final class DateUtil
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         Calendar calendarToday = Calendar.getInstance();
-        nullifyTimeInCalendar(calendar);
-        nullifyTimeInCalendar(calendarToday);
+        int year = calendar.get(Calendar.YEAR);
+        int yearToday = calendarToday.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int monthToday = calendarToday.get(Calendar.MONTH);
+        if (year == yearToday)
+        {
+            if(month == monthToday)
+            {
+                if (calendar.get(Calendar.DAY_OF_MONTH) == calendarToday.get(Calendar.DAY_OF_MONTH))
+                {
+                    return true;
+                }
+            }
+        }
 
-        return calendar.equals(calendarToday);
+        return false;
     }
 
     public static boolean dateHasPassed(String dateString)
