@@ -146,12 +146,12 @@ public class MainActivity extends AppCompatActivity
             {
                 finishedIonCalls.clear();
                 errorMessageNotShown = true;
-                sendOutRefreshEvent();
+                postMyTrainingRefreshEvent();
             }
         }
     }
 
-    private void sendOutRefreshEvent()
+    private void postMyTrainingRefreshEvent()
     {
         if (reloadButton != null)
         {
