@@ -39,7 +39,6 @@ public class CalendarFragment extends Fragment
 
     public ViewPager pager;
 
-    private boolean showMarker = false;
     private static float calendarHeight;
 
     @Override

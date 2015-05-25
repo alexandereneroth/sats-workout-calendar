@@ -15,9 +15,7 @@ import se.greatbrain.sats.data.TimeOfDay;
 
 public final class DateUtil
 {
-    public static final int PAST_WEEK = -1;
     public static final int CURRENT_WEEK = 0;
-    public static final int FUTURE_WEEK = 1;
 
     private static final String TAG = "DateUtil";
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yy-MM-dd HH:mm:ss",
@@ -227,18 +225,6 @@ public final class DateUtil
                 dates.add(new CalendarWeek(date, week, year));
             }
         }
-    }
-
-    private static void nullifyTimeInCalendar(Calendar calendar)
-    {
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.get(Calendar.HOUR);
-        calendar.get(Calendar.MINUTE);
-        calendar.get(Calendar.SECOND);
-        calendar.get(Calendar.MILLISECOND);
     }
 
     private static void nullifyTimeAndDayInCalendar(Calendar calendar)
