@@ -25,7 +25,7 @@ public class RealmClient
     private final Context context;
     private static RealmClient INSTANCE;
 
-    public RealmClient(Context context)
+    private RealmClient(Context context)
     {
         this.context = context.getApplicationContext();
 

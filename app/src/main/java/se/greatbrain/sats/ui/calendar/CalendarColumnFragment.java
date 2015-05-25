@@ -81,15 +81,14 @@ public class CalendarColumnFragment extends Fragment
 
         final int rowHeight = CalendarFragment.getHeightOfOneRow();
 
-        //Adds all rows (views) to the calendar column(the RelativeLayout named rootView)
-        new VerticalLayouter(rootView)
-                .setViewHeight(rowHeight)
-                .addView(getTopRow(rootView))
-                .addViews(getNormalRows(rootView))
-                .setViewHeight(rowHeight / 2)
-                .addView(getZeroRow(rootView))
-                .setViewHeight(rowHeight)
-                .addView(getDateRow(rootView));
+        VerticalLayouter.layoutIn(rootView)
+                .useViewHeight(rowHeight)
+                .placeView(getTopRow(rootView))
+                .placeViews(getNormalRows(rootView))
+                .useViewHeight(rowHeight / 2)
+                .placeView(getZeroRow(rootView))
+                .useViewHeight(rowHeight)
+                .placeView(getDateRow(rootView));
 
         return rootView;
     }
