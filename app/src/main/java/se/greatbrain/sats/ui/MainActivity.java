@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
         reloadButton = menu.findItem(R.id.action_bar_refresh_button);
         setupReloadItemMenu();
-        setupSlidingMenu();
+        setupDrawerMenu();
         setOnClickHomeButton();
 
         return true;
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setupSlidingMenu()
+    private void setupDrawerMenu()
     {
         ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
