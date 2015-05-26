@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         actionBar.setCustomView(actionBarView);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        // remove left actionbar padding
+        // remove actionbar left padding
         android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar)
                 actionBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -164,13 +164,13 @@ public class MainActivity extends AppCompatActivity
     {
         ListView drawerMenu = (ListView) findViewById(R.id.drawer_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerMenu.setAdapter(new MenuDrawerAdapter(this, populateDrawerList()));
+        drawerMenu.setAdapter(new MenuDrawerAdapter(this, getDrawerMenuItemList()));
         MenuDrawerListener listener = new MenuDrawerListener(this);
         drawerMenu.setOnItemClickListener(listener);
         drawerLayout.setDrawerListener(listener);
     }
 
-    private List<MenuDrawerItem> populateDrawerList()
+    private List<MenuDrawerItem> getDrawerMenuItemList()
     {
         List<MenuDrawerItem> items = new ArrayList<>();
         items.add(new MenuDrawerItem(R.drawable.my_training, "min träning"));
