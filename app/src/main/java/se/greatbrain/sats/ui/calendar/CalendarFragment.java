@@ -184,6 +184,12 @@ public class CalendarFragment extends Fragment
             int currentWeek = pagerAdapter.getPositionOfCurrentWeek_inCalendar();
             int topPadding = (int) Math.round(getHeightOfOneRow() / 2.7);
 
+            if(position == currentWeek)
+            {
+                backToCurrentWeekFloatingMarker_left.setVisibility(View.INVISIBLE);
+                backToCurrentWeekFloatingMarker_right.setVisibility(View.INVISIBLE);
+            }
+
             if (position > currentWeek + 1 && positionOffset > 0.65)
             {
                 backToCurrentWeekFloatingMarker_left.setVisibility(View.VISIBLE);
