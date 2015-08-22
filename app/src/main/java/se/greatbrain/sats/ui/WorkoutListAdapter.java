@@ -32,6 +32,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
     private final List<ActivityWrapper> listItems;
     private final int numberOfListItems;
     private int numberOfPastListItems;
+    private int nextFutureActivityListItemPosition;
     private final Map<Integer, Integer> listItemPositionToWeek = new HashMap<>();
     private final Map<Integer, Integer> weekHashToItemPosition = new HashMap<>();
     private final Activity activity;
@@ -63,6 +64,16 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
             {
                 numberOfPastListItems++;
             }
+        }
+        // This happens if there are no future activities.
+        if (numberOfPastListItems == numberOfListItems)
+        {   //the 'nextFutureActivityListItemPosition'- variable is set to the last list item
+            // to prevent index out of bounds.
+            nextFutureActivityListItemPosition = numberOfPastListItems - 1;
+        }
+        else
+        {
+            nextFutureActivityListItemPosition = numberOfListItems;
         }
     }
 
@@ -432,7 +443,7 @@ public class WorkoutListAdapter extends BaseAdapter implements StickyListHeaders
 
     public int positionOfTodaysFirstItem()
     {
-        return numberOfPastListItems;
+        return nextFutureActivityListItemPosition;
     }
 
     public int getPositionFromWeekHash(int weekHash)
