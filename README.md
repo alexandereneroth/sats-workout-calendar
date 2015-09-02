@@ -1,11 +1,3 @@
-![header](screenshots/header.png)
-##Navigation
-- [About The Project](#about-the-project)
-- [My Main Contributions](#my-main-contributions)
-- [Screenshots](#screenshots)
-- [Calendar Overview](#calendar-overview)
-- [Calendar Implementation Details](#calendar-implementation-details)
-
 ## About The Project
 A partial replication of the official SATS ELIXIA training app (that can be found on [the Google Play store](https://play.google.com/store/apps/details?id=com.sats.sats)). 
 
