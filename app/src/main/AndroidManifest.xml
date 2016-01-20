@@ -48,5 +48,8 @@
             android:label="@string/app_name"
             android:parentActivityName=".ui.MainActivity"
             android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e1e61c5ae8a106460e06f9d9053e8cc06e81d4ba" />
     </application>
 </manifest>
