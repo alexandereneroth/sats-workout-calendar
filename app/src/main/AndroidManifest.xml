@@ -29,6 +29,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+
         <activity
             android:name=".ui.center.CenterMapActivity"
             android:screenOrientation="portrait"/>

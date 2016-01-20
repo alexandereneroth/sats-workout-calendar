@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,15 +20,15 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import se.greatbrain.sats.R;
-import se.greatbrain.sats.ui.menu.MenuDrawerAdapter;
-import se.greatbrain.sats.ui.menu.MenuDrawerListener;
+import se.greatbrain.sats.data.IonClient;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
 import se.greatbrain.sats.event.MyTrainingRefreshEvent;
-import se.greatbrain.sats.data.IonClient;
-import se.greatbrain.sats.ui.menu.MenuDrawerItem;
 import se.greatbrain.sats.ui.calendar.CalendarFragment;
+import se.greatbrain.sats.ui.menu.MenuDrawerAdapter;
+import se.greatbrain.sats.ui.menu.MenuDrawerItem;
+import se.greatbrain.sats.ui.menu.MenuDrawerListener;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends HockeyAppActivity
 {
     private static final String TAG = "MainActivity";
     private DrawerLayout drawerLayout;
@@ -175,6 +174,7 @@ public class MainActivity extends AppCompatActivity
         List<MenuDrawerItem> items = new ArrayList<>();
         items.add(new MenuDrawerItem(R.drawable.my_training, "min träning"));
         items.add(new MenuDrawerItem(R.drawable.sats_pin_drawer_menu, "hitta center"));
+        items.add(new MenuDrawerItem(R.drawable.sats_pin_drawer_menu, "krasha appen"));
 
         return items;
     }

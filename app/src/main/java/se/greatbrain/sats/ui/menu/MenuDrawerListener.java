@@ -65,7 +65,7 @@ public class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener
                 activity.finish();
             }
         }
-        else
+        else if(position == 1)
         {
             Intent mapIntent = new Intent(drawerView.getContext(), CenterMapActivity.class);
             mapIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -75,6 +75,8 @@ public class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener
             {
                 activity.finish();
             }
+        }else {
+            throw new IllegalStateException("Don't touch me!");
         }
     }
 }
