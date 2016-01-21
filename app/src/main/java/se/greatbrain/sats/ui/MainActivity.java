@@ -15,12 +15,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import io.fabric.sdk.android.Fabric;
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.data.IonClient;
 import se.greatbrain.sats.event.IonCallCompleteEvent;
@@ -178,6 +179,7 @@ public class MainActivity extends HockeyAppActivity
         items.add(new MenuDrawerItem(R.drawable.my_training, "min träning"));
         items.add(new MenuDrawerItem(R.drawable.sats_pin_drawer_menu, "hitta center"));
         items.add(new MenuDrawerItem(R.drawable.sats_pin_drawer_menu, "krasha appen"));
+        items.add(new MenuDrawerItem(R.drawable.sats_pin_drawer_menu, "kasta en exception"));
 
         return items;
     }

@@ -1,3 +1,5 @@
+app/fabric.properties
+
 # added by us
 /.idea/misc.xml
 *.iml

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.crashlytics.android.Crashlytics;
+
 import se.greatbrain.sats.R;
 import se.greatbrain.sats.ui.center.CenterMapActivity;
 import se.greatbrain.sats.ui.MainActivity;
@@ -75,8 +77,16 @@ public class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener
             {
                 activity.finish();
             }
-        }else {
+        }else if (position == 2) {
             throw new IllegalStateException("Don't touch me!");
+        }else{
+            try {
+
+                throw new Exception("User initiated exception!");
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+                e.printStackTrace();
+            }
         }
     }
 }
